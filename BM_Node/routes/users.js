@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
-const passport = require('passport')
-// Admin Model
-const adminModel = require('../models/Admin')
-// Employee Model
-const employeeModel = require('../models/Employee')
+const jwt = require('jsonwebtoken');
+const secret = require('../config/keys').secret
+// User Model
+const UserModel = require('../models/Users')
 
 // register handle
 router.post('/register',(req,res)=>{
@@ -14,32 +13,31 @@ router.post('/register',(req,res)=>{
 
     // check required fields
     if(!name || !age || !gender || !mobilenumber || !email || !password || !cnfpwd){
-        errors.push({code:406,msg:"Please fill in all fields"});
+        errors.push({success:false,code:406,msg:"Please fill in all fields"});
     }
     // if passwords do not match
    if(password !== cnfpwd){
-        errors.push({code:406,msg:"Password and Confirm Password Do not match"})
+        errors.push({success:false,code:406,msg:"Password and Confirm Password Do not match"})
     }
     // Check Password length
     if(password.length <6){
-        errors.push({code:406,msg:"Password should be 6 charecters strictly"})
+        errors.push({success:false,code:406,msg:"Password should be 6 charecters strictly"})
     }
     // email validation
     var re = /\S+@\S+\.\S+/;
     if(!re.test(email)){
-        errors.push({code:406,msg:"Invalid Email Id"})
+        errors.push({success:false,code:406,msg:"Invalid Email Id"})
     }
     if(errors.length >0){
         res.send(errors)
     }else{
-        var modelName = usertype ==='admin'?adminModel:employeeModel
-        modelName.findOne({email:email}).then(user=>{
+        UserModel.findOne({email:email}).then(user=>{
             if(user){
                 // User Exists 
-                errors.push({code:406,msg:"User Already Exists"})
+                errors.push({success:false,code:406,msg:"User Already Exists"})
                 res.send(errors)
             }else{
-                const newUser = new modelName({
+                const newUser = new UserModel({
                     name,
                     age,
                     gender,
@@ -66,9 +64,9 @@ router.post('/register',(req,res)=>{
                                 "mobilenumber": saveres.mobilenumber,
                                 "email": saveres.email,
                             }
-                                res.send({code:200,msg:usertype+' saved successfully',userObj:userObj})
+                                res.send({success:true,code:200,msg:usertype+' saved successfully',userObj:userObj})
                         }).catch((err)=>{
-                            errors.push({code:403,msg:err})
+                            errors.push({success:false,code:403,msg:err})
                         })
                     })
                 )
@@ -79,17 +77,51 @@ router.post('/register',(req,res)=>{
 
 // login handle
 router.post('/login',(req,res,next)=>{
-passport.authenticate('local',{
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true 
-})(req,res,next);
+    const email = req.body.email;
+    const password = req.body.password;   
+    let errors = [];
+    UserModel.findOne({ email })
+         .then(user => {
+            if (!user) {
+                errors.push({success:false,code:404,msg:"User Does Not Exists"});
+                res.send(errors)
+           }else{
+                    bcrypt.compare(password, user.password)
+                    .then(isMatch => {
+                    if (isMatch) {
+                        const payload = {
+                        _id: user._id,
+                        name: user.userName
+                        };
+                        jwt.sign(payload, secret, { expiresIn: 36000 },
+                                (err, token) => {
+                                if (err) res.status(500)
+                                .json({
+                                    success:false,
+                                    error: "Error signing token",
+                                        raw: err }); 
+                                res.json({ 
+                                success: true,
+                                token: `Bearer ${token}` });
+                        });      
+                } else {
+                    errors.push({success:false,code:400,msg:"Password Incorrect"});
+                    res.send(errors)
+        }
+        }).catch(err=>{
+            console.log(err)
+        })
+           }
+        
+    }).catch(err=>{
+        console.log(err)
+    })
 })
 
 //logout handle
 
-router.get('/logout',async (req,res)=>{
- await req.logOut();
+router.get('/logout', (req,res)=>{
+    req.logOut()
     res.send({code:200,msg:'your are logged out'})
 })
 

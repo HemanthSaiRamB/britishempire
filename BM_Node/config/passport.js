@@ -1,40 +1,29 @@
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
-
-const adminModel = require('../models/Admin')
-const employeeModel = require('../models/Employee')
-
-
-module.exports = function(passport){
-passport.use(
-    new LocalStrategy({usernameField:'email'},(email,password,done)=>{
-        // var modelName = usertype ==='admin'?adminModel:employeeModel
-        // Match User
-        adminModel.findOne({email:email})
-        .then(user=>{
-            if(!user){
-                return done(null,false,{message:'User Does not Exists'})
-            }
-            // Match Password
-            bcrypt.compare(password,user.password,(err,ismatch)=>{
-                if(err) throw err;
-
-                if(ismatch){
-                    return done(null,user)
-                }else{
-                    return done(null,false,{message:'Password Incorrect'})
-                }
-            })
-        }).catch(err=>console.log(err))
-    })
-)
-passport.serializeUser((user,done)=>{
-    done(null,user.id)
-})
-passport.deserializeUser((id,done)=>{
-    adminModel.findById(id,(err,user)=>{
-        done(err,user)
-    })
-})
-}
+const pp_jwt = require('passport-jwt');
+const Strategy = pp_jwt.Strategy;
+const ExtractJwt = pp_jwt.ExtractJwt;
+const secret = require('./keys').secret
+const mongoose = require('mongoose');
+const UserModel = require('../models/Users');
+const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: secret
+};
+//this sets how we handle tokens coming from the requests that come
+// and also defines the key to be used when verifying the token.
+module.exports = passport => {
+    passport.use(
+        new Strategy(opts, (payload, done) => {
+             UserModel.findById(payload._id)
+                 .then(user => {
+                     if(user){
+                       return done(null, {
+                           _id: user._id,
+                           name: user.name,
+                           email: user.email,
+                       });
+                     }
+                     return done(null, false);
+                  }).catch(err => console.error(err));
+              })
+           );
+     };

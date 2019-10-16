@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const {ensureAuthenticated} = require('../config/auth')
+const passport = require('passport')
 router.get('/',(req,res)=>{
     res.send('hello world')
 })
 
-router.get('/dashboard',ensureAuthenticated,(req,res)=>{
+router.get('/dashboard',passport.authenticate('jwt',{session:false}),(req,res)=>{
     res.send({code:200,msg:'welcome aboard'})
 })
 
