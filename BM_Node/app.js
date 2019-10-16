@@ -1,13 +1,12 @@
 // dependencies
 const express = require('express')
 const mongoose = require('mongoose')
+const log = require("log");
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const app = express()
 
-// Passport Config
-require('./config/passport')(passport)
 
 // Bodyparser
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -22,7 +21,10 @@ app.use(session({
 
 // Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
+
+// Passport Config
+require('./config/passport')(passport)
 
 // DB config
 const db = require('./config/keys').MongoUri
@@ -31,6 +33,17 @@ const db = require('./config/keys').MongoUri
 mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>console.log('connected to mongo db'))
 .catch(err=>console.log(err))
+
+
+//custom Middleware for logging the each request going to the API
+app.use((req,res,next) => {
+    if (req.body) log.info(req.body);
+    if (req.params) log.info(req.params);
+    if(req.query) log.info(req.query);
+    log.info(`Received a ${req.method} request from ${req.ip} for                ${req.url}`);
+  next();
+});
+
 
 //Routes
 app.use('/',require('./routes/index'))
