@@ -99,6 +99,7 @@ export type HeaderTransitionConfig = {
 export type NavigationStackOptions = {
   title?: string;
   header?: ((props: HeaderProps) => React.ReactNode) | null;
+  headerShown?: boolean;
   headerTitle?:
     | ((props: TextProps & { children?: string }) => React.ReactNode)
     | React.ReactNode;
@@ -121,7 +122,7 @@ export type NavigationStackOptions = {
     title?: string | null;
   }) => React.ReactNode;
   headerPressColorAndroid?: string;
-  headerBackground?: React.ReactNode;
+  headerBackground?: (() => React.ReactNode) | React.ReactNode;
   headerTransparent?: boolean;
   headerStyle?: StyleProp<ViewStyle>;
   headerForceInset?: React.ComponentProps<typeof SafeAreaView>['forceInset'];

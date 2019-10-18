@@ -1,237 +1,139 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {Component} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TextInput,
-  Alert,
-  ScrollView,
-  TouchableHighlight,
-} from 'react-native';
-import {COLORS} from './../app/Colors';
-import {verticalScale, scale, moderateScale} from '../helpers/scaler';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, {Component} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
+import {Title, Subheading, Button, Colors} from 'react-native-paper';
+import {scale, verticalScale, moderateScale} from '../helpers/scaler';
+import {Logo} from '../components/Logo';
+import {Input} from '../components/Input';
+import AsyncStorage from '@react-native-community/async-storage';
+import {loginAction} from '../redux/Actions/user';
+import {Header} from '../components/Header';
+import {connect} from 'react-redux';
 
-const Logo = function(props) {
-  let STYLES = props.style ? props.style : {};
-  return (
-    <View style={[STYLES, {justifyContent: 'center', width: '100%'}]}>
-      <Image
-        style={{
-          alignSelf: 'center',
-          height: verticalScale(100),
-          width: scale(250),
-        }}
-        resizeMode="contain"
-        source={require('./../assets/images/logo.png')}
-      />
-      <Text
-        style={{
-          fontSize: moderateScale(22),
-          textAlign: 'center',
-          fontWeight: '500',
-          color: COLORS.SECONDARY,
-        }}>
-        {'Welcome Back'}
-      </Text>
-      <Text
-        style={{
-          fontSize: moderateScale(15),
-          textAlign: 'center',
-          fontWeight: '500',
-          color: COLORS.GREY,
-        }}>
-        {'Sign to continue'}
-      </Text>
-    </View>
-  );
-};
-const Input = function(props) {
-  let STYLES = props.style ? props.style : {};
-  let secure = props.secure ? props.secure : false;
-  let keyboardType = props.keyType ? props.keyType : 'default';
-  let logoType = props.logoType ? props.logoType : 'info';
-  console.log(props);
-  return (
-    <View
-      style={[
-        STYLES,
-        {
-          borderColor: COLORS.GREY,
-          borderWidth: 2,
-          alignSelf: 'center',
-          borderRadius: scale(5),
-          flexDirection: 'row',
-        },
-      ]}>
-      <Icon
-        name={logoType}
-        size={moderateScale(20)}
-        style={{
-          alignSelf: 'center',
-          marginLeft: scale(10),
-          position: 'absolute',
-        }}
-        color={COLORS.BLUE}
-      />
-      <TextInput
-        secureTextEntry={secure}
-        placeholderTextColor={COLORS.GREY}
-        placeholder={props.placeholder}
-        keyboardType={props.keyType}
-        style={{
-          paddingLeft: scale(45),
-          fontSize: moderateScale(16),
-          width: '100%',
-          fontWeight: 'bold',
-        }}
-      />
-    </View>
-  );
-};
-
-class LoginScreen extends Component {
+class Login extends Component {
+  state = {
+    email: '',
+    password: '',
+    error: '',
+  };
+  static navigationOptions = {
+    header: null,
+  };
+  updateField = (type, text) => this.setState({[type]: text, error: ''});
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      pswd: '',
-    };
   }
-  updateFields = (key, val) => {
+  error = data => {
     this.setState({
-      [key] : val,
+      error: data,
     });
-  }
-  sizeValidate = (val, size = 2) => {
-    return val.length > size
-  }
-  componentDidUpdate(props, state) {
-    console.log(props, state);
-  }
-  login = _ => {
-    let {email, pswd} = this.state;
-    if(this.sizeValidate(email, 5) && this.sizeValidate(pswd, 4)){
-      Alert.alert('Login', 'Login Successful');
-    }else {
-      Alert.alert('Login', 'Login not Successful');
-    }
-  }
+  };
   render() {
+    console.log('ERR : ', this.state);
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <KeyboardAwareScrollView>
-          <Logo style={{marginTop: verticalScale(100)}} />
-          <View style={{width: '90%', alignSelf: 'center'}}>
-            <Input
-              style={{marginTop: verticalScale(60)}}
-              onChange={val => this.updateFields('email',val)}
-              placeholder={'Email Address'}
-              keyType={'email-address'}
-              secure={false}
-              logoType={'at'}
-            />
-            <Input
-              style={{marginTop: verticalScale(20)}}
-              placeholder={'Password'}
-              onChange={val => this.updateFields('pswd',val)}
-              logoType={'lock'}
-              keyType={'default'}
-              secure={true}
-            />
-            <KeyboardSpacer />
-            <TouchableHighlight
-              onPress={() => {}}
-              style={{alignSelf: 'flex-end', marginTop: moderateScale(5)}}>
-              <Text
+      <View style={styles.mainScroll}>
+        <View style={styles.mainPanel}>
+          <View style={styles.internalPanel}>
+            <Header title={'Welcome back'} subheader={'Sign to continue'} />
+            <Subheading style={{alignSelf: 'center', color: Colors.red800}}>
+              {this.state.error}
+            </Subheading>
+            <View style={{paddingTop: verticalScale(10)}}>
+              <View style={{paddingVertical: 10}}>
+                <Input
+                  value={this.state.email}
+                  label={'Email Address'}
+                  type={'email'}
+                  change={this.updateField}
+                />
+              </View>
+              <View style={{paddingVertical: 10}}>
+                <Input
+                  value={this.state.password}
+                  label={'Password'}
+                  type={'password'}
+                  secure
+                  change={this.updateField}
+                />
+              </View>
+              <Button style={{justifyContent: 'flex-start'}} mode="text">
+                Forgot Password ?
+              </Button>
+            </View>
+            <View style={{paddingTop: verticalScale(20)}}>
+              <Button
                 style={{
-                  fontSize: moderateScale(14),
-                  fontWeight: 'bold',
-                  color: COLORS.BLUE,
+                  height: verticalScale(30),
+                  justifyContent: 'center',
+                }}
+                icon={this.state.loading ? 'loading' : 'lock'}
+                mode="contained"
+                onPress={() => {
+                  loginAction(
+                    this.state.email,
+                    this.state.password,
+                    this.error,
+                  );
+                  this.setState({loading: true});
                 }}>
-                {'Forgot Password?'}
-              </Text>
-            </TouchableHighlight>
-          </View>
-          <View
-            style={{
-              marginTop: moderateScale(50),
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <TouchableHighlight
-            onPress={this.login}
-              style={{
-                backgroundColor: COLORS.BLUE,
-                width: '90%',
-                height: verticalScale(50),
-                justifyContent: 'center',
-                borderRadius: 5,
-              }}>
-              <Text
+                Login
+              </Button>
+              <View
                 style={{
-                  color: COLORS.PRIMARY,
+                  flexDirection: 'row',
+                  paddingVertical: verticalScale(10),
                   alignSelf: 'center',
-                  fontSize: 17,
-                  fontWeight: '900',
                 }}>
-                {'LOGIN'}
-              </Text>
-            </TouchableHighlight>
+                <Subheading style={{alignSelf: 'center'}}>
+                  {"Don't have an account "}
+                </Subheading>
+                <Button
+                  mode="text"
+                  onPress={() => this.props.navigation.navigate('Register')}>
+                  Sign Up
+                </Button>
+              </View>
+            </View>
           </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              marginTop: moderateScale(15),
-              flexDirection: 'row',
-            }}>
-            <Text style={{color: COLORS.GREY, fontSize: moderateScale(14)}}>
-              {"Don't have account ?"}
-            </Text>
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate('Register')}>
-              <Text style={{color: COLORS.BLUE, fontSize: moderateScale(14)}}>
-                {' create a new account'}
-              </Text>
-            </TouchableHighlight>
-          </View>
-        </KeyboardAwareScrollView>
-      </ScrollView>
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainScroll: {
+    width: '100%',
+    height: '100%',
+  },
+  mainPanel: {
     flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-  },
-  socialBtn: {
     justifyContent: 'center',
-    borderColor: COLORS.SECONDARY,
-    padding: moderateScale(5),
-    height: verticalScale(50),
+    alignItems: 'center',
   },
-  socialText: {
-    fontSize: 19,
-    margin: 10,
+  internalPanel: {
+    width: scale(250),
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
   },
-  socialPanel: {
-    flexDirection: 'row',
-    marginTop: verticalScale(20),
+  icon: {
+    marginVertical: verticalScale(20),
+    backgroundColor: '#aab',
+    alignSelf: 'center',
   },
-  socialTitle: {
-    fontSize: 20,
-  },
-  socialNetworks: {
-    marginTop: verticalScale(20),
-    padding: 20,
-    flexDirection: 'column',
+  title: {
+    fontSize: 31,
   },
 });
-export {LoginScreen};
+
+const mapStateToProps = state => {
+  return {};
+};
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

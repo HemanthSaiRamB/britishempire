@@ -24,22 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels-tvOS.xcscheme</key>
+		<key>Pods-BritishEmpire-tvOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels-tvOSTests.xcscheme</key>
+		<key>Pods-BritishEmpire-tvOSTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels.xcscheme</key>
+		<key>Pods-BritishEmpire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuelsTests.xcscheme</key>
+		<key>Pods-BritishEmpireTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -50,6 +50,26 @@
 			<false/>
 		</dict>
 		<key>RCTTypeSafety.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RNCAsyncStorage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RNGestureHandler.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RNReanimated.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RNVectorIcons.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

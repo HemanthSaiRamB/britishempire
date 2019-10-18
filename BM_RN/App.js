@@ -1,19 +1,24 @@
+import Navigator from './src/helpers/navigation';
 import React from 'react';
-import {Provider} from 'react-redux';
-import {createStore, combineReducers, applyMiddleware} from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import masterReducer from './src/redux/reducer/master';
-
-const store = createStore(
-  combineReducers([masterReducer]),
+import {Provider} from 'react-redux';
+import {masterReducer} from './src/redux/masterReducer';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {setTopLevelNavigator} from './src/helpers/navigation';
+// import {YellowBox} from 'react-native';
+const _store = createStore(
+  combineReducers({masterReducer}),
   applyMiddleware(logger, thunk),
 );
-import {Navigator} from './src/navigation/navigation';
-const App = () => (
-  <Provider store={store}>
-    <Navigator />
-  </Provider>
-);
-
-export default App;
+export default function App() {
+  return (
+    <Provider store={_store}>
+      <Navigator
+        ref={navigatorRef => {
+          setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    </Provider>
+  );
+}

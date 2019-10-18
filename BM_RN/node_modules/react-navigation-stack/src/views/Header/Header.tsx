@@ -440,7 +440,10 @@ class Header extends React.PureComponent<Props, State> {
     return this.renderSubView(
       { ...props, style: StyleSheet.absoluteFill },
       'background',
-      () => options.headerBackground,
+      () =>
+        typeof options.headerBackground === 'function'
+          ? options.headerBackground()
+          : options.headerBackground,
       this.props.backgroundInterpolator
     );
   };
@@ -562,7 +565,7 @@ class Header extends React.PureComponent<Props, State> {
 
   private renderHeader = (props: SubviewProps) => {
     const { options } = props.scene.descriptor;
-    if (options.header === null) {
+    if (options.header === null || options.headerShown === false) {
       return null;
     }
     const left = this.renderLeft(props);

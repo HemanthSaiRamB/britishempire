@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/harishsvenkat/development/britishempire/BM_RN/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
+            "outputFile": "/Volumes/Utility Drive/Development/BritishEmpire/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
             "map": [
                 {
                     "source": "/Users/harishsvenkat/.gradle/caches/transforms-2/files-2.1/c7dfbad6e6399139c2144de761d81d75/res/values-v21/values-v21.xml",

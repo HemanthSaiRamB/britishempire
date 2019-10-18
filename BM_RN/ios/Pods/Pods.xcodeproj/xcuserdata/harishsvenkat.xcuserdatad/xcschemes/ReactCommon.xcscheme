@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4151CD9527C1404E33267735ABDE7037"
+               BlueprintIdentifier = "B6D5DD49633DFF0657B8C3F08EB3ABA9"
                BuildableName = "libReactCommon.a"
                BlueprintName = "ReactCommon"
                ReferencedContainer = "container:Pods.xcodeproj">
