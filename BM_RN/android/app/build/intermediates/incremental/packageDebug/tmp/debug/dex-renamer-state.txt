@@ -1,0 +1,4 @@
+#Fri Oct 18 08:09:10 IST 2019
+base.0=/Users/harishsvenkat/development/britishempire/BM_RN/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

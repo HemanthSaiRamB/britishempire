@@ -1,0 +1,12 @@
+var COLORS = {
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
+  BLUE: '#0076ff',
+  GREY: '#BDBDBD',
+  FACEBOOK_BLUE: '#3b5998',
+  GOOGLE_RED: '#db4437',
+  PRIMARY: '#FFFFFF',
+  SECONDARY: '#000000',
+};
+
+export {COLORS};
