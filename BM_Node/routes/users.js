@@ -45,7 +45,7 @@ router.post('/register',(req,res)=>{
         error.httpStatusCode = 406
     }
     if(errors.length >0){
-        res.send(error)
+        res.status(406).send(error)
     }else{
         UserModel.findOne({email:email}).then(user=>{
             if(user){
@@ -55,7 +55,7 @@ router.post('/register',(req,res)=>{
                 error.name='Not Acceptable,User Already Exists'
                 error.message = 'Not Acceptable'
                 error.httpStatusCode = 406
-                res.send(error)
+                res.status(406).send(error)
             }else{
                 const newUser = new UserModel({
                     name,
@@ -84,13 +84,14 @@ router.post('/register',(req,res)=>{
                                 "mobilenumber": saveres.mobilenumber,
                                 "email": saveres.email,
                             }
-                                res.send({success:true,code:200,msg:usertype+' saved successfully',userObj:userObj})
+                                res.status(200).send({success:true,code:200,msg:usertype+' saved successfully',userObj:userObj})
                         }).catch((err)=>{
                             errors.push({success:false,code:403,msg:err})
                             error = new Error(err)
                             error.name='Forbidden'+err
                             error.message = 'Forbidden'
                             error.httpStatusCode = 403
+                            res.status(403).send(error)
                         })
                     })
                 )
@@ -113,7 +114,7 @@ router.post('/login',(req,res,next)=>{
                 error.name='Not Found,User Does Not Exists'
                 error.message = 'Not Found'
                 error.httpStatusCode = 404
-                res.send(error)
+                res.status(404).send(error)
            }else{
                     bcrypt.compare(password, user.password)
                     .then(isMatch => {
@@ -139,7 +140,7 @@ router.post('/login',(req,res,next)=>{
                     error.name='Bad Request,Password Incorrect'
                     error.message = 'Bad Request'
                     error.httpStatusCode = 400
-                    res.send(error)
+                    res.status(400).send(error)
         }
         }).catch(err=>{
             console.log(err)
