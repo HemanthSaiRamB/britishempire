@@ -1,0 +1,6 @@
+git init
+ heroku git:remote -a britishempire
+git add .
+git commit -m "nodejs 1st deploymeny reg and login"
+
+git push heroku master
