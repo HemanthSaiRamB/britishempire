@@ -10,32 +10,52 @@ const UserModel = require('../models/Users')
 router.post('/register',(req,res)=>{
     const {name,age,gender,mobilenumber,email,password,cnfpwd,usertype}=req.body;
     let errors = [];
-
+    var error;
     // check required fields
     if(!name || !age || !gender || !mobilenumber || !email || !password || !cnfpwd){
         errors.push({success:false,code:406,msg:"Please fill in all fields"});
+        error = new Error('Please fill in all fields')
+        error.name='Not Acceptable,Please fill in all fields'
+        error.message = 'Not Acceptable'
+        error.httpStatusCode = 406
     }
     // if passwords do not match
    if(password !== cnfpwd){
         errors.push({success:false,code:406,msg:"Password and Confirm Password Do not match"})
+        error = new Error('Password and Confirm Password Do not match')
+        error.name='Not Acceptable,Password and Confirm Password Do not match'
+        error.message = 'Not Acceptable'
+        error.httpStatusCode = 406
     }
     // Check Password length
     if(password.length <6){
         errors.push({success:false,code:406,msg:"Password should be 6 charecters strictly"})
+        error = new Error('Password should be 6 charecters strictly')
+        error.name='Not Acceptable,Password should be 6 charecters strictly'
+        error.message = 'Not Acceptable'
+        error.httpStatusCode = 406
     }
     // email validation
     var re = /\S+@\S+\.\S+/;
     if(!re.test(email)){
         errors.push({success:false,code:406,msg:"Invalid Email Id"})
+        error = new Error('Invalid Email Id')
+        error.name='Not Acceptable,Invalid Email Id'
+        error.message = 'Not Acceptable'
+        error.httpStatusCode = 406
     }
     if(errors.length >0){
-        res.send(errors)
+        res.send(error)
     }else{
         UserModel.findOne({email:email}).then(user=>{
             if(user){
                 // User Exists 
                 errors.push({success:false,code:406,msg:"User Already Exists"})
-                res.send(errors)
+                error = new Error('User Already Exists')
+                error.name='Not Acceptable,User Already Exists'
+                error.message = 'Not Acceptable'
+                error.httpStatusCode = 406
+                res.send(error)
             }else{
                 const newUser = new UserModel({
                     name,
@@ -67,6 +87,10 @@ router.post('/register',(req,res)=>{
                                 res.send({success:true,code:200,msg:usertype+' saved successfully',userObj:userObj})
                         }).catch((err)=>{
                             errors.push({success:false,code:403,msg:err})
+                            error = new Error(err)
+                            error.name='Forbidden'+err
+                            error.message = 'Forbidden'
+                            error.httpStatusCode = 403
                         })
                     })
                 )
@@ -80,11 +104,16 @@ router.post('/login',(req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;   
     let errors = [];
+    var error;
     UserModel.findOne({ email })
          .then(user => {
             if (!user) {
                 errors.push({success:false,code:404,msg:"User Does Not Exists"});
-                res.send(errors)
+                error = new Error('User Does Not Exists')
+                error.name='Not Found,User Does Not Exists'
+                error.message = 'Not Found'
+                error.httpStatusCode = 404
+                res.send(error)
            }else{
                     bcrypt.compare(password, user.password)
                     .then(isMatch => {
@@ -106,7 +135,11 @@ router.post('/login',(req,res,next)=>{
                         });      
                 } else {
                     errors.push({success:false,code:400,msg:"Password Incorrect"});
-                    res.send(errors)
+                    error = new Error('Password Incorrect')
+                    error.name='Bad Request,Password Incorrect'
+                    error.message = 'Bad Request'
+                    error.httpStatusCode = 400
+                    res.send(error)
         }
         }).catch(err=>{
             console.log(err)
