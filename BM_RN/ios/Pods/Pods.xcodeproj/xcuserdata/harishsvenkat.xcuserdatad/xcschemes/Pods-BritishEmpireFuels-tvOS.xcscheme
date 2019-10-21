@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6FC4822E478493671648195DE476125B"
+               BlueprintIdentifier = "3D96A8AD109E4901A71FF69CBCD0AF5A"
                BuildableName = "libPods-BritishEmpireFuels-tvOS.a"
                BlueprintName = "Pods-BritishEmpireFuels-tvOS"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -1,3 +1,3 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-RCTImage/React-RCTImage-dummy.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-RCTImage/React-RCTImage-prefix.pch
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-RCTImage/React-RCTImage-dummy.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-RCTImage/React-RCTImage-prefix.pch

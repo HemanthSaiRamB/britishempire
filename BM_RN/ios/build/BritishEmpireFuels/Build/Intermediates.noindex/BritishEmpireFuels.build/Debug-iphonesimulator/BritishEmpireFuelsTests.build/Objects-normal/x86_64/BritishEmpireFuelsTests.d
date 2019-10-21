@@ -1,15 +1,15 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/BritishEmpireFuelsTests/BritishEmpireFuelsTests.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpireFuelsTests/BritishEmpireFuelsTests.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h

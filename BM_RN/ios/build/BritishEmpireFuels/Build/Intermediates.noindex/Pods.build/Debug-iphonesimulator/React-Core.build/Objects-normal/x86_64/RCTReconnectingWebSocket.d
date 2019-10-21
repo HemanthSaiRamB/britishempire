@@ -1,20 +1,20 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/Libraries/WebSocket/RCTReconnectingWebSocket.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTReconnectingWebSocket.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTConvert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTAnimationType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBorderStyle.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTPointerEvents.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTTextDecorationLineType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTSRWebSocket.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/WebSocket/RCTReconnectingWebSocket.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTReconnectingWebSocket.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTConvert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTAnimationType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBorderStyle.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTPointerEvents.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTSRWebSocket.h

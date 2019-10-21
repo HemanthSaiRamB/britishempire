@@ -1,8 +1,8 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/BritishEmpireFuels/main.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/BritishEmpireFuels/AppDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpireFuels/main.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpireFuels/AppDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h

@@ -18,6 +18,10 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import RadioGroup from 'react-native-radio-buttons-group';
 import {TextInputMask} from 'react-native-masked-text';
+import {RegisterAct} from '../redux/actions/userAction';
+import {connect} from 'react-redux';
+import { REGISTER_SUCCESS, REGISTER_FAILURE } from '../redux/actionTypes';
+
 const Logo = function(props) {
   let STYLES = props.style ? props.style : {};
   return (
@@ -58,7 +62,7 @@ const Input = function(props) {
   let keyboardType = props.keyType ? props.keyType : 'default';
   let logoType = props.logoType ? props.logoType : 'info';
   let masked = props.masked ? props.masked : false;
-  let dob = props.dob ? props.dob : '';
+  let data = props.data ? props.data : '';
   return (
     <View
       style={[
@@ -88,19 +92,22 @@ const Input = function(props) {
           placeholderTextColor={COLORS.GREY}
           placeholder={props.placeholder}
           keyboardType={props.keyType}
+          value={data}
           onChangeText={props.onChange}
           style={{
             paddingLeft: scale(45),
             fontSize: moderateScale(16),
+            height: verticalScale(45),
             width: '100%',
             fontWeight: 'bold',
           }}
         /> : 
         <TextInputMask
-          value={dob}
+          value={data}
           style={{
             paddingLeft: scale(45),
             fontSize: moderateScale(16),
+            height: verticalScale(45),
             width: '100%',
             fontWeight: 'bold',
           }}
@@ -123,12 +130,12 @@ class RegisterScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name:'',
-      mobile: '',
-      dob:'',
-      email: '',
-      pswd: '',
-      cnfpswd:'',
+      name:'Harish',
+      mobile: '9492941972',
+      dob:'24',
+      email: 'harishsv999@gmail.com',
+      pswd: 'Harish@99',
+      cnfpswd:'Harish@99',
       gender:'male',
       userType:'emp',
     };
@@ -159,19 +166,30 @@ class RegisterScreen extends Component {
     let {name, dob, mobile, email, pswd, cnfpswd, gender, userType} = this.state;
     if( this.compareTo(pswd, cnfpswd) &&  
         this.sizeValidate(name, 5) && 
-        this.sizeValidate(dob, 6) && 
+        this.sizeValidate(dob, 1) && 
         this.sizeValidate(email, 5) && 
         this.sizeValidate(userType, 2) && 
         this.sizeValidate(gender, 3) && 
         this.sizeValidate(mobile, 8)){
-          Alert.alert('Register','Successfully Registered');
+          this.props.RegisterAction(name, dob, mobile, email, pswd, cnfpswd, gender, userType);
         }
         else {
           Alert.alert('Register','Not successful');
         }
   }
   componentDidUpdate(props, state) {
-    console.log( state);
+    // console.log( state);
+  }
+  UNSAFE_componentWillReceiveProps(props, state){
+    console.log('REGISTER', props);
+    if(props.type === REGISTER_SUCCESS){
+      this.props.navigation.navigate('Home',{'usertype':this.state.userType, 'action':'reg'});
+      // Alert.alert('REGISTER', 'REGISTER SUCCESSFUL',props);
+    }else if(props.type === REGISTER_FAILURE){
+      console.log('REGISTER', 'REGISTER FAILURE');
+    }else{
+      console.log('REGISTER', 'REGISTER PENDING');
+    }
   }
   render() {
     return (
@@ -179,10 +197,18 @@ class RegisterScreen extends Component {
         <KeyboardAwareScrollView>
           <Logo style={{marginTop: verticalScale(20)}} />
           <View style={{width: '90%', alignSelf: 'center'}}>
+              <View style={{width:'100%',marginTop:verticalScale(10), height: verticalScale(40), justifyContent:'center'}}>
+                {
+                  this.props.detail ? 
+                    <Text style={{fontSize:18, color: COLORS.GOOGLE_RED, alignSelf: 'center'}}>{this.props.detail}</Text>
+                    : []
+                }
+              </View> 
             <Input
-              style={{marginTop: verticalScale(30)}}
+              style={{marginTop: verticalScale(10)}}
               onChange={val => this.updateFields('name',val)}
               placeholder={'Name'}
+              data={this.state.name}
               keyType={'default'}
               secure={false}
               logoType={'user'}
@@ -190,6 +216,7 @@ class RegisterScreen extends Component {
             <Input
               style={{marginTop: verticalScale(20)}}
               placeholder={'Date of Birth'}
+              data={this.state.dob}
               onChange={val => this.updateFields('dob',val)}
               logoType={'calendar-day'}
               keyType={'number-pad'}
@@ -199,6 +226,7 @@ class RegisterScreen extends Component {
             <Input
               style={{marginTop: verticalScale(20)}}
               placeholder={'Mobile Number'}
+              data={this.state.mobile}
               onChange={val => this.updateFields('mobile',val)}
               logoType={'phone'}
               keyType={'number-pad'}
@@ -206,6 +234,7 @@ class RegisterScreen extends Component {
             <Input
               style={{marginTop: verticalScale(20)}}
               placeholder={'Email Address'}
+              data={this.state.email}
               onChange={val => this.updateFields('email',val)}
               logoType={'at'}
               keyType={'email-address'}
@@ -213,6 +242,7 @@ class RegisterScreen extends Component {
             <Input
               style={{marginTop: verticalScale(20)}}
               placeholder={'Password'}
+              data={this.state.pswd}
               onChange={val => this.updateFields('pswd',val)}
               logoType={'lock'}
               keyType={'default'}
@@ -221,6 +251,7 @@ class RegisterScreen extends Component {
             <Input
               style={{marginTop: verticalScale(20)}}
               placeholder={'Re-enter Password'}
+              data={this.state.cnfpswd}
               onChange={val => this.updateFields('cnfpswd',val)}
               logoType={'lock'}
               keyType={'default'}
@@ -304,6 +335,23 @@ class RegisterScreen extends Component {
   }
 }
 
+
+const mapStateToProps = state => {
+  return ({
+    type: state.USER.type,
+    detail: state.USER.detail
+  });
+}
+
+const mapDispatchToProps = dispatch => ({
+  RegisterAction: (name, dob, mobile, email, pswd, cnfpswd, gender, userType) => dispatch(RegisterAct(name, dob, mobile, email, pswd, cnfpswd, gender, userType))
+});
+
+let Register = connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
+
+export {Register as RegisterScreen};
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -332,4 +380,3 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
 });
-export {RegisterScreen};

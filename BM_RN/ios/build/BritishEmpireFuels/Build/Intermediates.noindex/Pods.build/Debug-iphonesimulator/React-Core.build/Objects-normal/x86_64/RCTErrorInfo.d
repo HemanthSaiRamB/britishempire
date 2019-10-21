@@ -1,5 +1,5 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTErrorInfo.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTErrorInfo.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTJSStackFrame.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTErrorInfo.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTErrorInfo.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTJSStackFrame.h

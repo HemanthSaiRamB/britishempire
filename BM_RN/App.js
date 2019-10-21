@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import masterReducer from './src/redux/reducer/master';
 
 const store = createStore(
-  combineReducers([masterReducer]),
+  combineReducers({'USER': masterReducer}),
   applyMiddleware(logger, thunk),
 );
 import {Navigator} from './src/navigation/navigation';

@@ -1,2 +1,2 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/Pods-BritishEmpireFuels/Pods-BritishEmpireFuels-dummy.m
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/Pods-BritishEmpireFuels/Pods-BritishEmpireFuels-dummy.m

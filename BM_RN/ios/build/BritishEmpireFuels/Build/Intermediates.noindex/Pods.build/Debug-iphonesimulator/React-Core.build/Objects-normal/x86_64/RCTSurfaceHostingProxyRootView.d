@@ -1,35 +1,35 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingProxyRootView.mm \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingProxyRootView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTRootView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBridge.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBridgeDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTJavaScriptLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBridgeModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTFrameUpdate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTInvalidating.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceStage.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceSizeMeasureMode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTBridge.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTPerformanceLogger.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Profiler/RCTProfile.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTRootContentView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBorderStyle.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTComponent.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTPointerEvents.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/RCTRootViewDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Base/Surface/RCTSurface.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Views/UIView+React.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingProxyRootView.mm \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingProxyRootView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTRootView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBridge.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBridgeDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBridgeModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTFrameUpdate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTInvalidating.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceHostingView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceStage.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTSurfaceSizeMeasureMode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTPerformanceLogger.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Profiler/RCTProfile.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTRootContentView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBorderStyle.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTComponent.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTPointerEvents.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/RCTRootViewDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Base/Surface/RCTSurface.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Views/UIView+React.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h

@@ -1,9 +1,9 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Modules/RCTI18nManager.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Modules/RCTI18nManager.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTBridgeModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/node_modules/react-native/React/Modules/RCTI18nUtil.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Modules/RCTI18nManager.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-Core/React-Core-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Modules/RCTI18nManager.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTBridgeModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/Modules/RCTI18nUtil.h

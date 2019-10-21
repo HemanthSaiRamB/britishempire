@@ -5,6 +5,7 @@ INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/s
 INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml:1:1-26:12
 INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml:1:1-26:12
 MERGED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from [:@react-native-community_async-storage] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-vector-icons] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-gesture-handler] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-reanimated] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
@@ -136,6 +137,8 @@ uses-sdk
 INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/harishsvenkat/development/britishempire/BM_RN/android/app/src/main/AndroidManifest.xml
+MERGED from [:@react-native-community_async-storage] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:@react-native-community_async-storage] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41

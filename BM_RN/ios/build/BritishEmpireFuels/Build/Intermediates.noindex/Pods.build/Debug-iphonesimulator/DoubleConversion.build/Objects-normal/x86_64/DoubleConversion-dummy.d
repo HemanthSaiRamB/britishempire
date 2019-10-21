@@ -1,3 +1,3 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/DoubleConversion/DoubleConversion-dummy.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpireFuels/ios/Pods/Target\ Support\ Files/DoubleConversion/DoubleConversion-prefix.pch
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/DoubleConversion/DoubleConversion-dummy.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/DoubleConversion/DoubleConversion-prefix.pch
