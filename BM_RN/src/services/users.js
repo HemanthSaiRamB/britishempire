@@ -1,10 +1,14 @@
 import { LOGGED_USER as API, POST } from "../API/api";
 
 function loginAction(email, pswd) {
+  console.log("LOGIN Data ::::: ", email, pswd);
   return API.post("/users/login", {
-    email: email,
-    password: pswd
+    "email": email,
+    "password": pswd
   });
+}
+function logoutAction(){
+  return API.post("/users/logout");
 }
 function registerAction(
   name,
@@ -28,4 +32,4 @@ function registerAction(
   });
 }
 
-export { loginAction, registerAction };
+export { loginAction, registerAction, logoutAction };

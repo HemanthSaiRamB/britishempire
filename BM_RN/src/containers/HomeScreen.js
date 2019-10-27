@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import {View, Text} from 'react-native';
 import { COLORS } from '../app/Colors';
+import ThemeView from '../components/ThemeView';
+import {DrawerActions} from 'react-navigation-drawer';
+import Storage from '../app/storage';
 export default class HomeScreen extends Component{
     state = {
         usertype : '',
@@ -10,15 +13,21 @@ export default class HomeScreen extends Component{
         this.setState({
             usertype: this.props.navigation.getParam('usertype','none'),
             action: this.props.navigation.getParam('action','none')
-        })
+        });
+        console.log("LOGGED IN ",Storage.getUser());
     }
     render(){
         return (
-        <View style={{flex: 1, backgroundColor: COLORS.GOOGLE_RED, justifyContent:'center'}}>
-            <Text style={{fontSize: 20, color: COLORS.WHITE, alignSelf:'center'}}>
-                {this.state.usertype === 'emp' ? 'Hello Employee' : 'Hello Admin'}
-            </Text>
-        </View>
+        <ThemeView 
+                back 
+                title={'British Empire'} 
+                drawer={true}
+                leftAction={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+                color={COLORS.GOOGLE_RED}>
+            <View style={{flex: 1, backgroundColor: COLORS.FACEBOOK_BLUE}}>
+
+            </View>
+        </ThemeView>
         );
     }
 }

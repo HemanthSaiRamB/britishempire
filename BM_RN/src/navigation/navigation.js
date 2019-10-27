@@ -1,11 +1,34 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {LoginScreen} from '../containers/LoginScreen';
 import {RegisterScreen} from '../containers/RegisterScreen';
 import HomeScreen from '../containers/HomeScreen';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import DrawerContainer from '../app/drawer';
+import Storage from '../app/storage';
+
 const navigationOptions = {
   header: null,
 };
+
+const SignedIn = createDrawerNavigator({
+  "Home": {
+    screen: HomeScreen
+  }
+}, {
+  initialRouteName: "Home",
+  contentComponent: DrawerContainer,
+  contentOptions: {
+    activeTintColor: '#e91e63',
+    itemsContainerStyle: {
+      marginVertical: 0,
+    },
+    iconContainerStyle: {
+      opacity: 1
+    }
+  }
+});
+
 const stack = createStackNavigator(
   {
     Login: {
@@ -15,14 +38,31 @@ const stack = createStackNavigator(
       screen: RegisterScreen,
     },
     Home: {
-      screen: HomeScreen,
+      screen: SignedIn,
     },
   },
   {
-    initialRouteName: 'Register',
+    initialRouteName: 'Login',
     defaultNavigationOptions: navigationOptions,
   },
 );
 
+function AmIEligible(){
+  console.log("data", Storage.getUser());
+  return Storage.getUser();
+}
+
+const Switch = createSwitchNavigator({
+  'LoggedIn': SignedIn,
+  'LoggedOut': stack
+},{
+  initialRouteName: Storage.getUser() ? 'LoggedIn': 'LoggedOut'
+});
+
+console.log("AmIEligible() :: ", AmIEligible());
+
+const SwitchNav = createAppContainer(Switch);
+
 const Navigator = createAppContainer(stack);
-export {Navigator};
+
+export {Navigator, SwitchNav};

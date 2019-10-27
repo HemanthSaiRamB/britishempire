@@ -183,7 +183,7 @@ class RegisterScreen extends Component {
   UNSAFE_componentWillReceiveProps(props, state){
     console.log('REGISTER', props);
     if(props.type === REGISTER_SUCCESS){
-      this.props.navigation.navigate('Home',{'usertype':this.state.userType, 'action':'reg'});
+      this.props.navigation.navigate('Login',{'email': this.state.email});
       // Alert.alert('REGISTER', 'REGISTER SUCCESSFUL',props);
     }else if(props.type === REGISTER_FAILURE){
       console.log('REGISTER', 'REGISTER FAILURE');
@@ -200,8 +200,9 @@ class RegisterScreen extends Component {
               <View style={{width:'100%',marginTop:verticalScale(10), height: verticalScale(40), justifyContent:'center'}}>
                 {
                   this.props.detail ? 
+                  this.props.detail.success === false || this.props.detail.success === undefined ?
                     <Text style={{fontSize:18, color: COLORS.GOOGLE_RED, alignSelf: 'center'}}>{this.props.detail}</Text>
-                    : []
+                    : [] : []
                 }
               </View> 
             <Input

@@ -8,6 +8,11 @@ const master = (store = INIT_STATE, action) => {
         type: action.type,
         detail: action.data
       }
+    case types.SOMETHING_WRONG:
+      return {
+        type: action.type, 
+        detail: action.data
+      }
     case types.LOGIN_FAILURE:
       return {
         type: action.type,
@@ -33,6 +38,11 @@ const master = (store = INIT_STATE, action) => {
           type: action.type,
           detail: action.detail
         }
+    case 'RESET':
+      return {
+        type: 'RESET',
+        detail: ''
+      }
     default:
       return store;
   }

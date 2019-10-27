@@ -9,10 +9,12 @@ const store = createStore(
   combineReducers({'USER': masterReducer}),
   applyMiddleware(logger, thunk),
 );
-import {Navigator} from './src/navigation/navigation';
+import {SwitchNav} from './src/navigation/navigation';
+
+
 const App = () => (
   <Provider store={store}>
-    <Navigator />
+    <SwitchNav />
   </Provider>
 );
 

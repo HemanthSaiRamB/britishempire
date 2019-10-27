@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
-import {LoginAct} from '../redux/actions/userAction';
+import {LoginAct, RESET} from '../redux/actions/userAction';
 import { LOGIN_SUCCESS, LOGIN_FAILURE } from '../redux/actionTypes';
 const Logo = function(props) {
   let STYLES = props.style ? props.style : {};
@@ -104,9 +104,14 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'harishsv999@gmail.com',
+      email: 'svadithya93@gmail.com',
       pswd: 'Harish@99',
     };
+  }
+  componentWillMount() {
+    this.props.RESET();
+    let email =  this.props.navigation.getParam('email',this.state.email);
+    this.updateFields('email',email);
   }
   updateFields = (key, val) => {
     this.setState({
@@ -149,9 +154,10 @@ class LoginScreen extends Component {
           <View style={{width: '90%', alignSelf: 'center'}}>
               <View style={{width:'100%',marginTop:verticalScale(10), height: verticalScale(40), justifyContent:'center'}}>
                 {
-                  this.props.detail ? 
+                    this.props.detail ? 
+                    this.props.detail.success === false || this.props.detail.success === undefined ?
                     <Text style={{fontSize:18, color: COLORS.GOOGLE_RED, alignSelf: 'center'}}>{this.props.detail}</Text>
-                    : []
+                    : [] : []
                 }
               </View> 
             <Input
@@ -242,7 +248,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  LoginAction: () => dispatch(LoginAct())
+  LoginAction: (email, pswd) => dispatch(LoginAct(email, pswd)),
+  RESET: () => dispatch(RESET())
 });
 
 let Login = connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
