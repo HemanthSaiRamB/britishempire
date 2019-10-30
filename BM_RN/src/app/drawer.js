@@ -5,7 +5,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { COLORS } from './Colors';
 import { scale, verticalScale } from '../helpers/scaler';
 import {Logout} from '../redux/actions/userAction';
-export default class DrawerContainer extends React.Component {
+import {connect} from 'react-redux';
+import {resetAction} from '../services/users';
+class DrawerContainer extends React.Component {
 
   render() {
     const { navigation } = this.props
@@ -27,13 +29,28 @@ export default class DrawerContainer extends React.Component {
             <Text style={{fontSize: 18,fontWeight: 'bold',color:COLORS.GOOGLE_RED, marginLeft: scale(10)}}>Home Screen</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => Logout()} style={{flexDirection:'row',margin: 5,padding: 15,justifyContent:'flex-end', alignSelf:'flex-end', }}>
+        <TouchableHighlight onPress={() => {this.props.Logout(); this.props.navigation.dispatch(resetAction); } } style={{flexDirection:'row',margin: 5,padding: 15,justifyContent:'flex-end', alignSelf:'flex-end', }}>
             <Text style={{fontSize: 18,fontWeight: 'bold',color: '#E73536'}}>Logout</Text>
         </TouchableHighlight>
       </SafeAreaView>
     )
   }
 }
+
+
+const mapStateToProps = state => {
+  return ({
+    type: state.USER.type,
+  });
+}
+
+const mapDispatchToProps = dispatch => ({
+  Logout: () => dispatch(Logout())
+});
+
+let Drawer = connect(mapStateToProps, mapDispatchToProps)(DrawerContainer);
+
+export default Drawer;
 
 const styles = StyleSheet.create({
   container: {

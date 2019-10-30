@@ -47,19 +47,23 @@ const stack = createStackNavigator(
   },
 );
 
-function AmIEligible(){
-  console.log("data", Storage.getUser());
-  return Storage.getUser();
+_getStorageValue = async _ => {
+  await AsyncStorage.getItem(AUTH_TOKEN)
+  .then(res => {
+    return res;
+  })
+  .catch(err => {
+    return 'error';
+  });
 }
 
-const Switch = createSwitchNavigator({
+export const Switch = createSwitchNavigator({
   'LoggedIn': SignedIn,
   'LoggedOut': stack
 },{
-  initialRouteName: Storage.getUser() ? 'LoggedIn': 'LoggedOut'
+  initialRouteName: _getStorageValue() ? 'LoggedIn': 'LoggedOut'
 });
 
-console.log("AmIEligible() :: ", AmIEligible());
 
 const SwitchNav = createAppContainer(Switch);
 

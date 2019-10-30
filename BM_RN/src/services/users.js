@@ -1,5 +1,7 @@
 import { LOGGED_USER as API, POST } from "../API/api";
+import { StackActions, NavigationActions } from 'react-navigation';
 
+import Storage from './../app/storage';
 function loginAction(email, pswd) {
   console.log("LOGIN Data ::::: ", email, pswd);
   return API.post("/users/login", {
@@ -7,8 +9,15 @@ function loginAction(email, pswd) {
     "password": pswd
   });
 }
+
+export const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'Login' })],
+});
+
 function logoutAction(){
-  return API.post("/users/logout");
+ Storage.resetUser();
+  // return API.post("/users/logout");
 }
 function registerAction(
   name,

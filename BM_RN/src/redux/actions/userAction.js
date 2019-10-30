@@ -18,12 +18,12 @@ function Login(user, pswd) {
 function Logout(){
   return (dispatch, store) => {
     logoutAction()
-    .then(res => {
-      dispatch(LOGOUT());
-    })
-    .catch(()=> {
-      dispatch(SOMETHING_WRONG('UNABLE TO LOGOUT'));
-    })
+    // .then(res => {
+    //   dispatch(LOGOUT());
+    // })
+    // .catch(()=> {
+    //   dispatch(SOMETHING_WRONG('UNABLE TO LOGOUT'));
+    // })
   }
 }
 let SOMETHING_WRONG = data => ({
