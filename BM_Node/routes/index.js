@@ -1,12 +1,13 @@
 const express = require('express')
-const router = express.Router()
-const passport = require('passport')
-router.get('/',(req,res)=>{
-    res.send('hello world')
-})
+const app = express()
 
-router.get('/dashboard',passport.authenticate('jwt',{session:false}),(req,res)=>{
-    res.send({code:200,msg:'welcome aboard'})
-})
 
-module.exports = router;
+
+app.use('/api',require('./helloWorld'))
+app.use('/home',require('./dashboard'))
+app.use('/dump',require('./dumpRoute'))
+app.use('/users',require('./users'))
+app.use('/drop',require('./dropdownsRoute'))
+
+
+module.exports=app

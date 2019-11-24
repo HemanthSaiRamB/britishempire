@@ -6,11 +6,14 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const app = express()
+// const fs = require('fs');
+
 
 
 // Bodyparser
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json({ type: 'application/json' }))
 
 // Express Session
 app.use(session({
@@ -30,7 +33,13 @@ require('./config/passport')(passport)
 const db = require('./config/keys').MongoUri
 
 // Connect to Mongo
-mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
+mongoose.connect(db,
+  { 
+    useNewUrlParser:true,
+    useUnifiedTopology:true,
+    // sslValidate: true,
+    // sslCA:[fs.readFileSync("rds-combined-ca-bundle.pem")]
+  })
 .then(()=>console.log('connected to mongo db'))
 .catch(err=>console.log(err))
 
@@ -46,9 +55,10 @@ app.use((req,res,next) => {
 
 
 //Routes
-app.use('/',require('./routes/index'))
-app.use('/users',require('./routes/users'))
+app.all('/*',require('./routes/index'))
+
 
 // Server config col
 const PORT=process.env.PORT || 5000;
 app.listen(PORT,console.log(`server started on ${PORT}`))
+
