@@ -11,5 +11,7 @@ module.exports ={
     airFilterSize:'AirFilterSize',
     accountNo:'AccountNumber',
     capacity:'Capacity',
-    currentLevel:'CurrentLevel'
+    currentLevel:'CurrentLevel',
+    propane:'PropaneWorkOrder',
+    oil:'OilWorkOrder'
 }
