@@ -24,22 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels-tvOS.xcscheme</key>
+		<key>Pods-BritishEmpire-tvOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels-tvOSTests.xcscheme</key>
+		<key>Pods-BritishEmpire-tvOSTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuels.xcscheme</key>
+		<key>Pods-BritishEmpire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BritishEmpireFuelsTests.xcscheme</key>
+		<key>Pods-BritishEmpireTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>E98DAF1E-C681-40B7-BE73-AF6487057396</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>E98DAF1E-C681-40B7-BE73-AF6487057396.xcactivitylog</string>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BritishEmpire project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BritishEmpire</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>596295101.052742</real>
+			<key>timeStoppedRecording</key>
+			<real>596295104.83542895</real>
+			<key>title</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>E98DAF1E-C681-40B7-BE73-AF6487057396</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
