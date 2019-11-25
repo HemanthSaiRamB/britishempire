@@ -37,6 +37,7 @@ mongoose.connect(db,
   { 
     useNewUrlParser:true,
     useUnifiedTopology:true,
+    useFindAndModify: false
     // sslValidate: true,
     // sslCA:[fs.readFileSync("rds-combined-ca-bundle.pem")]
   })

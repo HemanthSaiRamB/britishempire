@@ -1,0 +1,320 @@
+const mongoose = require('mongoose')
+const modelName = require('../config/modelname').oil
+
+const TwoTankOilStorage= new mongoose.Schema({
+    check1:{
+        type:Boolean,
+        default:false
+     },
+     check2:{
+        type:Boolean,
+        default:false
+     }
+})
+const InspectionCheckList= new mongoose.Schema({
+    check1:{
+        type:Boolean,
+        default:false
+    },
+    check2:{
+        type:Boolean,
+        default:false
+     },
+     check3:{
+        type:Boolean,
+        default:false
+     },
+     check4:{
+        type:Boolean,
+        default:false
+     },
+     check5:{
+        type:Boolean,
+        default:false
+     },
+     check6:{
+        type:Boolean,
+        default:false
+    },
+    check7:{
+        type:Boolean,
+        default:false
+     },
+     check8:{
+        type:Boolean,
+        default:false
+     },
+     check9:{
+        type:Boolean,
+        default:false
+     }
+})
+const TankLocation = new mongoose.Schema({
+    indoor:{
+        type:Boolean,
+        default:false
+    },
+    outdoor:{
+        type:Boolean,
+        default:false
+    }
+})
+const ReasonForInspection= new mongoose.Schema({
+    newInstallation:{
+        type:Boolean,
+        default:false
+    },
+    serviceMaintenance:{
+        type:Boolean,
+        default:false
+    },
+    newCustomer:{
+        type:Boolean,
+        default:false
+    },
+    insuranceRequirement:{
+        type:Boolean,
+        default:false
+    }
+})
+
+const OilStorageDetails = new mongoose.Schema({
+    manuf:{
+        type:String,
+        required:true
+    },
+    modelNo:{
+        type:String,
+        required:true
+    },
+    serialNo:{
+        type:String,
+        required:true
+    },
+    year:{
+        type:String
+    },
+    capacity:{
+        type:String
+    },
+    currentLevel:{
+        type:String
+    },
+    ReasonForInspection:[ReasonForInspection],
+    TankLocation:[TankLocation],
+    InspectionCheckList:[InspectionCheckList],
+    TwoTankOilStorage:[TwoTankOilStorage]
+})
+
+
+const maintainanceCheckList = new mongoose.Schema({
+    check1:{
+        type:Boolean,
+        default:false
+    },
+    check2:{
+        type:Boolean,
+        default:false
+    },
+    check3:{
+        type:Boolean,
+        default:false
+    },
+    check4:{
+        type:Boolean,
+        default:false
+    },
+    check5:{
+        type:Boolean,
+        default:false
+    },
+    check6:{
+        type:Boolean,
+        default:false
+    },
+    check7:{
+        type:Boolean,
+        default:false
+    },
+    check8:{
+        type:Boolean,
+        default:false
+    },
+    check9:{
+        type:Boolean,
+        default:false
+    },
+    check10:{
+        type:Boolean,
+        default:false
+    },
+    check11:{
+        type:Boolean,
+        default:false
+    },
+    check12:{
+        type:Boolean,
+        default:false
+    },
+    check13:{
+        type:Boolean,
+        default:false
+    },
+    check14:{
+        type:Boolean,
+        default:false
+    },
+    check15:{
+        type:Boolean,
+        default:false
+    },
+    check16:{
+        type:Boolean,
+        default:false
+    },
+    check17:{
+        type:Boolean,
+        default:false
+    }
+})
+const oilFilter  = new mongoose.Schema({
+    ['1A30']:{
+        type:Boolean,
+        default:false
+    },
+    ['NG3500']:{
+        type:Boolean,
+        default:false
+    },
+    ['K10']:{
+        type:Boolean,
+        default:false
+    },
+    check1:{
+        type:Boolean,
+        default:false
+    },
+    check2:{
+        type:Boolean,
+        default:false
+    },
+    check3:{
+        type:Boolean,
+        default:false
+    },
+    check4:{
+        type:Boolean,
+        default:false
+    },
+    check5:{
+        type:Boolean,
+        default:false
+    },
+    check6:{
+        type:Boolean,
+        default:false
+    },
+    check7:{
+        type:Boolean,
+        default:false
+    },
+    check8:{
+        type:Boolean,
+        default:false
+    }
+})
+const combustionAnalysis = new mongoose.Schema({
+    Temp:{
+        type:Boolean,
+        default:false
+    },
+    ['CO2']:{
+        type:Boolean,
+        default:false
+    },
+    ['02']:{
+        type:Boolean,
+        default:false
+    },
+    ExAir:{
+        type:Boolean,
+        default:false
+    },
+    Effic:{
+        type:Boolean,
+        default:false
+    },
+    Draft:{
+        type:Boolean,
+        default:false
+    },
+    CO:{
+        type:Boolean,
+        default:false
+    },
+    Smoke:{
+        type:Boolean,
+        default:false
+    }
+})
+const oilAppDtls = new mongoose.Schema({
+    applncType:{
+        type:String,
+        required:true
+    },  
+    manuf:{
+        type:String,
+        required:true
+    },
+    modelNo:{
+        type:String,
+        required:true
+    },
+    serialNo:{
+        type:String,
+        required:true
+    },
+    nozzle:{
+        type:String
+    },
+    airFilterSize:{
+        type:String
+    },
+    combustionAnalysis:[combustionAnalysis],
+    oilFilter:[oilFilter],
+    maintainanceCheckList:[maintainanceCheckList]
+})
+
+const OilSchema = new mongoose.Schema({
+    accNo:{
+        type:String,
+        required:true
+    },
+    workOrderId:{
+        type:String,
+        default:""
+    },
+    date:{
+        type:Date,
+        default:Date.now()
+    },
+    oilAppDtls:[oilAppDtls],
+    Notes:{
+        type:String,
+    },
+    techName:{
+        type:String
+    },
+    signature:{
+        type:String
+    },
+    certNo:{
+        type:String
+    },
+    OilStorageDetails:[OilStorageDetails]
+})
+
+
+global[modelName] = mongoose.model(modelName,OilSchema);
+
+module.exports = global[modelName]
