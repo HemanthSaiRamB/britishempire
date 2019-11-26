@@ -123,7 +123,7 @@ router.post('/login',(req,res,next)=>{
                         _id: user._id,
                         name: user.userName
                         };
-                        jwt.sign(payload, secret, { expiresIn: 36000 },
+                        jwt.sign(payload, secret, { expiresIn: 360000 },
                                 (err, token) => {
                                 if (err) res.status(500)
                                 .json({
