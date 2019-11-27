@@ -44,14 +44,14 @@ export default class HomeScreen extends Component {
               data={this.state.list}
               ItemSeparatorComponent={() => (
                 <View
-                  style={{height: 10, backgroundColor: '#445', width: '100%'}}
+                  style={{height: 10, width: '100%'}}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
               renderItem={() => (
                 <List.Item
-                  title="First Item"
-                  description="Item description"
+                  title="Ravi Kiran"
+                  description="Propane Appliance - 1234"
                   right={props => (
                     <List.Icon
                       color={Colors.green800}

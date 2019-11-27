@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {masterReducer} from './src/redux/masterReducer';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {setTopLevelNavigator} from './src/helpers/navigation';
+// import {YellowBox} from 'react-native';
 const _store = createStore(
   combineReducers({masterReducer}),
   applyMiddleware(logger, thunk),

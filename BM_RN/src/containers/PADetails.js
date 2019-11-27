@@ -14,25 +14,34 @@ import {
   Paragraph,
   Switch,
   Subheading,
+  List,
 } from 'react-native-paper';
 import {scale, verticalScale, moderateScale} from '../helpers/scaler';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import {connect} from 'react-redux';
+import {
+  getAccountDtls,
+  getApplianceType,
+  getManufacturer,
+} from '../redux/Actions/tickets';
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
     step: 2,
     type: 0,
     error: false,
-    aType: [],
-    manu: [],
-    airFilter: [],
-    serial: [],
-    modal: [],
-    btu: [],
     // answers
     data: {},
+    local: {
+      accSearch: [],
+      aType: [],
+      manu: [],
+      airFilter: [],
+      serial: [],
+      modal: [],
+      btu: [],
+    },
   };
   static navigationOptions = {
     header: null,
@@ -48,6 +57,66 @@ class PADetailsScreen extends Component {
   UNSAFE_componentWillUpdate(props, state) {
     console.log('U-Props : ', props, state);
   }
+  componentDidMount() {
+    if (this.state.local.manu.length === 0) {
+      getApplianceType()
+        .then(res => {
+          console.log('RES : ', res);
+          this.setState({
+            local: {
+              ...this.state.local,
+              aType: res,
+            },
+          });
+        })
+        .then(err => {
+          console.log('ERR : ', err);
+        });
+    }
+  }
+  shallowEqual(objA, objB) {
+    if (objA === objB) {
+      return true;
+    }
+
+    if (
+      typeof objA !== 'object' ||
+      objA === null ||
+      typeof objB !== 'object' ||
+      objB === null
+    ) {
+      return false;
+    }
+
+    var keysA = Object.keys(objA);
+    var keysB = Object.keys(objB);
+
+    if (keysA.length !== keysB.length) {
+      return false;
+    }
+
+    // Test for A's keys different from B.
+    var bHasOwnProperty = hasOwnProperty.bind(objB);
+    for (var i = 0; i < keysA.length; i++) {
+      if (!bHasOwnProperty(keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  shallowCompare(instance, nextProps, nextState) {
+    return (
+      !this.shallowEqual(instance.props, nextProps) ||
+      !this.shallowEqual(instance.state, nextState)
+    );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.shallowCompare(this, nextProps, nextState);
+  }
+
   _progress() {
     let {step} = this.state;
     let progress = step / 11;
@@ -80,11 +149,32 @@ class PADetailsScreen extends Component {
     }
   }
   $accountNumber = () => {
-    let {accNo} = this.state.data;
+    let {accNo} = this.state.local;
     let accountSearch = input => {
+      getAccountDtls(input).then(res => {
+        this.setState({
+          local: {
+            accSearch: res,
+          },
+        }).then(err => {
+          console.log('Error in acc', err);
+        });
+      });
+      this.setState({
+        local: {
+          ...this.state.local,
+          accNo: input,
+        },
+      });
+    };
+    let activeThisValue = (input, id) => {
       this.setState({
         data: {
           ...this.state.data,
+          accNo: id,
+        },
+        local: {
+          ...this.state.local,
           accNo: input,
         },
       });
@@ -99,13 +189,28 @@ class PADetailsScreen extends Component {
             value={accNo}
             onChangeText={text => accountSearch(text)}
           />
-          <View
-            style={{
-              backgroundColor: Colors.redA100,
-              height: 150,
-              marginVertical: verticalScale(10),
-            }}
-          />
+          {this.state.local.accSearch.length > 0 ? (
+            <FlatList
+              style={{
+                height: 150,
+                marginVertical: verticalScale(10),
+              }}
+              data={this.state.local.accSearch}
+              renderItem={({item}) => {
+                console.log(item);
+                return (
+                  <List.Item
+                    title={item.value ? item.value : ''}
+                    onPress={() => activeThisValue(item.value, item.id)}
+                    description={`${item.name} - ${item.address}`}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          ) : (
+            <View />
+          )}
         </Card.Content>
         <Card.Actions>
           <Button
@@ -177,6 +282,9 @@ class PADetailsScreen extends Component {
           },
         },
       });
+      if (type === 'manuf') {
+        console.log('RESPONSE MANU', getManufacturer(_id));
+      }
     };
     let validator = () => {
       if (
@@ -204,7 +312,7 @@ class PADetailsScreen extends Component {
                 onChangeText={(value, index, data) =>
                   update('applncType', index, data)
                 }
-                data={this.state.aType}
+                data={this.state.local.aType}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
@@ -1456,7 +1564,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    accounts: text => dispatch(accountDetails(text)),
+  };
 }
 
 export const PADetails = connect(

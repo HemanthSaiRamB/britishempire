@@ -1,25 +1,7 @@
-import axios from 'axios';
-const BASE_URL = 'https://britishempire.herokuapp.com/';
 import * as types from '../actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import {navigate} from '../../helpers/navigation';
-const API = axios.create({
-  baseURL: BASE_URL,
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-API.interceptors.response.use(
-  response => {
-    console.log(response);
-    return response;
-  },
-  error => {
-    console.log(error);
-    return Promise.reject(error);
-  },
-);
+import {API} from '../../helpers/API';
 const LOGIN = (email, pswd) =>
   API.post('users/login', {
     email: email,
@@ -44,6 +26,7 @@ export const loginAction = (email = '', pswd = '') => {
       });
   };
 };
+
 let loginAct = async text => {
   await AsyncStorage.setItem('userToken', text);
   navigate('App', {});
