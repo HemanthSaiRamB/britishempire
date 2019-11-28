@@ -5,6 +5,8 @@ import {FAB, List, Colors, Portal} from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import TrackInfo from '../components/TrackInfo';
 import {PADetails} from './PADetails';
+import {logoutAction} from '../redux/Actions/user';
+
 export default class HomeScreen extends Component {
   state = {
     raiseTicket: false,
@@ -15,8 +17,9 @@ export default class HomeScreen extends Component {
   static navigationOptions = {
     header: null,
   };
-  openMenu = () => this.setState({visible: true});
-  closeMenu = () => this.setState({visible: false});
+  logout = () => {
+    logoutAction();
+  };
   hideMenu = () => {
     console.log('Hide');
     this.setState({raiseTicket: false, Details: 0});
@@ -28,11 +31,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <>
-        <AppBar
-          openMenu={this.openMenu}
-          closeMenu={this.closeMenu}
-          visible={this.state.visible}
-        />
+        <AppBar action={this.logout} />
         <View style={{backgroundColor: '#aabcff', flex: 1}}>
           <TrackInfo total={50} completed={30} pending={20} />
           <PADetails
@@ -43,9 +42,7 @@ export default class HomeScreen extends Component {
             <FlatList
               data={this.state.list}
               ItemSeparatorComponent={() => (
-                <View
-                  style={{height: 10, width: '100%'}}
-                />
+                <View style={{height: 10, width: '100%'}} />
               )}
               keyExtractor={(item, index) => index.toString()}
               renderItem={() => (

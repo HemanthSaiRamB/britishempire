@@ -151,15 +151,19 @@ class PADetailsScreen extends Component {
   $accountNumber = () => {
     let {accNo} = this.state.local;
     let accountSearch = input => {
-      getAccountDtls(input).then(res => {
-        this.setState({
-          local: {
-            accSearch: res,
-          },
-        }).then(err => {
+      getAccountDtls(input)
+        .then(async res => {
+          // console.log(await res);
+          this.setState({
+            local: {
+              ...this.state.local,
+              accSearch: await res,
+            },
+          });
+        })
+        .catch(err => {
           console.log('Error in acc', err);
         });
-      });
       this.setState({
         local: {
           ...this.state.local,
@@ -189,7 +193,7 @@ class PADetailsScreen extends Component {
             value={accNo}
             onChangeText={text => accountSearch(text)}
           />
-          {this.state.local.accSearch.length > 0 ? (
+          {this.state.local.accSearch ? (
             <FlatList
               style={{
                 height: 150,
