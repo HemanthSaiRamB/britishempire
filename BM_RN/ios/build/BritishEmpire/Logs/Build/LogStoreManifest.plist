@@ -5,41 +5,6 @@
 	<key>logFormatVersion</key>
 	<integer>10</integer>
 	<key>logs</key>
-	<dict>
-		<key>9E430014-7213-4E4B-AD2D-CBB95876CF70</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>9E430014-7213-4E4B-AD2D-CBB95876CF70.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>E</string>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>BritishEmpire project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>BritishEmpire</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
-			<key>timeStartedRecording</key>
-			<real>596491592.66094899</real>
-			<key>timeStoppedRecording</key>
-			<real>596491595.595415</real>
-			<key>title</key>
-			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
-			<key>uniqueIdentifier</key>
-			<string>9E430014-7213-4E4B-AD2D-CBB95876CF70</string>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

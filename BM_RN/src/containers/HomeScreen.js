@@ -63,7 +63,6 @@ export default class HomeScreen extends Component {
           <Portal>
             <FAB.Group
               large
-              color={'#FFFFFF'}
               icon="plus"
               open={this.state.raiseTicket}
               loading={this.state.raiseTicket}
@@ -71,11 +70,13 @@ export default class HomeScreen extends Component {
               actions={[
                 {
                   label: 'Propane Appliance',
+                  icon: 'gas-station',
                   onPress: () =>
                     this.setState({Details: 1, raiseTicket: false}),
                 },
                 {
                   label: 'Oil Appliance',
+                  icon: 'oil',
                   onPress: () =>
                     this.setState({Details: 2, raiseTicket: false}),
                 },

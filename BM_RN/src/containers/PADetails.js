@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   Portal,
@@ -20,10 +18,13 @@ import {scale, verticalScale, moderateScale} from '../helpers/scaler';
 import {View, StyleSheet, FlatList} from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 import {
   getAccountDtls,
   getApplianceType,
   getManufacturer,
+  getModelNo,
+  getSerialNo
 } from '../redux/Actions/tickets';
 class PADetailsScreen extends Component {
   defaultState = {
@@ -35,12 +36,12 @@ class PADetailsScreen extends Component {
     data: {},
     local: {
       accSearch: [],
-      aType: [],
-      manu: [],
-      airFilter: [],
-      serial: [],
-      modal: [],
-      btu: [],
+      applncType: [],
+      manuf: [],
+      airFilterSize: [],
+      serialNo: [],
+      modelNo: [],
+      BTUH: [],
     },
   };
   static navigationOptions = {
@@ -51,25 +52,25 @@ class PADetailsScreen extends Component {
     super(props);
   }
   UNSAFE_componentWillReceiveProps(props, state) {
-    console.log('R-Props : ', props, state);
+    // console.log('R-Props : ', props, state);
     this.setState({data: {...props.propane.ComprehensivePropaneInspection}});
   }
   UNSAFE_componentWillUpdate(props, state) {
     console.log('U-Props : ', props, state);
   }
   componentDidMount() {
-    if (this.state.local.manu.length === 0) {
+    if (_.isEmpty(this.state.local.manuf) && !_.isUndefined(this.state.local.applncType)) {
       getApplianceType()
         .then(res => {
           console.log('RES : ', res);
           this.setState({
             local: {
               ...this.state.local,
-              aType: res,
+              applncType: res,
             },
           });
         })
-        .then(err => {
+        .catch(err => {
           console.log('ERR : ', err);
         });
     }
@@ -105,7 +106,6 @@ class PADetailsScreen extends Component {
 
     return true;
   }
-
   shallowCompare(instance, nextProps, nextState) {
     return (
       !this.shallowEqual(instance.props, nextProps) ||
@@ -113,9 +113,9 @@ class PADetailsScreen extends Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.shallowCompare(this, nextProps, nextState);
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return this.shallowCompare(this, nextProps, nextState);
+  // }
 
   _progress() {
     let {step} = this.state;
@@ -193,7 +193,7 @@ class PADetailsScreen extends Component {
             value={accNo}
             onChangeText={text => accountSearch(text)}
           />
-          {this.state.local.accSearch ? (
+          {!_.isEmpty(this.state.local.accSearch) ? (
             <FlatList
               style={{
                 height: 150,
@@ -201,7 +201,6 @@ class PADetailsScreen extends Component {
               }}
               data={this.state.local.accSearch}
               renderItem={({item}) => {
-                console.log(item);
                 return (
                   <List.Item
                     title={item.value ? item.value : ''}
@@ -273,10 +272,11 @@ class PADetailsScreen extends Component {
       serialNo,
       BTUH,
       airFilterSize,
-      error,
     } = this.state.data.propaneApplianceDetails;
-    let update = (type, i, data) => {
-      let _id = data[i]._id ? data[i]._id : '';
+    let {error} = this.state;
+    let update = async (type, i, data) => {
+      // console.log(JSON.stringify(data));
+      let _id = data[i].id ? data[i].id : '';
       this.setState({
         data: {
           ...this.state.data,
@@ -286,17 +286,41 @@ class PADetailsScreen extends Component {
           },
         },
       });
-      if (type === 'manuf') {
-        console.log('RESPONSE MANU', getManufacturer(_id));
+      let setData = (listType, data) => {
+        // console.log(listType, data);
+        this.setState({
+          ...this.state,
+          local:{
+            ...this.state.local,
+            [listType]: [...data],
+          }
+      })
+      }
+      if(type === 'applncType'){
+        getManufacturer(_id)
+        .then(res => setData('manuf',res))
+        .catch(err => {
+          console.log("Error : ",err);
+        })
+      }else if(type === 'manuf'){
+        getModelNo(_id)
+        .then(res => setData('modelNo', res))
+        .catch(err => {
+          console.log("Error : ",err);
+        })
+      }else if(type === 'modelNo'){
+        getSerialNo(_id)
+        .then(res => setData('serialNo', res))
+        .catch(err => {
+          console.log("Error : ", err)
+        })
+      }else if(type === 'serialNo'){
+
       }
     };
+    
     let validator = () => {
-      if (
-        applncType.length >= 3 &&
-        manuf.length >= 3 &&
-        modelNo.length >= 3 &&
-        serialNo.length >= 3
-      ) {
+      if (!_.isEmpty(applncType) && !_.isEmpty(manuf) && !_.isEmpty(modelNo) && !_.isEmpty(serialNo)) {
         this.setState({step: 4, error: false});
       } else {
         this.setState({error: true});
@@ -312,56 +336,56 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
                 title="Appliance Type"
-                value={applncType ? applncType : ''}
+                value={!_.isUndefined(applncType) ? applncType : ''}
                 onChangeText={(value, index, data) =>
                   update('applncType', index, data)
                 }
-                data={this.state.local.aType}
+                data={this.state.local.applncType}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
                 title="Manufacturer"
-                value={manuf ? manuf : ''}
+                value={!_.isUndefined(manuf) ? manuf : ''}
                 onChangeText={(value, index, data) =>
                   update('manuf', index, data)
                 }
-                data={this.state.manu}
+                data={this.state.local.manuf}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
                 title="Modal No."
-                value={modelNo ? modelNo : ''}
+                value={!_.isUndefined(modelNo) ? modelNo : ''}
                 onChangeText={(value, index, data) =>
                   update('modelNo', index, data)
                 }
-                data={this.state.modal}
+                data={this.state.local.modelNo}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
                 title="Serial No."
-                value={serialNo ? serialNo : ''}
+                value={!_.isUndefined(serialNo) ? serialNo : ''}
                 onChangeText={(value, index, data) =>
                   update('serialNo', index, data)
                 }
-                data={this.state.serial}
+                data={this.state.local.serialNo}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0}}
                 title="BTU/H"
-                value={BTUH ? BTUH : ''}
+                value={!_.isUndefined(BTUH) ? BTUH : ''}
                 onChangeText={(value, index, data) =>
                   update('BTUH', index, data)
                 }
-                data={this.state.btu}
+                data={this.state.local.BTUH}
               />
               <Dropdown
                 dropdownOffset={{top: 0, left: 0, bottom: 32}}
                 title="Air Filter Size"
-                value={airFilterSize ? airFilterSize : ''}
+                value={!_.isUndefined(airFilterSize) ? airFilterSize : ''}
                 onChangeText={(value, index, data) =>
                   update('airFilterSize', index, data)
                 }
-                data={this.state.airFilter}
+                data={this.state.local.airFilterSize}
               />
             </View>
           </Card.Content>
@@ -419,7 +443,7 @@ class PADetailsScreen extends Component {
               }}>
               <Subheading style={{paddingHorizontal: scale(1), fontSize: 17}}>
                 {
-                  'APPLIANCE APPROVED & INSTALLED IN ACCORDANCE \nWITH THE INSTALLATION CODE/MANUFACTURERS CERTIFIED INSTRUCTIONS'
+                  'APPLIANCE APPROVED & INSTALLED IN \nACCORDANCE WITH THE INSTALLATION \nCODE/MANUFACTURERS CERTIFIED INSTRUCTIONS'
                 }
               </Subheading>
               <Switch
@@ -532,6 +556,7 @@ class PADetailsScreen extends Component {
             </View>
           </Card.Content>
           <Card.Actions>
+          <Subheading>{'Select all fields to'}</Subheading>
             <Button
               style={{alignSelf: 'flex-end'}}
               onPress={() => this.setState({step: 5})}
@@ -1561,7 +1586,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  console.log(state);
+  // console.log(state);
   return {
     propane: state.masterReducer.propane,
   };
