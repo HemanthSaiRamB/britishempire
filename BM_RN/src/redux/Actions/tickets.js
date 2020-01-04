@@ -101,8 +101,8 @@ export const getCapacity = async () => {
 
 export const getcurrentLevel = async () => {
   try {
-    const res = await axios.post(`${baseurl}/drop/currentLevelDropDown`, [], {
-      headers: { Authorization: "Bearer " + token }
+    const res = await API.post(`${baseurl}/drop/currentLevelDropDown`, [], {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
     return await res.data;
   } catch (e) {
@@ -114,13 +114,18 @@ export const submitTicket = async (data) => {
   try {
     console.log("RECEIVED DATA: ",data);
     let body = {
+      ComprehensivePropaneInspection:{
+      _id: "",
       ...data,
+      date: "1"
     }
-    const res = await axios.post(`${baseurl}/work/propane`, body, {
-      headers: { Authorization: "Bearer " + token }
+  };
+    const res = await API.post("work/propane", body, {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
+    console.log(res);
     return await res.data;
   } catch (e) {
-    console.log("error");
+    console.log("error",e);
   }
 }

@@ -62,6 +62,13 @@ class PADetailsScreen extends Component {
   // UNSAFE_componentWillUpdate(props, state) {
   //   console.log("U-Props : ", props, state);
   // }
+  componentWillMount(){
+    if(this.props.reset){
+      this.setState({
+        ...this.defaultState,
+      })
+    }
+  }
   componentDidMount() {
     if (
       _.isEmpty(this.state.local.manuf) &&
@@ -971,7 +978,7 @@ class PADetailsScreen extends Component {
           this.setState({
             step: 11
           });
-          console.log("Data: ", data);
+          console.log("Data: ", res);
         })
         .catch(err => {
           console.log("Error: ", err);

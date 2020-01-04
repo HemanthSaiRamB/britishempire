@@ -11,6 +11,7 @@ export default class HomeScreen extends Component {
   state = {
     raiseTicket: false,
     visible: false,
+    propaneReset: false,
     Details: 0,
     list: [{}, {}, {}],
   };
@@ -22,7 +23,7 @@ export default class HomeScreen extends Component {
   };
   hideMenu = () => {
     console.log('Hide');
-    this.setState({raiseTicket: false, Details: 0});
+    this.setState({raiseTicket: false, Details: 0, propaneReset: true});
   };
   componentDidUpdate(props, state) {
     console.log(state, props);
@@ -36,6 +37,7 @@ export default class HomeScreen extends Component {
           <TrackInfo total={50} completed={30} pending={20} />
           <PADetails
             visible={this.state.Details === 1}
+            reset={this.state.propaneReset}
             hideModal={this.hideMenu}
           />
           <List.Section>
