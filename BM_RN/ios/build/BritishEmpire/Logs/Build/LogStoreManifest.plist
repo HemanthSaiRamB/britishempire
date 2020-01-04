@@ -5,6 +5,39 @@
 	<key>logFormatVersion</key>
 	<integer>10</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>E7745ADC-057E-4C44-8BAF-86C305A21989</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>E7745ADC-057E-4C44-8BAF-86C305A21989.xcactivitylog</string>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BritishEmpire project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BritishEmpire</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>599599212.95997095</real>
+			<key>timeStoppedRecording</key>
+			<real>599599215.20111704</real>
+			<key>title</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>E7745ADC-057E-4C44-8BAF-86C305A21989</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

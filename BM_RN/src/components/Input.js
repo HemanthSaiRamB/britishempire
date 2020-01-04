@@ -16,6 +16,7 @@ export function Input(props) {
         style={styles}
         label={label}
         autoCapitalize={'none'}
+        autoCorrect={false}
         clearButtonMode={'while-editing'}
         value={value}
         secureTextEntry={secure}

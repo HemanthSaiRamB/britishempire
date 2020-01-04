@@ -109,3 +109,18 @@ export const getcurrentLevel = async () => {
     console.log("error");
   }
 };
+
+export const submitTicket = async (data) => {
+  try {
+    console.log("RECEIVED DATA: ",data);
+    let body = {
+      ...data,
+    }
+    const res = await axios.post(`${baseurl}/work/propane`, body, {
+      headers: { Authorization: "Bearer " + token }
+    });
+    return await res.data;
+  } catch (e) {
+    console.log("error");
+  }
+}

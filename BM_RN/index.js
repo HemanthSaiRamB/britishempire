@@ -10,7 +10,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#3498db',
-    accent: '#ff1231',
+    accent: '#231123',
   },
 };
 export default function App() {
