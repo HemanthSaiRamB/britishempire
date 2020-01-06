@@ -101,7 +101,7 @@ export const getCapacity = async () => {
 
 export const getcurrentLevel = async () => {
   try {
-    const res = await API.post(`${baseurl}/drop/currentLevelDropDown`, [], {
+    const res = await API.post("drop/currentLevelDropDown", [], {
       headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
     return await res.data;
@@ -110,22 +110,35 @@ export const getcurrentLevel = async () => {
   }
 };
 
-export const submitTicket = async (data) => {
+export const getNozzleNo = async () => {
   try {
-    console.log("RECEIVED DATA: ",data);
+    const res = await API.post("drop/nozzleNoDropDown", [], {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+    });
+    return await res.data;
+  } catch (e) {
+    console.log("error");
+  }
+};
+
+export const submitTicket = async (id, data) => {
+  try {
+    console.log("RECEIVED DATA: ", data);
     let body = {
-      ComprehensivePropaneInspection:{
-      _id: "",
-      ...data,
-      date: "1"
+      ComprehensivePropaneInspection: {
+        ...data,
+        date: "1"
+      }
+    };
+    if (id != null) {
+      body.ComprehensivePropaneInspection._id = id;
     }
-  };
     const res = await API.post("work/propane", body, {
       headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
     console.log(res);
     return await res.data;
   } catch (e) {
-    console.log("error",e);
+    console.log("error", e);
   }
-}
+};

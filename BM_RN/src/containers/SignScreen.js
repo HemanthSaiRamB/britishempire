@@ -22,9 +22,6 @@ export default class SignScreen extends Component {
       error: '',
     },
   };
-  UNSAFE_componentWillUpdate(props, state) {
-    console.log(props, state);
-  }
   VALIDATOR = () => {
     let {
       name,
@@ -49,7 +46,6 @@ export default class SignScreen extends Component {
     );
   };
   updateField = (type, text) => {
-    console.log(type, text);
     this.setState({
       ...this.state,
       data: {

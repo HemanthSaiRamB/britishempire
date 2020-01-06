@@ -26,7 +26,8 @@ import {
   getManufacturer,
   getModelNo,
   getSerialNo,
-  submitTicket
+  submitTicket,
+  getFilterSize
 } from "../redux/Actions/tickets";
 class PADetailsScreen extends Component {
   defaultState = {
@@ -37,6 +38,7 @@ class PADetailsScreen extends Component {
     // answers
     data: {},
     local: {
+      progress: true,
       accSearch: [],
       applncType: [],
       manuf: [],
@@ -62,11 +64,11 @@ class PADetailsScreen extends Component {
   // UNSAFE_componentWillUpdate(props, state) {
   //   console.log("U-Props : ", props, state);
   // }
-  componentWillMount(){
-    if(this.props.reset){
+  componentWillMount() {
+    if (this.props.reset) {
       this.setState({
-        ...this.defaultState,
-      })
+        ...this.defaultState
+      });
     }
   }
   componentDidMount() {
@@ -157,7 +159,7 @@ class PADetailsScreen extends Component {
       case 10:
         return { progress, color: Colors.greenA700 };
       case 11:
-        return { progress, color: Colors.lightGreen900, indeterminate: true };
+        return { progress, color: Colors.lightGreen900 };
       default:
         return { progress, color };
     }
@@ -209,10 +211,7 @@ class PADetailsScreen extends Component {
           />
           {!_.isEmpty(this.state.local.accSearch) ? (
             <FlatList
-              style={{
-                height: 150,
-                marginVertical: verticalScale(10)
-              }}
+              style={styles.accNumList}
               data={this.state.local.accSearch}
               renderItem={({ item }) => {
                 return (
@@ -231,8 +230,8 @@ class PADetailsScreen extends Component {
         </Card.Content>
         <Card.Actions>
           {_.isEmpty(this.state.data.accNo) ? (
-            <Subheading style={{ width: "100%", textAlign: "center" }}>
-              Add Any Account Detail and Select to Proceed
+            <Subheading style={styles.accNumActionCenter}>
+              Add Any Account Detail and Select to
             </Subheading>
           ) : (
             <Button
@@ -276,15 +275,15 @@ class PADetailsScreen extends Component {
     return <ActivityIndicator animating={true} color={Colors.red800} />;
   };
   $applianceDetails = () => {
-      let {
-        applncType,
-        manuf,
-        modelNo,
-        serialNo,
-        BTUH,
-        airFilterSize
-      } = this.state.data.propaneApplianceDetails;
-    
+    let {
+      applncType,
+      manuf,
+      modelNo,
+      serialNo,
+      BTUH,
+      airFilterSize
+    } = this.state.data.propaneApplianceDetails;
+
     let { error } = this.state;
     let update = async (type, i, data) => {
       // console.log(JSON.stringify(data));
@@ -308,6 +307,12 @@ class PADetailsScreen extends Component {
           }
         });
       };
+      getFilterSize()
+        .then(res => setData("airFilterSize", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+
       if (type === "applncType") {
         getManufacturer(_id)
           .then(res => setData("manuf", res))
@@ -973,10 +978,16 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket(this.state.data)
+      submitTicket(null, this.state.data)
         .then(res => {
           this.setState({
-            step: 11
+            step: 11,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
           });
           console.log("Data: ", res);
         })
@@ -1406,15 +1417,21 @@ class PADetailsScreen extends Component {
     );
   };
   $submitTicket = () => {
+    let submitted = _ => {
+      this.setState({
+        ...this.defaultState,
+        data: { ...this.props.propane.ComprehensivePropaneInspection }
+      });
+      this.props.hideModal();
+    };
     return (
       <>
         <Card>
           <Title style={styles.selfCenter}>{"SUBMITING TICKET"}</Title>
           <Card.Content>
-            {this.state.progress ? (
+            {this.state.local.progress ? (
               <ActivityIndicator
                 color={Colors.green900}
-                animating={this.state.progress}
                 style={styles.selfWidth100Center}
                 size="large"
               />
@@ -1426,36 +1443,40 @@ class PADetailsScreen extends Component {
                 style={styles.selfWidth100Center}
               />
             )}
-            <View style={styles.submitTicketPanel}>
-              <Paragraph style={{ flex: 1, textAlign: "center" }}>
-                {"Ticket no."}
-              </Paragraph>
-              <Paragraph style={{ flex: 1, textAlign: "left" }}>
-                {"12345817263198237918"}
-              </Paragraph>
-            </View>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-            >
-              <Paragraph style={{ flex: 1, textAlign: "center" }}>
-                {"Date & Time "}
-              </Paragraph>
-              <Paragraph style={{ flex: 1, textAlign: "left" }}>
-                {"23/05/2020"}
-              </Paragraph>
-            </View>
+            {this.state.local.create_workId ? (
+              <>
+                <View style={styles.submitTicketPanel}>
+                  <Paragraph style={{ flex: 1, textAlign: "center" }}>
+                    {"Ticket no."}
+                  </Paragraph>
+                  <Paragraph style={{ flex: 1, textAlign: "left" }}>
+                    {this.state.local.create_workId}
+                  </Paragraph>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-evenly"
+                  }}
+                >
+                  <Paragraph style={{ flex: 1, textAlign: "center" }}>
+                    {"Date & Time "}
+                  </Paragraph>
+                  <Paragraph style={{ flex: 1, textAlign: "left" }}>
+                    {new Date().toDateString()}
+                  </Paragraph>
+                </View>
+              </>
+            ) : (
+              <View />
+            )}
           </Card.Content>
           <Card.Actions>
             <Button
-              style={{
-                marginTop: 10,
-                width: "100%",
-                alignSelf: "center",
-                borderRadius: 5
-              }}
+              style={styles.submitTicketDONE}
               icon="check"
               mode="contained"
-              onPress={() => this.props.hideModal()}
+              onPress={() => submitted()}
               color={Colors.green700}
             >
               {"DONE"}
@@ -1489,15 +1510,11 @@ class PADetailsScreen extends Component {
     return (
       <>
         <Card>
-          <Title style={{ alignSelf: "center" }}>
-            {"PRESSURE TEST TAG INFO"}
-          </Title>
-          <Paragraph style={{ alignSelf: "center" }}>
-            {"Extra information"}
-          </Paragraph>
+          <Title style={styles.selfCenter}>{"PRESSURE TEST TAG INFO"}</Title>
+          <Paragraph style={styles.selfCenter}>{"Extra information"}</Paragraph>
           <Card.Content>
             <TextInput
-              style={{ height: 45, paddingVertical: verticalScale(3) }}
+              style={styles.pressureTagsInput}
               label="NOTES"
               multiline
               mode="outlined"
@@ -1505,7 +1522,7 @@ class PADetailsScreen extends Component {
               onChangeText={text => validator("Notes", text)}
             />
             <TextInput
-              style={{ height: 45, paddingVertical: verticalScale(3) }}
+              style={styles.pressureTagsInput}
               label="TECHNICIAN NAME"
               multiline
               mode="outlined"
@@ -1513,7 +1530,7 @@ class PADetailsScreen extends Component {
               onChangeText={text => validator("techName", text)}
             />
             <TextInput
-              style={{ height: 45, paddingVertical: verticalScale(3) }}
+              style={styles.pressureTagsInput}
               label="CERTIFICATION No"
               multiline
               mode="outlined"
@@ -1733,7 +1750,10 @@ class PADetailsScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  modelContainer: { justifyContent: "center", alignSelf: "center" },
+  modelContainer: {
+    justifyContent: "center",
+    alignSelf: "center"
+  },
   surface: {
     height: 250,
     width: 250,
@@ -1741,9 +1761,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 4
   },
-  submitTicketPanel: { flexDirection: "row", justifyContent: "space-evenly" },
-  selfCenter: { alignSelf: "center" },
-  selfWidth100Center: { width: "100%", alignSelf: "center" }
+  submitTicketPanel: {
+    flexDirection: "row",
+    justifyContent: "space-evenly"
+  },
+  selfCenter: {
+    alignSelf: "center"
+  },
+  selfWidth100Center: {
+    width: "100%",
+    alignSelf: "center"
+  },
+  accNumList: {
+    height: 150,
+    marginVertical: verticalScale(10)
+  },
+  accNumActionCenter: {
+    width: "100%",
+    textAlign: "center"
+  },
+  pressureTagsInput: {
+    height: 45,
+    paddingVertical: verticalScale(3)
+  },
+  submitTicketDONE: {
+    marginTop: 10,
+    width: "100%",
+    alignSelf: "center",
+    borderRadius: 5
+  }
 });
 
 function mapStateToProps(state) {

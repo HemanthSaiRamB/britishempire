@@ -1,5 +1,3 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Title, Subheading, Button, Colors} from 'react-native-paper';
@@ -30,7 +28,6 @@ class Login extends Component {
     });
   };
   render() {
-    console.log('ERR : ', this.state);
     return (
       <View style={styles.mainScroll}>
         <View style={styles.mainPanel}>

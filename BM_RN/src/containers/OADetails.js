@@ -1,13 +1,985 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
+import {
+  Portal,
+  Modal,
+  TextInput,
+  Card,
+  Title,
+  ProgressBar,
+  Colors,
+  Button,
+  ActivityIndicator,
+  Paragraph,
+  Switch,
+  IconButton,
+  Subheading,
+  List
+} from "react-native-paper";
+import { scale, verticalScale, moderateScale } from "../helpers/scaler";
+import { Dropdown } from "react-native-material-dropdown";
+import { View, StyleSheet, FlatList } from "react-native";
+import { connect } from "react-redux";
+import _ from "lodash";
+import * as oil from "./../assets/strings/oilStrings.json";
+import {
+  getAccountDtls,
+  getApplianceType,
+  getManufacturer,
+  getModelNo,
+  getSerialNo,
+  submitTicket,
+  getNozzleNo,
+  getFilterSize
+} from "../redux/Actions/tickets";
 
-class OADetails extends Component{
-    render(){
-        return(
-            <View>
-
-            </View>
-        );
+class OADetailsScreen extends Component {
+  defaultState = {
+    progress: 0.01,
+    step: 1,
+    type: 0,
+    error: false,
+    // answers
+    data: {},
+    local: {
+      accSearch: [],
+      applncType: [],
+      manuf: [],
+      airFilterSize: [],
+      serialNo: [],
+      modelNo: [],
+      nozzle: []
     }
+  };
+  static navigationOptions = {
+    header: null
+  };
+  state = this.defaultState;
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    if (
+      _.isEmpty(this.state.local.manuf) &&
+      !_.isUndefined(this.state.local.applncType)
+    ) {
+      getApplianceType()
+        .then(res => {
+          console.log("RES : ", res);
+          this.setState({
+            local: {
+              ...this.state.local,
+              applncType: res
+            }
+          });
+        })
+        .catch(err => {
+          console.log("ERR : ", err);
+        });
+    }
+  }
+  UNSAFE_componentWillReceiveProps(props, state) {
+    console.log("R-Props : ", props, state);
+    this.setState({
+      data: { ...props.oil.ComprehensiveOilInspection }
+    });
+  }
+  $loading = () => {
+    return <ActivityIndicator animating={true} color={Colors.red800} />;
+  };
+  $accountNumber = () => {
+    let { accNo } = this.state.local;
+    let accountSearch = input => {
+      getAccountDtls(input)
+        .then(async res => {
+          // console.log(await res);
+          this.setState({
+            local: {
+              ...this.state.local,
+              accSearch: await res
+            }
+          });
+        })
+        .catch(err => {
+          console.log("Error in acc", err);
+        });
+      this.setState({
+        local: {
+          ...this.state.local,
+          accNo: input
+        }
+      });
+    };
+    let activeThisValue = (input, id) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          accNo: id
+        },
+        local: {
+          ...this.state.local,
+          accNo: input
+        }
+      });
+    };
+    return (
+      <>
+        <Card.Title title="Enter Account number" subtitle="Create Ticket" />
+        <Card.Content>
+          <TextInput
+            label="Account Number"
+            mode="outlined"
+            value={accNo}
+            onChangeText={text => accountSearch(text)}
+          />
+          {!_.isEmpty(this.state.local.accSearch) ? (
+            <FlatList
+              style={styles.accNumList}
+              data={this.state.local.accSearch}
+              renderItem={({ item }) => {
+                return (
+                  <List.Item
+                    title={item.value ? item.value : ""}
+                    onPress={() => activeThisValue(item.value, item.id)}
+                    description={`${item.name} - ${item.address}`}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          ) : (
+            <View />
+          )}
+        </Card.Content>
+        <Card.Actions>
+          {_.isEmpty(this.state.data.accNo) ? (
+            <Subheading style={styles.accNumActionCenter}>
+              Add Any Account Detail and Select to
+            </Subheading>
+          ) : (
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => this.setState({ step: 2 })}
+              mode="outlined"
+              icon="check"
+            >
+              {"Proceed"}
+            </Button>
+          )}
+        </Card.Actions>
+      </>
+    );
+  };
+  $applianceDetails = () => {
+    let {
+      applncType,
+      manuf,
+      modelNo,
+      serialNo,
+      nozzle,
+      airFilterSize
+    } = this.state.data.oilAppDtls;
+
+    let { error } = this.state;
+    let update = async (type, i, data) => {
+      // console.log(JSON.stringify(data));
+      let _id = data[i].id ? data[i].id : "";
+      this.setState({
+        data: {
+          ...this.state.data,
+          oilAppDtls: {
+            ...this.state.data.oilAppDtls,
+            [type]: _id
+          }
+        }
+      });
+      let setData = (listType, data) => {
+        // console.log(listType, data);
+        this.setState({
+          ...this.state,
+          local: {
+            ...this.state.local,
+            [listType]: [...data]
+          }
+        });
+      };
+      getFilterSize()
+        .then(res => setData("airFilterSize", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+      getNozzleNo()
+        .then(res => setData("nozzle", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+
+      if (type === "applncType") {
+        getManufacturer(_id)
+          .then(res => setData("manuf", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "manuf") {
+        getModelNo(_id)
+          .then(res => setData("modelNo", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "modelNo") {
+        getSerialNo(_id)
+          .then(res => setData("serialNo", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "serialNo") {
+      }
+    };
+    let validator = () => {
+      if (
+        !_.isEmpty(applncType) &&
+        !_.isEmpty(manuf) &&
+        !_.isEmpty(modelNo) &&
+        !_.isEmpty(serialNo)
+      ) {
+        this.setState({ step: 3, error: false });
+      } else {
+        this.setState({ error: true });
+      }
+    };
+    return (
+      <>
+        <Title style={{ alignSelf: "center" }}>{"Appliance Details"}</Title>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Appliance Type"
+                value={!_.isUndefined(applncType) ? applncType : ""}
+                onChangeText={(value, index, data) =>
+                  update("applncType", index, data)
+                }
+                data={this.state.local.applncType}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Manufacturer"
+                value={!_.isUndefined(manuf) ? manuf : ""}
+                onChangeText={(value, index, data) =>
+                  update("manuf", index, data)
+                }
+                data={this.state.local.manuf}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Modal No."
+                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                onChangeText={(value, index, data) =>
+                  update("modelNo", index, data)
+                }
+                data={this.state.local.modelNo}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Serial No."
+                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                onChangeText={(value, index, data) =>
+                  update("serialNo", index, data)
+                }
+                data={this.state.local.serialNo}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Nozzle size"
+                value={!_.isUndefined(nozzle) ? nozzle : ""}
+                onChangeText={(value, index, data) =>
+                  update("nozzle", index, data)
+                }
+                data={this.state.local.nozzle}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
+                title="Air Filter Size"
+                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                onChangeText={(value, index, data) =>
+                  update("airFilterSize", index, data)
+                }
+                data={this.state.local.airFilterSize}
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph style={{ color: error ? Colors.red900 : Colors.black }}>
+              Select All the fields to{" "}
+            </Paragraph>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => validator()}
+              icon="chevron-right"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $oilFilter = () => {
+    let {
+      A30,
+      NG3500,
+      K10,
+      check1,
+      check2,
+      check3,
+      check4,
+      check5,
+      check6,
+      check7,
+      check8
+    } = this.state.data.oilAppDtls.oilFilter;
+    let typeValidator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          oilAppDtls: {
+            ...this.state.data.oilAppDtls,
+            oilFilter: {
+              ...this.state.data.oilAppDtls.oilFilter,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    Checks = props => {
+      let { title, type, value } = props;
+      return (
+        <View style={styles.ChecksStyles}>
+          <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+            {title}
+          </Subheading>
+          <Switch
+            value={value}
+            onValueChange={() => typeValidator(type, !value)}
+          />
+        </View>
+      );
+    };
+    CheckPoints = props => {
+      let { title, type, value } = props;
+      return (
+        <View style={styles.ChecksStyles}>
+          <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+            {title}
+          </Subheading>
+          <Switch
+            style={{ position: "absolute", right: 0 }}
+            value={value}
+            onValueChange={() => typeValidator(type, !value)}
+          />
+        </View>
+      );
+    };
+
+    return (
+      <>
+        <Title style={{ alignSelf: "center" }}>{"Appliance Details"}</Title>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <Title>{"Oil Filter"}</Title>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Checks title={"1A30"} type={"A30"} value={A30} />
+                <Checks title={"NG3500"} type={"NG3500"} value={NG3500} />
+                <Checks title={"K-10"} type={"K10"} value={K10} />
+              </View>
+              <CheckPoints title={oil.check1} type="check1" value={check1} />
+              <CheckPoints title={oil.check2} type="check2" value={check2} />
+              <CheckPoints title={oil.check3} type="check3" value={check3} />
+              <CheckPoints title={oil.check4} type="check4" value={check4} />
+              <CheckPoints title={oil.check5} type="check5" value={check5} />
+              <CheckPoints title={oil.check6} type="check6" value={check6} />
+              <CheckPoints title={oil.check7} type="check7" value={check7} />
+              <CheckPoints title={oil.check8} type="check8" value={check8} />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>Select all fields to</Subheading>
+            <Button
+              onPress={() => this.setState({ step: 4 })}
+              mode="outlined"
+              icon="check"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $combotionAnalysis = () => {
+    let {
+      Temp,
+      CO2,
+      O2,
+      ExAir,
+      Effic,
+      Draft,
+      CO,
+      Smoke
+    } = this.state.data.oilAppDtls.combustionAnalysis;
+    let {
+      check1,
+      check2,
+      check3,
+      check4,
+      check5,
+      check6,
+      check7,
+      check8,
+      check9,
+      check10,
+      check11,
+      check12,
+      check13,
+      check14,
+      check15,
+      check16,
+      check17
+    } = this.state.data.oilAppDtls.maintainanceCheckList;
+    let validator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          oilAppDtls: {
+            ...this.state.data.oilAppDtls,
+            combustionAnalysis: {
+              ...this.state.data.oilAppDtls.combustionAnalysis,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    let listValidator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          oilAppDtls: {
+            ...this.state.data.oilAppDtls,
+            maintainanceCheckList: {
+              ...this.state.data.oilAppDtls.maintainanceCheckList,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    Checks = props => {
+      let { title, type, value,list } = props;
+      return (
+        <View style={styles.ChecksStyles}>
+          <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+            {title}
+          </Subheading>
+          <Switch value={value} onValueChange={() => list ? listValidator(type, !value): validator(type, !value)} />
+        </View>
+      );
+    };
+    CheckList = props => {
+      let { title, type, value } = props;
+      return (
+        <View style={styles.ChecksStyles}>
+          <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+            {title}
+          </Subheading>
+          <Switch value={value} onValueChange={() => validator(type, !value)} />
+        </View>
+      );
+    };
+    return (
+      <>
+        <Title style={styles.selfCenter}>{"Combustion Analysis"}</Title>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Checks title={"Temp"} type={"Temp"} value={Temp} />
+                <Checks title={"CO2"} type={"CO2"} value={CO2} />
+                <Checks title={"O2"} type={"O2"} value={O2} />
+                <Checks title={"ExAir"} type={"ExAir"} value={ExAir} />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Checks title={"Effic"} type={"Effic"} value={Effic} />
+                <Checks title={"Draft"} type={"Draft"} value={Draft} />
+                <Checks title={"CO"} type={"CO"} value={CO} />
+                <Checks title={"Smoke"} type={"Smoke"} value={Smoke} />
+              </View>
+              <Subheading>{"MAINTENANCE CHECKLIST"}</Subheading>
+              <Checks
+                title={"CHANGE OIL FILTER(S)"}
+                type={"check1"}
+                value={check1}
+                list
+              />
+              <Checks
+                title={"CHANGE NOZZLE/CLEAN ASSEMBLY"}
+                type={"check2"}
+                value={check2}
+                list
+              />
+              <Checks
+                title={"CHECK IGNITION ELECTRODE"}
+                type={"check3"}
+                value={check3}
+                list
+              />
+              <Checks
+                title={"CHECK BLAST TUBE/END CONE"}
+                type={"check4"}
+                value={check4}
+                list
+              />
+              <Checks
+                title={"INSPECT FIREPOT/COMB. CHAMBER"}
+                type={"check5"}
+                value={check5}
+                list
+              />
+              <Checks
+                title={"BURNER COUPLING/BURNER FAN"}
+                type={"check6"}
+                value={check6}
+                list
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Checks
+                  title={"ACCESS C/O PORTS"}
+                  type={"check7"}
+                  value={check7}
+                list
+                />
+                <Checks
+                  title={"REPLACE GASKETS"}
+                  type={"check8"}
+                  value={check8}
+                list
+                />
+              </View>
+              <Checks
+                title={"CHECK/CLEAN VENTING SYSTEM"}
+                type={"check9"}
+                value={check9}
+                list
+              />
+              <Checks
+                title={"FAN/MOTOR/CABINET/BELT/FILTER"}
+                type={"check10"}
+                value={check10}
+                list
+              />
+              <Checks
+                title={"PUMP PRESSURE ____PSI / ____PSI"}
+                type={"check11"}
+                value={check11}
+                list
+              />
+              <Checks
+                title={"LIMITS/SAFETIES OPERATIONAL"}
+                type={"check12"}
+                value={check12}
+                list
+              />
+              <Checks
+                title={"COMBUSTION ANALYSIS"}
+                type={"check13"}
+                value={check13}
+                list
+              />
+              <Checks title={"SMOKE TEST"} type={"check14"} value={check14} list />
+              <Checks title={"LEAK CHECK"} type={"check15"} value={check15} list />
+              <Checks
+                title={"CLEAN UP WORK AREA"}
+                type={"check16"}
+                value={check16}
+                list
+              />
+              <Checks
+                title={"REVIEW WITH CUSTOMER"}
+                type={"check17"}
+                value={check17}
+                list
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>Select all fields to</Subheading>
+            <Button
+              onPress={() => this.setState({ step: 5 })}
+              mode="outlined"
+              icon="check"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $pressureTagsExtra = () => {
+    let { Notes, techName, signature, certNo } = this.state.data;
+    let validator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          [type]: value
+        }
+      });
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"PRESSURE TEST TAG INFO"}</Title>
+          <Paragraph style={styles.selfCenter}>{"Extra information"}</Paragraph>
+          <Card.Content>
+            <TextInput
+              style={styles.pressureTagsInput}
+              label="NOTES"
+              multiline
+              mode="outlined"
+              value={Notes}
+              onChangeText={text => validator("Notes", text)}
+            />
+            <TextInput
+              style={styles.pressureTagsInput}
+              label="TECHNICIAN NAME"
+              multiline
+              mode="outlined"
+              value={techName}
+              onChangeText={text => validator("techName", text)}
+            />
+            <TextInput
+              style={styles.pressureTagsInput}
+              label="CERTIFICATION No"
+              multiline
+              mode="outlined"
+              value={certNo}
+              onChangeText={text => validator("certNo", text)}
+            />
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph>Fill all the fields to</Paragraph>
+            <Button
+              onPress={() => this.setState({ step: 6 })}
+              icon="chevron-right"
+            >
+              {"Procced"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $oilStorageDetails = () => {
+    let {
+      manuf,
+      modelNo,
+      serialNo,
+      year,
+      capacity,
+      currentLevel,
+    } = this.state.data.OilStorageDetails;
+
+    let { error } = this.state;
+    let update = async (type, i, data) => {
+      // console.log(JSON.stringify(data));
+      let _id = data[i].id ? data[i].id : "";
+      this.setState({
+        data: {
+          ...this.state.data,
+          OilStorageDetails: {
+            ...this.state.data.OilStorageDetails,
+            [type]: _id
+          }
+        }
+      });
+      let setData = (listType, data) => {
+        // console.log(listType, data);
+        this.setState({
+          ...this.state,
+          local: {
+            ...this.state.local,
+            [listType]: [...data]
+          }
+        });
+      };
+      getFilterSize()
+        .then(res => setData("airFilterSize", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+      getNozzleNo()
+        .then(res => setData("nozzle", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+
+      if (type === "applncType") {
+        getManufacturer(_id)
+          .then(res => setData("manuf", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "manuf") {
+        getModelNo(_id)
+          .then(res => setData("modelNo", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "modelNo") {
+        getSerialNo(_id)
+          .then(res => setData("serialNo", res))
+          .catch(err => {
+            console.log("Error : ", err);
+          });
+      } else if (type === "serialNo") {
+      }
+    };
+    let validator = () => {
+      if (
+        !_.isEmpty(applncType) &&
+        !_.isEmpty(manuf) &&
+        !_.isEmpty(modelNo) &&
+        !_.isEmpty(serialNo)
+      ) {
+        this.setState({ step: 3, error: false });
+      } else {
+        this.setState({ error: true });
+      }
+    };
+    return (
+      <>
+        <Title style={{ alignSelf: "center" }}>{"Appliance Details"}</Title>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Appliance Type"
+                value={!_.isUndefined(applncType) ? applncType : ""}
+                onChangeText={(value, index, data) =>
+                  update("applncType", index, data)
+                }
+                data={this.state.local.applncType}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Manufacturer"
+                value={!_.isUndefined(manuf) ? manuf : ""}
+                onChangeText={(value, index, data) =>
+                  update("manuf", index, data)
+                }
+                data={this.state.local.manuf}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Modal No."
+                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                onChangeText={(value, index, data) =>
+                  update("modelNo", index, data)
+                }
+                data={this.state.local.modelNo}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Serial No."
+                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                onChangeText={(value, index, data) =>
+                  update("serialNo", index, data)
+                }
+                data={this.state.local.serialNo}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Nozzle size"
+                value={!_.isUndefined(nozzle) ? nozzle : ""}
+                onChangeText={(value, index, data) =>
+                  update("nozzle", index, data)
+                }
+                data={this.state.local.nozzle}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
+                title="Air Filter Size"
+                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                onChangeText={(value, index, data) =>
+                  update("airFilterSize", index, data)
+                }
+                data={this.state.local.airFilterSize}
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph style={{ color: error ? Colors.red900 : Colors.black }}>
+              Select All the fields to{" "}
+            </Paragraph>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => validator()}
+              icon="chevron-right"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  }
+  _progress() {
+    let { step } = this.state;
+    let progress = step / 11;
+    let color = Colors.red100;
+    switch (step) {
+      case 1:
+        return { progress, color: Colors.red100 };
+      case 2:
+        return { progress, color: Colors.red500 };
+      case 3:
+        return { progress, color: Colors.red900 };
+      case 4:
+        return { progress, color: Colors.orange100 };
+      case 5:
+        return { progress, color: Colors.orange500 };
+      case 6:
+        return { progress, color: Colors.orange900 };
+      case 7:
+        return { progress, color: Colors.green100 };
+      case 8:
+        return { progress, color: Colors.green500 };
+      case 9:
+        return { progress, color: Colors.green900 };
+      case 10:
+        return { progress, color: Colors.greenA700 };
+      case 11:
+        return { progress, color: Colors.lightGreen900, indeterminate: true };
+      default:
+        return { progress, color };
+    }
+  }
+  _flow = step => {
+    switch (step) {
+      // case 1:
+      //return this.$ticketType();
+      case 1:
+        return this.$accountNumber();
+      case 2:
+        return this.$applianceDetails();
+      case 3:
+        return this.$oilFilter();
+      case 4:
+        return this.$combotionAnalysis();
+      case 5:
+        return this.$pressureTagsExtra();
+      //   case 7:
+      //     return this.$propaneStorageDetails();
+      //   case 8:
+      //     return this.$propaneStorageDetailsExtra();
+      //   case 9:
+      //     return this.$pressureRegulatorSupplyDetails();
+      //   case 10:
+      //     return this.$regulatorInformation();
+      case 11:
+        return this.$submitTicket();
+      default:
+        this.$loading();
+    }
+  };
+  render() {
+    let { props } = this;
+    let visible = props.visible ? props.visible : false;
+    let _hideModal = props.hideModal ? props.hideModal : () => {};
+    return (
+      <Portal>
+        <Modal dismissable={true} visible={visible} onDismiss={_hideModal}>
+          <View style={{ width: "70%", alignSelf: "center" }}>
+            <Card>
+              <ProgressBar height={20} {...this._progress()} />
+              {this._flow(this.state.step)}
+            </Card>
+          </View>
+        </Modal>
+      </Portal>
+    );
+  }
 }
 
-export default OADetails;
+const styles = StyleSheet.create({
+  modelContainer: { justifyContent: "center", alignSelf: "center" },
+  surface: {
+    height: 250,
+    width: 250,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4
+  },
+  submitTicketPanel: { flexDirection: "row", justifyContent: "space-evenly" },
+  selfCenter: { alignSelf: "center" },
+  selfWidth100Center: { width: "100%", alignSelf: "center" },
+  accNumList: {
+    height: 150,
+    marginVertical: verticalScale(10)
+  },
+  ChecksStyles: {
+    flexDirection: "row",
+    paddingHorizontal: scale(1),
+    paddingVertical: verticalScale(5)
+  },
+  accNumActionCenter: { width: "100%", textAlign: "center" }
+});
+
+function mapStateToProps(state) {
+  // console.log(state);
+  return {
+    oil: state.masterReducer.oil
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    accounts: text => dispatch(accountDetails(text))
+  };
+}
+
+export const OADetails = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OADetailsScreen);

@@ -1,19 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
-import {FAB, List, Colors, Portal} from 'react-native-paper';
+import {FAB, List, Colors, Portal, Subheading} from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import TrackInfo from '../components/TrackInfo';
 import {PADetails} from './PADetails';
 import {logoutAction} from '../redux/Actions/user';
+import { OADetails } from './OADetails';
 
 export default class HomeScreen extends Component {
   state = {
     raiseTicket: false,
     visible: false,
     propaneReset: false,
+    oilReset: false,
     Details: 0,
-    list: [{}, {}, {}],
   };
   static navigationOptions = {
     header: null,
@@ -40,8 +41,15 @@ export default class HomeScreen extends Component {
             reset={this.state.propaneReset}
             hideModal={this.hideMenu}
           />
+          <OADetails
+            visible={this.state.Details == 2}
+            reset={this.state.oilReset}
+            hideModal={this.hideMenu}
+          />
           <List.Section>
-            <FlatList
+            {
+              this.state.list ?
+              <FlatList
               data={this.state.list}
               ItemSeparatorComponent={() => (
                 <View style={{height: 10, width: '100%'}} />
@@ -60,7 +68,14 @@ export default class HomeScreen extends Component {
                   )}
                 />
               )}
-            />
+            /> : (
+              <View>
+                <Subheading style={{textAlign: 'center'}}>
+                  No records
+                </Subheading>
+              </View>
+            )
+            }
           </List.Section>
           <Portal>
             <FAB.Group
