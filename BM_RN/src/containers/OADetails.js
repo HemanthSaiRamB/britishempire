@@ -29,7 +29,9 @@ import {
   getSerialNo,
   submitTicket,
   getNozzleNo,
-  getFilterSize
+  getFilterSize,
+  getCapacity,
+  getcurrentLevel
 } from "../redux/Actions/tickets";
 
 class OADetailsScreen extends Component {
@@ -47,7 +49,10 @@ class OADetailsScreen extends Component {
       airFilterSize: [],
       serialNo: [],
       modelNo: [],
-      nozzle: []
+      nozzle: [],
+      year: [],
+      capacity: [],
+      currentLevel: []
     }
   };
   static navigationOptions = {
@@ -486,13 +491,18 @@ class OADetailsScreen extends Component {
       });
     };
     Checks = props => {
-      let { title, type, value,list } = props;
+      let { title, type, value, list } = props;
       return (
         <View style={styles.ChecksStyles}>
           <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
             {title}
           </Subheading>
-          <Switch value={value} onValueChange={() => list ? listValidator(type, !value): validator(type, !value)} />
+          <Switch
+            value={value}
+            onValueChange={() =>
+              list ? listValidator(type, !value) : validator(type, !value)
+            }
+          />
         </View>
       );
     };
@@ -584,13 +594,13 @@ class OADetailsScreen extends Component {
                   title={"ACCESS C/O PORTS"}
                   type={"check7"}
                   value={check7}
-                list
+                  list
                 />
                 <Checks
                   title={"REPLACE GASKETS"}
                   type={"check8"}
                   value={check8}
-                list
+                  list
                 />
               </View>
               <Checks
@@ -623,8 +633,18 @@ class OADetailsScreen extends Component {
                 value={check13}
                 list
               />
-              <Checks title={"SMOKE TEST"} type={"check14"} value={check14} list />
-              <Checks title={"LEAK CHECK"} type={"check15"} value={check15} list />
+              <Checks
+                title={"SMOKE TEST"}
+                type={"check14"}
+                value={check14}
+                list
+              />
+              <Checks
+                title={"LEAK CHECK"}
+                type={"check15"}
+                value={check15}
+                list
+              />
               <Checks
                 title={"CLEAN UP WORK AREA"}
                 type={"check16"}
@@ -714,7 +734,7 @@ class OADetailsScreen extends Component {
       serialNo,
       year,
       capacity,
-      currentLevel,
+      currentLevel
     } = this.state.data.OilStorageDetails;
 
     let { error } = this.state;
@@ -740,6 +760,8 @@ class OADetailsScreen extends Component {
           }
         });
       };
+      setData("serialNo", []);
+      setData("modelNo", []);
       getFilterSize()
         .then(res => setData("airFilterSize", res))
         .catch(err => {
@@ -750,14 +772,17 @@ class OADetailsScreen extends Component {
         .catch(err => {
           console.log("Error : ", err);
         });
-
-      if (type === "applncType") {
-        getManufacturer(_id)
-          .then(res => setData("manuf", res))
-          .catch(err => {
-            console.log("Error : ", err);
-          });
-      } else if (type === "manuf") {
+      getCapacity()
+        .then(res => setData("capacity", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+      getcurrentLevel()
+        .then(res => setData("currentLevel", res))
+        .catch(err => {
+          console.log("Error : ", err);
+        });
+      if (type === "manuf") {
         getModelNo(_id)
           .then(res => setData("modelNo", res))
           .catch(err => {
@@ -773,13 +798,8 @@ class OADetailsScreen extends Component {
       }
     };
     let validator = () => {
-      if (
-        !_.isEmpty(applncType) &&
-        !_.isEmpty(manuf) &&
-        !_.isEmpty(modelNo) &&
-        !_.isEmpty(serialNo)
-      ) {
-        this.setState({ step: 3, error: false });
+      if (!_.isEmpty(manuf) && !_.isEmpty(modelNo) && !_.isEmpty(serialNo)) {
+        this.setState({ step: 7, error: false });
       } else {
         this.setState({ error: true });
       }
@@ -794,15 +814,6 @@ class OADetailsScreen extends Component {
             <View style={{ flex: 1 }}>
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
-                title="Appliance Type"
-                value={!_.isUndefined(applncType) ? applncType : ""}
-                onChangeText={(value, index, data) =>
-                  update("applncType", index, data)
-                }
-                data={this.state.local.applncType}
-              />
-              <Dropdown
-                dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
                 value={!_.isUndefined(manuf) ? manuf : ""}
                 onChangeText={(value, index, data) =>
@@ -812,7 +823,7 @@ class OADetailsScreen extends Component {
               />
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
-                title="Modal No."
+                title="Model No"
                 value={!_.isUndefined(modelNo) ? modelNo : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
@@ -821,7 +832,7 @@ class OADetailsScreen extends Component {
               />
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
-                title="Serial No."
+                title="Serial No"
                 value={!_.isUndefined(serialNo) ? serialNo : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
@@ -830,21 +841,30 @@ class OADetailsScreen extends Component {
               />
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
-                title="Nozzle size"
-                value={!_.isUndefined(nozzle) ? nozzle : ""}
+                title="Year"
+                value={!_.isUndefined(year) ? year : ""}
                 onChangeText={(value, index, data) =>
-                  update("nozzle", index, data)
+                  update("year", index, data)
                 }
-                data={this.state.local.nozzle}
+                data={this.state.local.year}
+              />
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0 }}
+                title="Capacity"
+                value={!_.isUndefined(capacity) ? capacity : ""}
+                onChangeText={(value, index, data) =>
+                  update("capacity", index, data)
+                }
+                data={this.state.local.capacity}
               />
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
-                title="Air Filter Size"
-                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                title="Current Level"
+                value={!_.isUndefined(currentLevel) ? currentLevel : ""}
                 onChangeText={(value, index, data) =>
-                  update("airFilterSize", index, data)
+                  update("currentLevel", index, data)
                 }
-                data={this.state.local.airFilterSize}
+                data={this.state.local.currentLevel}
               />
             </View>
           </Card.Content>
@@ -863,7 +883,504 @@ class OADetailsScreen extends Component {
         </Card>
       </>
     );
-  }
+  };
+  $reasonForInspection = () => {
+    let {
+      newInstallation,
+      service_maintenance,
+      newCustomer,
+      insuranceRequirement
+    } = this.state.data.OilStorageDetails.ReasonForInspection;
+    let { error } = this.state;
+    let { indoor, outdoor } = this.state.data.OilStorageDetails.TankLocation;
+    let pageNavigate = () => {
+      if (!_.isEmpty(manuf) && !_.isEmpty(modelNo) && !_.isEmpty(serialNo)) {
+        this.setState({ step: 7, error: false });
+      } else {
+        this.setState({ error: true });
+      }
+    };
+    let validator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          OilStorageDetails: {
+            ...this.state.data.OilStorageDetails,
+            ReasonForInspection: {
+              ...this.state.data.OilStorageDetails.ReasonForInspection,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    let tankValidator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          OilStorageDetails: {
+            ...this.state.data.OilStorageDetails,
+            TankLocation: {
+              ...this.state.data.OilStorageDetails.TankLocation,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    Checks = props => {
+      let { title, type, value, tank } = props;
+      return (
+        <View style={styles.ChecksStyles}>
+          <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+            {title}
+          </Subheading>
+          <Switch
+            value={value}
+            onValueChange={() => {
+              tank ? tankValidator(type, !value) : validator(type, !value);
+            }}
+          />
+        </View>
+      );
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"Oil Storage"}</Title>
+          <Paragraph style={styles.selfCenter}>
+            {"Reason for Inspection"}
+          </Paragraph>
+          <Card.Content>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+            >
+              <Checks
+                title={"New Installation"}
+                type={"newInstallation"}
+                value={newInstallation}
+              />
+              <Checks
+                title={"Service Maintenance"}
+                type={"service_maintenance"}
+                value={service_maintenance}
+              />
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+            >
+              <Checks
+                title={"New Customer"}
+                type={"newCustomer"}
+                value={newCustomer}
+              />
+              <Checks
+                title={"Insurance Requirement"}
+                type={"insuranceRequirement"}
+                value={insuranceRequirement}
+              />
+            </View>
+            <Title>{"Tank Location"}</Title>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+            >
+              <Checks title={"Indoor"} type={"indoor"} value={indoor} tank />
+              <Checks title={"Outdoor"} type={"outdoor"} value={outdoor} tank />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph style={{ color: error ? Colors.red900 : Colors.black }}>
+              Select All the fields to{" "}
+            </Paragraph>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => this.setState({ step: 8 })}
+              icon="chevron-right"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $inspectionChecklist = () => {
+    let {
+      check1,
+      check2,
+      check3,
+      check4,
+      check5,
+      check6,
+      check7,
+      check8,
+      check9
+    } = this.state.data.OilStorageDetails.InspectionCheckList;
+    let {error} = this.state;
+    let validator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          OilStorageDetails: {
+            ...this.state.data.OilStorageDetails,
+            InspectionCheckList: {
+              ...this.state.data.OilStorageDetails.InspectionCheckList,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    return (
+      <>
+        <Title style={{ alignSelf: "center" }}>{"Appliance Details"}</Title>
+        <Card>
+          <Card.Content>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "APPLIANCE APPROVED & INSTALLED IN \nACCORDANCE WITH THE FUEL OIL INSTALLATION \nCODE/MANFACTURERS CERTIFIED INSTRUCTIONS"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check1}
+                onValueChange={() => validator("check1", !check1)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  'VENT/FILL PROPERLY TERMINATED \n(CLEARENCES TO BUILDING OPENINGS/FUEL \nSTORAGE, VENT 6" HIGHER THAN FILL, \nPAINTED, PROPERLY SLOPED, CAPPED, ETC.)'
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check2}
+                onValueChange={() => validator("check2", !check2)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "TANK EQUIPPED WITH WHISTLE/FILL \nALARM/OVERFILL PROTECTION DEVICE, LEVEL GAUGE"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check3}
+                onValueChange={() => validator("check3", !check3)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "TANK PROPERLY SUPPORTED ON STABLE NON COMBUSTIBLE BASE Legs or Saddles"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check4}
+                onValueChange={() => validator("check4", !check4)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "TANK IN SATISFACTORY CONDITION FOR FUEL \nDELIVERY (FREE OF WEEPING/LEAKS, CORROSION, \nDAMAGE, PAINTED, ETC.)"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check5}
+                onValueChange={() => validator("check5", !check5)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "OIL LINES INSTALLED INACCORDANCE WITH THE \nFUEL OIL INSTALLATION CODE (PAINTED, PROTECTED, \nFREE OF DEFECTS/DAMAGE, PROPERLY SUPPORTED, \nCOATED/CHASED, NO COMPRESSION FITTINGS, ETC.)"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check6}
+                onValueChange={() => validator("check6", !check6)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "APPROVED OIL FILTER INSTALLED (FREE OF \nDAMAGE/CORROSION, NO LEAKS, SHUT OFF \nINSTALLED, ETC.)"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check7}
+                onValueChange={() => validator("check7", !check7)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "INDOOR TANK INSTALLED IN ACCORDANCE WITH \nFUEL OIL CODE (2' FROM APPLIANCE BURNER, YELLER \nPAN, ANGLE VALVE COVER, ETC.)"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check8}
+                onValueChange={() => validator("check8", !check8)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "OUTDOOR TANK INSTALLED IN ACCORDANCE WITH \nFUEL OIL CODE (FREE OF WATER, ANGLE VALVE \nCOVER, PROTECTED FROM DAMAGE, ETC.)"
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check9}
+                onValueChange={() => validator("check9", !check9)}
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph style={{ color: error ? Colors.red900 : Colors.black }}>
+              Select All the fields to{" "}
+            </Paragraph>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => this.setState({ step: 9 })}
+              icon="chevron-right"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $twoTankOilStore = () => {
+    let {
+      check1,
+      check2
+    } = this.state.data.OilStorageDetails.TwoTankOilStorage;
+    let validator = (type, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          OilStorageDetails: {
+            ...this.state.data.OilStorageDetails,
+            TwoTankOilStorage: {
+              ...this.state.data.OilStorageDetails.TwoTankOilStorage,
+              [type]: value
+            }
+          }
+        }
+      });
+    };
+    let {error} = this.state;
+    let submitTicketNow = () => {
+      submitTicket(null, this.state.data)
+        .then(res => {
+          this.setState({
+            step: 10,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
+    return (
+      <>
+        <Title style={{ alignSelf: "center" }}>{"Two Tank Oil Storage"}</Title>
+        <Card>
+          <Card.Content>
+          <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  "TANKS JOINED AT BOTTOM WITH 2\" \nPIPE - TWO SEPARATE FILL ALARMS & SHUT OFFS, \nCOMMON PAD, ETC."
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check1}
+                onValueChange={() => validator("check1", !check1)}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: scale(1),
+                paddingVertical: verticalScale(5)
+              }}
+            >
+              <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
+                {
+                  'TANKS HAVE SEPARATE FILL & VENT \nINSTALLED IN ACCORDANCE WITH FUEL \nOIL CODE (CLEARENCES TO BUILDING OPENINGS/STORAGE, \nVENT 6" HIGHER THAN FILL, PROPERLY SLOPED, \nPAINTED, CAPPED, ETC.)'
+                }
+              </Subheading>
+              <Switch
+                style={{ position: "absolute", right: 0 }}
+                value={check2}
+                onValueChange={() => validator("check2", !check2)}
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Paragraph style={{ color: error ? Colors.red900 : Colors.black }}>
+              Select All the fields to{" "}
+            </Paragraph>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => submitTicketNow()}
+              icon="chevron-right"
+            >
+              {"Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+  $submitTicket = () => {
+    let submitted = _ => {
+      this.setState({
+        ...this.defaultState,
+        data: { ...this.props.oil.ComprehensiveOilInspection }
+      });
+      this.props.hideModal();
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"SUBMITING TICKET"}</Title>
+          <Card.Content>
+            {this.state.local.progress ? (
+              <ActivityIndicator
+                color={Colors.green900}
+                style={styles.selfWidth100Center}
+                size="large"
+              />
+            ) : (
+              <IconButton
+                icon="check-circle"
+                color={Colors.green900}
+                size={60}
+                style={styles.selfWidth100Center}
+              />
+            )}
+            {this.state.local.create_workId ? (
+              <>
+                <View style={styles.submitTicketPanel}>
+                  <Paragraph style={{ flex: 1, textAlign: "center" }}>
+                    {"Ticket no."}
+                  </Paragraph>
+                  <Paragraph style={{ flex: 1, textAlign: "left" }}>
+                    {this.state.local.create_workId}
+                  </Paragraph>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-evenly"
+                  }}
+                >
+                  <Paragraph style={{ flex: 1, textAlign: "center" }}>
+                    {"Date & Time "}
+                  </Paragraph>
+                  <Paragraph style={{ flex: 1, textAlign: "left" }}>
+                    {new Date().toDateString()}
+                  </Paragraph>
+                </View>
+              </>
+            ) : (
+              <View />
+            )}
+          </Card.Content>
+          <Card.Actions>
+            <Button
+              style={styles.submitTicketDONE}
+              icon="check"
+              mode="contained"
+              onPress={() => submitted()}
+              color={Colors.green700}
+            >
+              {"DONE"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
   _progress() {
     let { step } = this.state;
     let progress = step / 11;
@@ -909,6 +1426,16 @@ class OADetailsScreen extends Component {
         return this.$combotionAnalysis();
       case 5:
         return this.$pressureTagsExtra();
+      case 6:
+        return this.$oilStorageDetails();
+      case 7:
+        return this.$reasonForInspection();
+      case 8:
+        return this.$inspectionChecklist();
+      case 9:
+        return this.$twoTankOilStore();
+      case 10:
+        return this.$submitTicket();
       //   case 7:
       //     return this.$propaneStorageDetails();
       //   case 8:
