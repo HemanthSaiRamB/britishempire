@@ -36,7 +36,7 @@ let loginAct = async text => {
   await AsyncStorage.setItem('userToken', text);
   navigate('App', {});
 };
-export const registerAction = data => {
+export const registerAction = (data, error) => {
   register(data)
     .then(res => {
       if (res.data.success) {
@@ -45,6 +45,7 @@ export const registerAction = data => {
       console.log(res.data);
     })
     .catch(_err => {
+      error(_err);
       console.log('err', _err);
     });
 };

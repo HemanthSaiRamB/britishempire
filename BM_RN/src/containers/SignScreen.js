@@ -55,6 +55,12 @@ export default class SignScreen extends Component {
       error: '',
     });
   };
+  errorHandler = (data) => {
+    console.log("data : ", data);
+    this.setState({
+      error: 'User already registered'
+    });
+  }
   static navigationOptions = {
     header: null,
   };
@@ -162,7 +168,7 @@ export default class SignScreen extends Component {
                   mode="contained"
                   onPress={() =>
                     this.VALIDATOR()
-                      ? registerAction(this.state.data)
+                      ? registerAction(this.state.data, this.errorHandler)
                       : this.setState({error: 'Fields not filled properly'})
                   }>
                   Register
