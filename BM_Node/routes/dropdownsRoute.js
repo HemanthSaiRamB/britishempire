@@ -11,4 +11,6 @@ router.post('/airFilterSizeDropDown',passport.authenticate('jwt',{session:false}
 router.post('/accountDtlsDropDown',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getAccDtlsDrop)
 router.post('/capacityDropDown',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getCapacityDrop)
 router.post('/currentLevelDropDown',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getCurrentLevelDrop)
+router.post('/getAllEmp',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getAllEmp)
+
 module.exports = router;
