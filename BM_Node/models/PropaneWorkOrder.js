@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const modelName = require('../config/modelname').propane
 
-
+var d = new Date();
 
 
 const testPressure = new mongoose.Schema({
@@ -160,6 +160,7 @@ const propaneStorageDetails = new mongoose.Schema({
     reconDate:{
         type:String
     },
+    
     pressureRegulatorAndSupplySystemDetails:[pressureRegulatorAndSupplySystemDetails],
     regulatorInformation:[regulatorInformation],
     clearances:[clearances]
@@ -274,8 +275,14 @@ const PropaneSchema = new mongoose.Schema({
         default:""
     },
     date:{
-        type:Date,
-        default:Date.now()
+        type:String,
+        default:d.getDate()+'-'+d.getMonth()+1+'-'+d.getFullYear()
+    },
+    empId:{
+        type:String
+    },
+    status:{
+        type:String
     },
     propaneApplianceDetails:[propaneApplianceDetails],
     propaneStorageDetails:[propaneStorageDetails]

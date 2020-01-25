@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const modelName = require('../config/modelname').oil
-
+var d = new Date();
 const TwoTankOilStorage= new mongoose.Schema({
     check1:{
         type:Boolean,
@@ -295,8 +295,14 @@ const OilSchema = new mongoose.Schema({
         default:""
     },
     date:{
-        type:Date,
-        default:Date.now()
+        type:String,
+        default:d.getDate()+'-'+d.getMonth()+1+'-'+d.getFullYear()
+    },
+    empId:{
+        type:String
+    },
+    status:{
+        type:String
     },
     oilAppDtls:[oilAppDtls],
     Notes:{

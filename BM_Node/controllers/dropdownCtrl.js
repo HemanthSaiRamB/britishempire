@@ -7,7 +7,7 @@ const airFilterSizeNoDumpModel = require('../models/AirFilterSize')
 const accountDtlsModel = require('../models/AccountNo')
 const capacityModel = require('../models/Capacity')
 const currentLevelModel = require('../models/CurrentLevel')
-
+const userModel= require('../models/Users')
 async function getApplianceTypeDrop(req,res){
 applianceDumpModel.find({},(err,types)=>{
     res.send(types.map(type=>{
@@ -96,6 +96,22 @@ async function getCurrentLevelDrop(req,res){
     })
 }
 
+async function getAllEmp(req,res){
+    var query = {}
+    query={'usertype':req.body.usertype}
+    userModel.find(query,(err,users)=>{
+        res.send(users.map(user=>{
+            return {
+                value:user.name,
+                id:user._id,
+                mobilenumber:user.mobilenumber,
+                email:user.email,
+                age:user.age,
+                usertype:user.usertype
+            }
+        }))
+    }) 
+}
 module.exports={
     getApplianceTypeDrop,
     getManufacturerDrop,
@@ -105,5 +121,6 @@ module.exports={
     getAirPurDrop,
     getCapacityDrop,
     getCurrentLevelDrop,
-    getAccDtlsDrop
+    getAccDtlsDrop,
+    getAllEmp
 }
