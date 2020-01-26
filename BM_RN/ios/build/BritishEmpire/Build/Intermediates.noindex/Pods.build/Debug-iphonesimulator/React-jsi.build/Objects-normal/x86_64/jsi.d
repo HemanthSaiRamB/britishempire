@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/React-jsi/React-jsi-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Private/React-jsi/jsi/instrumentation.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Private/React-jsi/jsi/jsi.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Private/React-jsi/jsi/jsi-inl.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-jsi/React-jsi-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-jsi/jsi/instrumentation.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-jsi/jsi/jsi.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/React-jsi/jsi/jsi-inl.h

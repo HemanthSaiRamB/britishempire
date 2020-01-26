@@ -2,11 +2,22 @@ import * as React from 'react';
 import {AppRegistry} from 'react-native';
 import Starter from './App';
 import {name as appName} from './app.json';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3498db',
+    accent: '#231123',
+  },
+};
 export default function App() {
+  console.disableYellowBox = true;
+  
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       <Starter />
     </PaperProvider>
   );

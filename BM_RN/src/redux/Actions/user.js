@@ -1,67 +1,52 @@
-import axios from 'axios';
-const BASE_URL = 'https://britishempire.herokuapp.com/';
 import * as types from '../actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import {navigate} from '../../helpers/navigation';
-const API = axios.create({
-  baseURL: BASE_URL,
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-API.interceptors.response.use(
-  response => {
-    console.log(response);
-    return response;
-  },
-  error => {
-    console.log(error);
-    return Promise.reject(error);
-  },
-);
+import {API} from '../../helpers/API';
 const LOGIN = (email, pswd) =>
   API.post('users/login', {
     email: email,
     password: pswd,
   });
-export const loginAction = (email = '', pswd = '') => {
-  return dispatch => {
-    dispatch(LOGIN_PENDING());
-    LOGIN(email, pswd)
-      .then(async res => {
-        console.log(res);
-        res
-          ? res.data
-            ? res.data.success === true
-              ? dispatch(LOGIN_SUCCESS(res.data))
-              : []
+export const loginAction = (email = '', pswd = '', error) => {
+  // return dispatch => {
+  // dispatch(LOGIN_PENDING());
+  LOGIN(email, pswd)
+    .then(async res => {
+      console.log(res);
+      res
+        ? res.data
+          ? res.data.success === true
+            ? loginAct(res.data.token)
             : []
-          : [];
-      })
-      .then(_err => {
-        dispatch(LOGIN_FAILURE('Fill All fields'));
-      });
-  };
+          : []
+        : [];
+    })
+    .catch(_err => {
+      error('Enter valid credentials');
+      // console.log(_err);
+      // dispatch(LOGIN_FAILURE('Fill All fields'));
+    });
+  // };
+};
+export let logoutAction = async () => {
+  await AsyncStorage.removeItem('userToken');
+  navigate('Auth', {});
 };
 let loginAct = async text => {
   await AsyncStorage.setItem('userToken', text);
   navigate('App', {});
 };
-const LOGIN_PENDING = _ => ({
-  type: types.LOGIN_PENDING,
-});
-const LOGIN_SUCCESS = data => {
-  loginAct(data.token);
-  return {
-    type: types.LOGIN_SUCCESS,
-    data,
-  };
+export const registerAction = (data, error) => {
+  register(data)
+    .then(res => {
+      if (res.data.success) {
+        navigate('Login', {msg: 'Login To access your account'});
+      }
+      console.log(res.data);
+    })
+    .catch(_err => {
+      error(_err);
+      console.log('err', _err);
+    });
 };
-const LOGIN_FAILURE = data => ({
-  type: types.LOGIN_FAILURE,
-  data,
-});
-export const registerAction = data => {
-  return API.post('users/register', data);
-};
+const register = data => API.post('users/register', data);

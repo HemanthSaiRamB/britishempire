@@ -1,38 +1,38 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/Libraries/NativeAnimation/RCTNativeAnimatedModule.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/React-RCTAnimation/React-RCTAnimation-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTNativeAnimatedModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTEventDispatcher.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTEventEmitter.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTSurfacePresenterStub.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUIManager.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTViewManager.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/UIView+React.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTComponent.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUIManagerObserverCoordinator.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUIManagerUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTValueAnimatedNode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAnimatedNode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTNativeAnimatedNodesManager.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/NativeAnimation/RCTNativeAnimatedModule.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-RCTAnimation/React-RCTAnimation-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTNativeAnimatedModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTEventDispatcher.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTEventEmitter.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTSurfacePresenterStub.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUIManager.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTViewManager.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/UIView+React.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTComponent.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUIManagerObserverCoordinator.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUIManagerUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTValueAnimatedNode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAnimatedNode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTNativeAnimatedNodesManager.h
