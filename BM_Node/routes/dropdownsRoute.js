@@ -12,5 +12,6 @@ router.post('/accountDtlsDropDown',passport.authenticate('jwt',{session:false}),
 router.post('/capacityDropDown',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getCapacityDrop)
 router.post('/currentLevelDropDown',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getCurrentLevelDrop)
 router.post('/getAllEmp',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').getAllEmp)
+router.post('/dashboardCount',passport.authenticate('jwt',{session:false}),require('../controllers/dropdownCtrl').dashboardCount)
 
 module.exports = router;
