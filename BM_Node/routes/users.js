@@ -132,6 +132,10 @@ router.post('/login',(req,res,next)=>{
                                         raw: err }); 
                                 res.json({ 
                                     usertype:user.usertype,
+                                    id:user._id,
+                                    name:user.name,
+                                    email:user.email,
+                                    age:user.age,
                                 success: true,
                                 token: `Bearer ${token}` });
                         });      
