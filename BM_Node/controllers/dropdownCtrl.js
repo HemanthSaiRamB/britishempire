@@ -8,6 +8,8 @@ const accountDtlsModel = require('../models/AccountNo')
 const capacityModel = require('../models/Capacity')
 const currentLevelModel = require('../models/CurrentLevel')
 const userModel= require('../models/Users')
+const propaneModel = require('../models/PropaneWorkOrder')
+const oilModel = require('../models/OilWorkOrder')
 async function getApplianceTypeDrop(req,res){
 applianceDumpModel.find({},(err,types)=>{
     res.send(types.map(type=>{
@@ -98,19 +100,74 @@ async function getCurrentLevelDrop(req,res){
 
 async function getAllEmp(req,res){
     var query = {}
-    query={'usertype':req.body.usertype}
+    query={'name':{"$regex":req.body.name,"$options": "i"}}
     userModel.find(query,(err,users)=>{
-        res.send(users.map(user=>{
-            return {
-                value:user.name,
-                id:user._id,
-                mobilenumber:user.mobilenumber,
-                email:user.email,
-                age:user.age,
-                usertype:user.usertype
+        res.send(users.filter(user=>{
+            if(user.usertype === req.body.usertype){
+                return false
             }
-        }))
+            return true
+        }).map(user=>
+            {
+                return{
+                    value:user.name,
+                    id:user._id,
+                    mobilenumber:user.mobilenumber,
+                    email:user.email,
+                    age:user.age,
+                    usertype:user.usertype
+                }
+            }))
     }) 
+}
+
+async function dashboardCount(req,res){
+    var todoQuery = {"status":"todo"}
+    var inProQuery = {"status":"inpro"}
+    var compQuery = {"status":"completed"}
+    propaneModel.countDocuments(todoQuery).exec((err, todo1) => {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        propaneModel.countDocuments(inProQuery).exec((err, inpro1) => {
+            if (err) {
+                res.send(err);
+                return;
+            }
+            propaneModel.countDocuments(compQuery).exec((err, comp1) => {
+                if (err) {
+                    res.send(err);
+                    return;
+                }
+                oilModel.countDocuments(todoQuery).exec((err, todo2) => {
+                    if (err) {
+                        res.send(err);
+                        return;
+                    }
+                    oilModel.countDocuments(inProQuery).exec((err, inpro2) => {
+                        if (err) {
+                            res.send(err);
+                            return;
+                        }
+                        oilModel.countDocuments(compQuery).exec((err, comp2) => {
+                            if (err) {
+                                res.send(err);
+                                return;
+                            }
+                            var sendJSON={
+                                 totalWorkOrders:todo1+todo2+inpro1+inpro2+comp1+comp2,
+                                 todo:todo1+todo2,
+                                 pending:inpro1+inpro2,
+                                 completed:comp1+comp2
+                                }
+                               res.send(sendJSON)
+                        })
+                    })
+                })
+            })
+        })
+    });
 }
 module.exports={
     getApplianceTypeDrop,
@@ -122,5 +179,6 @@ module.exports={
     getCapacityDrop,
     getCurrentLevelDrop,
     getAccDtlsDrop,
-    getAllEmp
+    getAllEmp,
+    dashboardCount
 }
