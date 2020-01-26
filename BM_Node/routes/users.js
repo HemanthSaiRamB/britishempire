@@ -131,6 +131,7 @@ router.post('/login',(req,res,next)=>{
                                     error: "Error signing token",
                                         raw: err }); 
                                 res.json({ 
+                                    usertype:user.usertype,
                                 success: true,
                                 token: `Bearer ${token}` });
                         });      
