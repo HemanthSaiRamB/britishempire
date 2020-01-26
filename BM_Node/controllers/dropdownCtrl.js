@@ -122,9 +122,16 @@ async function getAllEmp(req,res){
 }
 
 async function dashboardCount(req,res){
-    var todoQuery = {"status":"todo"}
-    var inProQuery = {"status":"inpro"}
-    var compQuery = {"status":"completed"}
+    if(req.body.empId){
+        var todoQuery = {"status":"todo","empId":req.body.empId}
+        var inProQuery = {"status":"inpro","empId":req.body.empId}
+        var compQuery = {"status":"completed","empId":req.body.empId}
+    }else{
+        var todoQuery = {"status":"todo"}
+        var inProQuery = {"status":"inpro"}
+        var compQuery = {"status":"completed"}
+     }
+   
     propaneModel.countDocuments(todoQuery).exec((err, todo1) => {
         if (err) {
             res.send(err);
