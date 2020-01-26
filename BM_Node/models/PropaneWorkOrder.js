@@ -237,20 +237,16 @@ const PressureTestTagInfo = new mongoose.Schema({
 })
 const propaneApplianceDetails = new mongoose.Schema({
     applncType:{
-        type:String,
-        required:true
+        type:String
     },  
     manuf:{
-        type:String,
-        required:true
+        type:String
     },
     modelNo:{
-        type:String,
-        required:true
+        type:String
     },
     serialNo:{
-        type:String,
-        required:true
+        type:String
     },
     BTUH:{
         type:String
@@ -279,7 +275,8 @@ const PropaneSchema = new mongoose.Schema({
         default:d.getDate()+'-'+d.getMonth()+1+'-'+d.getFullYear()
     },
     empId:{
-        type:String
+        type:String,
+        required:true
     },
     status:{
         type:String

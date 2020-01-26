@@ -80,16 +80,13 @@ const ReasonForInspection= new mongoose.Schema({
 
 const OilStorageDetails = new mongoose.Schema({
     manuf:{
-        type:String,
-        required:true
+        type:String
     },
     modelNo:{
-        type:String,
-        required:true
+        type:String
     },
     serialNo:{
-        type:String,
-        required:true
+        type:String
     },
     year:{
         type:String
@@ -259,20 +256,16 @@ const combustionAnalysis = new mongoose.Schema({
 })
 const oilAppDtls = new mongoose.Schema({
     applncType:{
-        type:String,
-        required:true
+        type:String
     },  
     manuf:{
-        type:String,
-        required:true
+        type:String
     },
     modelNo:{
-        type:String,
-        required:true
+        type:String
     },
     serialNo:{
-        type:String,
-        required:true
+        type:String
     },
     nozzle:{
         type:String
@@ -299,7 +292,8 @@ const OilSchema = new mongoose.Schema({
         default:d.getDate()+'-'+d.getMonth()+1+'-'+d.getFullYear()
     },
     empId:{
-        type:String
+        type:String,
+        required:true
     },
     status:{
         type:String
