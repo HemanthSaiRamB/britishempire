@@ -104,9 +104,9 @@ async function getAllEmp(req,res){
     userModel.find(query,(err,users)=>{
         res.send(users.filter(user=>{
             if(user.usertype === req.body.usertype){
-                return false
+                return true
             }
-            return true
+            return false
         }).map(user=>
             {
                 return{
