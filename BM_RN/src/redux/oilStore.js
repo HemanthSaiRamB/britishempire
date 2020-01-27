@@ -2,6 +2,8 @@ export const oil = {
   ComprehensiveOilInspection: {
     accNo: '',
     workOrderId: '',
+    empId: '',
+    status: 'todo',
     date: '',
     oilAppDtls: {
       applncType: '',

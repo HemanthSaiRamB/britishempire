@@ -2,6 +2,8 @@ export const propane = {
   ComprehensivePropaneInspection: {
     accNo: '',
     workOrderId: '',
+    empId: '',
+    status: 'todo',
     date: '',
     propaneApplianceDetails: {
       applncType: '',

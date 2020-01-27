@@ -27,19 +27,25 @@ import {
   getModelNo,
   getSerialNo,
   submitTicket,
-  getFilterSize
+  getFilterSize,
+  getAllEmployees
 } from "../redux/Actions/tickets";
+import AsyncStorage from "@react-native-community/async-storage";
+
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
     step: 2,
     type: 0,
+    user: "err",
+    aField: "accNo",
     error: false,
     // answers
     data: {},
     local: {
       progress: true,
       accSearch: [],
+      empSearch: [],
       applncType: [],
       manuf: [],
       airFilterSize: [],
@@ -48,18 +54,33 @@ class PADetailsScreen extends Component {
       BTUH: []
     }
   };
+  constructor(props) {
+    super(props);
+  }
   static navigationOptions = {
     header: null
   };
   state = this.defaultState;
-  constructor(props) {
-    super(props);
-  }
-  UNSAFE_componentWillReceiveProps(props, state) {
-    // console.log('R-Props : ', props, state);
-    this.setState({
-      data: { ...props.propane.ComprehensivePropaneInspection }
-    });
+  async UNSAFE_componentWillReceiveProps(props, state) {
+    console.log("R-Props : ", props, state);
+    props.data
+      ? await this.setState({
+          data: props.data
+        })
+      : await this.setState({
+          data: { ...props.propane.ComprehensivePropaneInspection }
+        });
+    getAccountDtls(null, props.data.accNo)
+      .then(res => {
+        this.setState({
+          local: {
+            ...this.state.local,
+            accNo: res[0].value
+          }
+        });
+        console.log("acc update", res);
+      })
+      .catch(err => console.log("acc update err ", err));
   }
   // UNSAFE_componentWillUpdate(props, state) {
   //   console.log("U-Props : ", props, state);
@@ -71,7 +92,12 @@ class PADetailsScreen extends Component {
       });
     }
   }
-  componentDidMount() {
+
+  async componentDidMount() {
+    console.log("PADetails Mounted");
+    this.setState({
+      user: await AsyncStorage.getItem("userType")
+    });
     if (
       _.isEmpty(this.state.local.manuf) &&
       !_.isUndefined(this.state.local.applncType)
@@ -129,10 +155,6 @@ class PADetailsScreen extends Component {
     );
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return this.shallowCompare(this, nextProps, nextState);
-  // }
-
   _progress() {
     let { step } = this.state;
     let progress = step / 11;
@@ -165,11 +187,10 @@ class PADetailsScreen extends Component {
     }
   }
   $accountNumber = () => {
-    let { accNo } = this.state.local;
+    let { accNo, allEmp } = this.state.local;
     let accountSearch = input => {
-      getAccountDtls(input)
+      getAccountDtls(input, null)
         .then(async res => {
-          // console.log(await res);
           this.setState({
             local: {
               ...this.state.local,
@@ -187,6 +208,26 @@ class PADetailsScreen extends Component {
         }
       });
     };
+    let employeeSearch = input => {
+      getAllEmployees(input)
+        .then(async res => {
+          this.setState({
+            local: {
+              ...this.state.local,
+              empSearch: await res
+            }
+          });
+        })
+        .catch(err => {
+          console.log("Error in emp", err);
+        });
+      this.setState({
+        local: {
+          ...this.state.local,
+          allEmp: input
+        }
+      });
+    };
     let activeThisValue = (input, id) => {
       this.setState({
         data: {
@@ -199,6 +240,37 @@ class PADetailsScreen extends Component {
         }
       });
     };
+    let activeEmpValue = (input, id) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          empId: id
+        },
+        local: {
+          ...this.state.local,
+          allEmp: input
+        }
+      });
+    };
+    let submitTicketNow = () => {
+      submitTicket(null, this.state.data)
+        .then(res => {
+          this.setState({
+            step: 11,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res, this.props);
+          this.props.onUpdate();
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
     return (
       <>
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
@@ -207,9 +279,11 @@ class PADetailsScreen extends Component {
             label="Account Number"
             mode="outlined"
             value={accNo}
+            onFocus={() => this.setState({ aField: "accNo" })}
             onChangeText={text => accountSearch(text)}
           />
-          {!_.isEmpty(this.state.local.accSearch) ? (
+          {!_.isEmpty(this.state.local.accSearch) &&
+          this.state.aField === "accNo" ? (
             <FlatList
               style={styles.accNumList}
               data={this.state.local.accSearch}
@@ -227,6 +301,36 @@ class PADetailsScreen extends Component {
           ) : (
             <View />
           )}
+          {this.props.type === "admin" && (
+            <>
+              <TextInput
+                label="All Employee"
+                mode="outlined"
+                value={allEmp}
+                onFocus={() => this.setState({ aField: "emp" })}
+                onChangeText={text => employeeSearch(text)}
+              />
+              {!_.isEmpty(this.state.local.empSearch) &&
+              this.state.aField === "emp" ? (
+                <FlatList
+                  style={styles.accNumList}
+                  data={this.state.local.empSearch}
+                  renderItem={({ item }) => {
+                    return (
+                      <List.Item
+                        title={item.value ? item.value : ""}
+                        onPress={() => activeEmpValue(item.value, item.id)}
+                        description={`${item.mobilenumber} - ${item.email}`}
+                      />
+                    );
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              ) : (
+                <View />
+              )}
+            </>
+          )}
         </Card.Content>
         <Card.Actions>
           {_.isEmpty(this.state.data.accNo) ? (
@@ -234,14 +338,27 @@ class PADetailsScreen extends Component {
               Add Any Account Detail and Select to
             </Subheading>
           ) : (
-            <Button
-              style={{ alignSelf: "flex-end" }}
-              onPress={() => this.setState({ step: 3 })}
-              mode="outlined"
-              icon="check"
-            >
-              {"Proceed"}
-            </Button>
+            <>
+              {this.props.type === "emp" ? (
+                <Button
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={() => this.setState({ step: 3 })}
+                  mode="outlined"
+                  icon="check"
+                >
+                  {"Proceed"}
+                </Button>
+              ) : (
+                <Button
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={() => submitTicketNow()}
+                  mode="outlined"
+                  icon="check"
+                >
+                  {"Submit Ticket"}
+                </Button>
+              )}
+            </>
           )}
         </Card.Actions>
       </>
@@ -298,7 +415,6 @@ class PADetailsScreen extends Component {
         }
       });
       let setData = (listType, data) => {
-        // console.log(listType, data);
         this.setState({
           ...this.state,
           local: {
@@ -427,15 +543,28 @@ class PADetailsScreen extends Component {
     );
   };
   $applianceChecks = () => {
-    let {
-      check1,
-      check2,
-      check3,
-      check4,
-      check5,
-      check6,
-      check7
-    } = this.state.data.propaneApplianceDetails.applianceNoCheckList;
+    let check1 = this.state.data.propaneApplianceDetails.applianceNoCheckList
+      .check1
+      ? this.state.data.propaneApplianceDetails.applianceNoCheckList.check1
+      : false;
+    let check2 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check2 &&
+      false;
+    let check3 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check3 &&
+      false;
+    let check4 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check4 &&
+      false;
+    let check5 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check5 &&
+      false;
+    let check6 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check6 &&
+      false;
+    let check7 =
+      this.state.data.propaneApplianceDetails.applianceNoCheckList.check7 &&
+      false;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -599,13 +728,16 @@ class PADetailsScreen extends Component {
     );
   };
   $propaneStorageDetails = () => {
-    let {
-      check1,
-      check2,
-      check3,
-      check4,
-      check5
-    } = this.state.data.propaneStorageDetails.checkList;
+    let check1 =
+      this.state.data.propaneStorageDetails.checkList.check1 && false;
+    let check2 =
+      this.state.data.propaneStorageDetails.checkList.check2 && false;
+    let check3 =
+      this.state.data.propaneStorageDetails.checkList.check3 && false;
+    let check4 =
+      this.state.data.propaneStorageDetails.checkList.check4 && false;
+    let check5 =
+      this.state.data.propaneStorageDetails.checkList.check5 && false;
 
     let validator = (type, value) => {
       this.setState({
@@ -893,17 +1025,23 @@ class PADetailsScreen extends Component {
     );
   };
   $regulatorInformation = () => {
-    let {
-      FST,
-      SND,
-      LGTWIN,
-      SMLTWIN
-    } = this.state.data.propaneStorageDetails.regulatorInformation.regulatorType;
-    let {
-      mainGasLineSize,
-      manuf
-    } = this.state.data.propaneStorageDetails.regulatorInformation;
-    let { CYL, Regulators } = this.state.data.propaneStorageDetails.clearances;
+    let FST = this.state.data.propaneStorageDetails.regulatorInformation
+      .regulatorType.FST;
+    let SND = this.state.data.propaneStorageDetails.regulatorInformation
+      .regulatorType.SND;
+    let LGTWIN = this.state.data.propaneStorageDetails.regulatorInformation
+      .regulatorType.LGTWIN;
+    let SMLTWIN = this.state.data.propaneStorageDetails.regulatorInformation
+      .regulatorType.SMLTWIN;
+
+    let mainGasLineSize = this.state.data.propaneStorageDetails
+      .regulatorInformation.mainGasLineSize;
+    let manuf = this.state.data.propaneStorageDetails.regulatorInformation
+      .manuf;
+
+    let CYL = this.state.data.propaneStorageDetails.clearances.CYL;
+    let Regulators = this.state.data.propaneStorageDetails.clearances
+      .Regulators;
     let regulatorTypeValidator = (type, value) => {
       this.setState({
         data: {
@@ -1487,12 +1625,23 @@ class PADetailsScreen extends Component {
     );
   };
   $pressureTagsExtra = () => {
-    let {
-      Notes,
-      techName,
-      signature,
-      certNo
-    } = this.state.data.propaneApplianceDetails.PressureTestTagInfo;
+    let Notes = this.state.data.propaneApplianceDetails.PressureTestTagInfo
+      .Notes
+      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.Notes
+      : "";
+    let techName = this.state.data.propaneApplianceDetails.PressureTestTagInfo
+      .techName
+      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.techName
+      : "";
+    let signature = this.state.data.propaneApplianceDetails.PressureTestTagInfo
+      .signature
+      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.signature
+      : "";
+    let certNo = this.state.data.propaneApplianceDetails.PressureTestTagInfo
+      .certNo
+      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.certNo
+      : "";
+
     let validator = (type, value) => {
       this.setState({
         data: {
