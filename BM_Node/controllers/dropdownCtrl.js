@@ -74,6 +74,8 @@ async function getAccDtlsDrop(req,res){
   var query={}
     if(req.body.accountNo){
         query={'accountNo':{"$regex":req.body.accountNo,"$options": "i"}}
+    }else if(req.body.cust_id){
+        query={'_id':req.body.cust_id}
     }else{
         query={}
     }
