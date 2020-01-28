@@ -68,7 +68,7 @@ const regulatorType = new mongoose.Schema({
     }
 })
 const regulatorInformation= new mongoose.Schema({
-    regulatorType:[regulatorType],
+    regulatorType:regulatorType,
     manuf:{
         type:String
     },
@@ -139,12 +139,12 @@ const clearanceArray = new mongoose.Schema({
     }
 })
 const clearances = new mongoose.Schema({
-    CYL:[clearanceArray],
-    Regulators:[clearanceArray]
+    CYL:clearanceArray,
+    Regulators:clearanceArray
 })
 
 const propaneStorageDetails = new mongoose.Schema({
-    checkList:[checkList],
+    checkList:checkList,
     serialNo:{
         type:String
     },
@@ -161,9 +161,9 @@ const propaneStorageDetails = new mongoose.Schema({
         type:String
     },
     
-    pressureRegulatorAndSupplySystemDetails:[pressureRegulatorAndSupplySystemDetails],
-    regulatorInformation:[regulatorInformation],
-    clearances:[clearances]
+    pressureRegulatorAndSupplySystemDetails:pressureRegulatorAndSupplySystemDetails,
+    regulatorInformation:regulatorInformation,
+    clearances:clearances
 })
 
 
@@ -217,7 +217,7 @@ const PressureTestTagInfo = new mongoose.Schema({
     tssaRegNo:{
         type:String
     },
-    testPressure:[testPressure],
+    testPressure:testPressure,
     licenseNoAndClass:{
         type:String
     }, 
@@ -254,8 +254,8 @@ const propaneApplianceDetails = new mongoose.Schema({
     airFilterSize:{
         type:String
     },
-    applianceNoCheckList:[applianceNoCheckList],
-    PressureTestTagInfo:[PressureTestTagInfo]
+    applianceNoCheckList:applianceNoCheckList,
+    PressureTestTagInfo:PressureTestTagInfo
 })
 
 
@@ -281,8 +281,8 @@ const PropaneSchema = new mongoose.Schema({
     status:{
         type:String
     },
-    propaneApplianceDetails:[propaneApplianceDetails],
-    propaneStorageDetails:[propaneStorageDetails]
+    propaneApplianceDetails:propaneApplianceDetails,
+    propaneStorageDetails:propaneStorageDetails
 })
 
 global[modelName] = mongoose.model(modelName,PropaneSchema);

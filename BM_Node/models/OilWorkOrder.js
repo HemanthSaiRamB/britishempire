@@ -97,10 +97,10 @@ const OilStorageDetails = new mongoose.Schema({
     currentLevel:{
         type:String
     },
-    ReasonForInspection:[ReasonForInspection],
-    TankLocation:[TankLocation],
-    InspectionCheckList:[InspectionCheckList],
-    TwoTankOilStorage:[TwoTankOilStorage]
+    ReasonForInspection:ReasonForInspection,
+    TankLocation:TankLocation,
+    InspectionCheckList:InspectionCheckList,
+    TwoTankOilStorage:TwoTankOilStorage
 })
 
 
@@ -273,9 +273,9 @@ const oilAppDtls = new mongoose.Schema({
     airFilterSize:{
         type:String
     },
-    combustionAnalysis:[combustionAnalysis],
-    oilFilter:[oilFilter],
-    maintainanceCheckList:[maintainanceCheckList]
+    combustionAnalysis:combustionAnalysis,
+    oilFilter:oilFilter,
+    maintainanceCheckList:maintainanceCheckList
 })
 
 const OilSchema = new mongoose.Schema({
@@ -298,7 +298,7 @@ const OilSchema = new mongoose.Schema({
     status:{
         type:String
     },
-    oilAppDtls:[oilAppDtls],
+    oilAppDtls:oilAppDtls,
     Notes:{
         type:String,
     },
@@ -311,7 +311,7 @@ const OilSchema = new mongoose.Schema({
     certNo:{
         type:String
     },
-    OilStorageDetails:[OilStorageDetails]
+    OilStorageDetails:OilStorageDetails
 })
 
 
