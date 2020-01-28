@@ -2,6 +2,7 @@ import { API } from "../../helpers/API";
 import AsyncStorage from "@react-native-community/async-storage";
 import Axios from "axios";
 import EndPoint from "../../API/endpoints";
+import { PROPANE, OIL } from "../actionTypes";
 const getAccess = async () => {
   const userToken = await AsyncStorage.getItem("userToken");
   console.log(userToken);

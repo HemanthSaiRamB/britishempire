@@ -63,14 +63,11 @@ class PADetailsScreen extends Component {
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
     console.log("R-Props : ", props, state);
-    props.data
-      ? await this.setState({
-          data: props.data
-        })
-      : await this.setState({
-          data: { ...props.propane.ComprehensivePropaneInspection }
-        });
-    getAccountDtls(null, props.data.accNo)
+    await this.setState({
+      data: { ...props.propane.ComprehensivePropaneInspection }
+    });
+    this.state.data.accNo &&
+    getAccountDtls(null, this.state.data.accNo)
       .then(res => {
         this.setState({
           local: {
@@ -82,9 +79,7 @@ class PADetailsScreen extends Component {
       })
       .catch(err => console.log("acc update err ", err));
   }
-  // UNSAFE_componentWillUpdate(props, state) {
-  //   console.log("U-Props : ", props, state);
-  // }
+  
   componentWillMount() {
     if (this.props.reset) {
       this.setState({
@@ -208,6 +203,7 @@ class PADetailsScreen extends Component {
         }
       });
     };
+
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -364,30 +360,6 @@ class PADetailsScreen extends Component {
       </>
     );
   };
-  // $ticketType = () => {
-  //   return (
-  //     <>
-  //       <Title style={{alignSelf: 'center'}}>{'Appliance Type'}</Title>
-  //       <Card>
-  //         <Card.Content
-  //           style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-  //           <Button
-  //             mode="contained"
-  //             onPress={() => this.setState({step: 2, type: 1})}
-  //             style={{fontSize: 50}}>
-  //             Propane
-  //           </Button>
-  //           <Button
-  //             mode="contained"
-  //             onPress={() => this.setState({step: 2, type: 2})}
-  //             style={{fontSize: 50}}>
-  //             Oil
-  //           </Button>
-  //         </Card.Content>
-  //       </Card>
-  //     </>
-  //   );
-  // };
   $loading = () => {
     return <ActivityIndicator animating={true} color={Colors.red800} />;
   };
@@ -543,28 +515,16 @@ class PADetailsScreen extends Component {
     );
   };
   $applianceChecks = () => {
-    let check1 = this.state.data.propaneApplianceDetails.applianceNoCheckList
-      .check1
-      ? this.state.data.propaneApplianceDetails.applianceNoCheckList.check1
-      : false;
-    let check2 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check2 &&
-      false;
-    let check3 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check3 &&
-      false;
-    let check4 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check4 &&
-      false;
-    let check5 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check5 &&
-      false;
-    let check6 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check6 &&
-      false;
-    let check7 =
-      this.state.data.propaneApplianceDetails.applianceNoCheckList.check7 &&
-      false;
+    let {
+      check1,
+      check2,
+      check3,
+      check4,
+      check5,
+      check6,
+      check7
+    } = this.state.data.propaneApplianceDetails.applianceNoCheckList;
+    
     let validator = (type, value) => {
       this.setState({
         data: {

@@ -8,8 +8,15 @@ import { PADetails } from "./PADetails";
 import { logoutAction } from "../redux/Actions/user";
 import { OADetails } from "./OADetails";
 import AsyncStorage from "@react-native-community/async-storage";
-import { getCount, getWorkOrder } from "../redux/Actions/tickets";
-export default class HomeScreen extends Component {
+import { connect } from "react-redux";
+import {
+  getCount,
+  getWorkOrder,
+  addPropaneAppliance,
+  addOilAppliance
+} from "../redux/Actions/tickets";
+import { PROPANE, OIL } from "../redux/actionTypes";
+class Home extends Component {
   state = {
     raiseTicket: false,
     visible: false,
@@ -24,6 +31,10 @@ export default class HomeScreen extends Component {
     todo: 0,
     Details: 0
   };
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
   static navigationOptions = {
     header: null
   };
@@ -96,12 +107,21 @@ export default class HomeScreen extends Component {
   updateCall = async () => {
     await this.getStatusData();
   };
-  openActiveItem = index => {
+  openActiveItem(index) {
+    let { addPropane, addOil } = this.props;
+    console.log(this.props);
+    function action(number, data){
+      if(number === 1){
+        addPropane(data)
+      }else {
+        addOil(data)
+      }
+      return number;
+    }
     let order = this.state.list[index]["workOrderId"];
-    let details = new String(order).charAt(0) === "P" ? 1 : 2;
+    let details = new String(order).charAt(0) === "P" ? action(1, this.state.list[index]) : action(2, this.state.list[index]);
     this.setState({ activeItem: index, Details: details });
-    this.showMenu();
-  };
+  }
   showMenu = () => this.setState({ raiseTicket: true });
   render() {
     return (
@@ -119,7 +139,6 @@ export default class HomeScreen extends Component {
           <PADetails
             visible={this.state.Details === 1}
             type={this.state.type}
-            data={this.state.list[this.state.activeItem]}
             onUpdate={this.updateCall}
             reset={this.state.propaneReset}
             hideModal={this.hideMenu}
@@ -195,6 +214,19 @@ export default class HomeScreen extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => ({
+  addPropane: data => dispatch({ type: PROPANE, data }),
+  addOil: data => dispatch({ type: OIL, data })
+});
+
+const HomeScreen = connect(null, mapDispatchToProps)(Home);
+
+export default HomeScreen;
+
 const styles = StyleSheet.create({
   fab: {
     position: "absolute",
@@ -203,4 +235,3 @@ const styles = StyleSheet.create({
     bottom: 0
   }
 });
-
