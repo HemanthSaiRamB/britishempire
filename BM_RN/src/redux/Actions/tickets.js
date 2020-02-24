@@ -98,7 +98,6 @@ export const getAccountDtls = async (accountNo, id) => {
 export const getApplianceType = async () => {
   try {
     const res = await API.post("drop/applncDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
 
     return await res.data;
