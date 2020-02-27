@@ -6,12 +6,13 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const app = express()
+const cors = require('cors')
 // const fs = require('fs');
 
 
 
 // Bodyparser
-
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json({ type: 'application/json' }))
 
