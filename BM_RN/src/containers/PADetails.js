@@ -274,7 +274,7 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket(null, this.state.data)
+      submitTicket("propane",null, this.state.data)
         .then(res => {
           this.setState({
             step: 12,
@@ -346,7 +346,7 @@ class PADetailsScreen extends Component {
                 label="All Employee"
                 mode="outlined"
                 disabled={isDisabled}
-                value={empName}
+                value={empId}
                 onFocus={() => this.setState({ aField: "emp" })}
                 onChangeText={text => employeeSearch(text)}
               />
@@ -1637,7 +1637,7 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket(null, this.state.data)
+      submitTicket("propane",null, this.state.data)
         .then(res => {
           this.setState({
             step: 12,

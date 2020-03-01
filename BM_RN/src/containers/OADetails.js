@@ -29,10 +29,13 @@ import {
   getSerialNo,
   submitTicket,
   getNozzleNo,
+  getAllEmployees,
   getFilterSize,
   getCapacity,
-  getcurrentLevel
+  getcurrentLevel,
+  getEmpDetails
 } from "../redux/Actions/tickets";
+import AsyncStorage from "@react-native-community/async-storage";
 
 class OADetailsScreen extends Component {
   defaultState = {
@@ -40,12 +43,15 @@ class OADetailsScreen extends Component {
     step: 1,
     type: 0,
     error: false,
+    aField: "accNo",
     // answers
     data: {},
     local: {
       accSearch: [],
+      empSearch: [],
       applncType: [],
       manuf: [],
+      isDisabled: false,
       airFilterSize: [],
       serialNo: [],
       modelNo: [],
@@ -62,17 +68,21 @@ class OADetailsScreen extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
+  async componentDidMount() {
+    console.log("OADetails Mounted");
+    this.setState({
+      user: await AsyncStorage.getItem("userType")
+    });
     if (
-      _.isEmpty(this.state.local.manuf) &&
-      !_.isUndefined(this.state.local.applncType)
+      _.isEmpty(this?.state?.local?.manuf) &&
+      !_.isUndefined(this?.state?.local?.applncType)
     ) {
       getApplianceType()
         .then(res => {
-          console.log("RES : ", res);
+          console.log("RES APPLIANCE : ", res);
           this.setState({
             local: {
-              ...this.state.local,
+              ...this?.state?.local,
               applncType: res
             }
           });
@@ -85,18 +95,49 @@ class OADetailsScreen extends Component {
   UNSAFE_componentWillReceiveProps(props, state) {
     console.log("R-Props : ", props, state);
     this.setState({
-      data: { ...props.oil.ComprehensiveOilInspection }
+      data: { ...props.oil.ComprehensiveOilInspection },
+      local: {
+        ...this.state.local,
+        isDisabled:
+          props?.oil?.ComprehensiveOilInspection.status == "completed"
+            ? true
+            : false
+      }
     });
+    this.state.data.accNo &&
+      getAccountDtls(null, this.state.data.accNo)
+        .then(res => {
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              accNo: res[0]?.value
+            }
+          });
+          console.log("acc update", res);
+        })
+        .catch(err => console.log("acc update err ", err));
+    this.state.data.empId &&
+      getEmpDetails(this.state.data.empId)
+        .then(res => {
+          console.log("emp update", res);
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              empName: res.name
+            }
+          });
+        })
+        .catch(err => console.log("emp update err ", err));
   }
   $loading = () => {
     return <ActivityIndicator animating={true} color={Colors.red800} />;
   };
   $accountNumber = () => {
-    let { accNo } = this.state.local;
+    let { accNo, empId, empName, isDisabled } = this?.state?.local;
+    let { priority, comment } = this?.state?.data;
     let accountSearch = input => {
-      getAccountDtls(input)
+      getAccountDtls(input, null)
         .then(async res => {
-          // console.log(await res);
           this.setState({
             local: {
               ...this.state.local,
@@ -114,6 +155,28 @@ class OADetailsScreen extends Component {
         }
       });
     };
+
+    let employeeSearch = input => {
+      getAllEmployees(input)
+        .then(async res => {
+          this.setState({
+            local: {
+              ...this.state.local,
+              empSearch: await res
+            }
+          });
+        })
+        .catch(err => {
+          console.log("Error in emp", err);
+        });
+      this.setState({
+        local: {
+          ...this.state.local,
+          empId: input,
+          empName: input
+        }
+      });
+    };
     let activeThisValue = (input, id) => {
       this.setState({
         data: {
@@ -126,6 +189,48 @@ class OADetailsScreen extends Component {
         }
       });
     };
+    let activeEmpValue = (input, id) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          empId: id
+        },
+        local: {
+          ...this.state.local,
+          empId: input
+        }
+      });
+    };
+    let submitTicketNow = () => {
+      submitTicket("oil", null, this.state.data)
+        .then(res => {
+          this.setState({
+            step: 10,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
+    let getPriority = () => {
+      var prior = priority;
+      return prior + " Priority";
+    };
+    let setComPriority = (type, value) => {
+      this.setState({
+        data: {
+          ...this?.state?.data,
+          [type]: value
+        }
+      });
+    };
     return (
       <>
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
@@ -133,26 +238,80 @@ class OADetailsScreen extends Component {
           <TextInput
             label="Account Number"
             mode="outlined"
+            disabled={isDisabled}
             value={accNo}
+            onFocus={() => this.setState({ aField: "accNo" })}
             onChangeText={text => accountSearch(text)}
           />
-          {!_.isEmpty(this.state.local.accSearch) ? (
+          {!_.isEmpty(this?.state?.local?.accSearch) &&
+          this?.state?.aField === "accNo" ? (
             <FlatList
-              style={styles.accNumList}
-              data={this.state.local.accSearch}
+              style={styles?.accNumList}
+              data={this?.state?.local?.accSearch}
               renderItem={({ item }) => {
                 return (
                   <List.Item
-                    title={item.value ? item.value : ""}
-                    onPress={() => activeThisValue(item.value, item.id)}
+                    title={item?.value ? item?.value : ""}
+                    onPress={() => activeThisValue(item?.value, item?.id)}
                     description={`${item.name} - ${item.address}`}
                   />
                 );
               }}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item, index) => index?.toString()}
             />
           ) : (
             <View />
+          )}
+          {this?.props?.type === "admin" && (
+            <>
+              <TextInput
+                label="All Employee"
+                mode="outlined"
+                disabled={isDisabled}
+                value={empId}
+                onFocus={() => this.setState({ aField: "emp" })}
+                onChangeText={text => employeeSearch(text)}
+              />
+              {!_.isEmpty(this.state.local.empSearch) &&
+              this.state.aField === "emp" ? (
+                <FlatList
+                  style={styles.accNumList}
+                  data={this.state.local.empSearch}
+                  renderItem={({ item }) => {
+                    return (
+                      <List.Item
+                        title={item.value ? item.value : ""}
+                        onPress={() => activeEmpValue(item.value, item.id)}
+                        description={`${item.mobilenumber} - ${item.email}`}
+                      />
+                    );
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              ) : (
+                <View />
+              )}
+              <TextInput
+                label="Comment"
+                mode="outlined"
+                multiline
+                disabled={isDisabled}
+                numberOfLines={3}
+                value={comment}
+                onChangeText={text => setComPriority("comment", text)}
+              />
+              <Dropdown
+                value={priority}
+                title={"Application Priority"}
+                disabled={isDisabled}
+                onChangeText={val => setComPriority("priority", val)}
+                data={[
+                  { id: "Low", value: "Low" },
+                  { id: "Medium", value: "Medium" },
+                  { id: "High", value: "High" }
+                ]}
+              />
+            </>
           )}
         </Card.Content>
         <Card.Actions>
@@ -161,14 +320,27 @@ class OADetailsScreen extends Component {
               Add Any Account Detail and Select to
             </Subheading>
           ) : (
-            <Button
-              style={{ alignSelf: "flex-end" }}
-              onPress={() => this.setState({ step: 2 })}
-              mode="outlined"
-              icon="check"
-            >
-              {"Proceed"}
-            </Button>
+            <>
+              {this.props.type === "emp" ? (
+                <Button
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={() => this.setState({ step: 3 })}
+                  mode="outlined"
+                  icon="check"
+                >
+                  {"Proceed"}
+                </Button>
+              ) : (
+                <Button
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={() => submitTicketNow()}
+                  mode="outlined"
+                  icon="check"
+                >
+                  {"Submit Ticket"}
+                </Button>
+              )}
+            </>
           )}
         </Card.Actions>
       </>
@@ -1016,7 +1188,7 @@ class OADetailsScreen extends Component {
       check8,
       check9
     } = this.state.data.OilStorageDetails.InspectionCheckList;
-    let {error} = this.state;
+    let { error } = this.state;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -1234,9 +1406,9 @@ class OADetailsScreen extends Component {
         }
       });
     };
-    let {error} = this.state;
+    let { error } = this.state;
     let submitTicketNow = () => {
-      submitTicket(null, this.state.data)
+      submitTicket("oil", null, this.state.data)
         .then(res => {
           this.setState({
             step: 10,
@@ -1258,7 +1430,7 @@ class OADetailsScreen extends Component {
         <Title style={{ alignSelf: "center" }}>{"Two Tank Oil Storage"}</Title>
         <Card>
           <Card.Content>
-          <View
+            <View
               style={{
                 flexDirection: "row",
                 paddingHorizontal: scale(1),
@@ -1267,7 +1439,7 @@ class OADetailsScreen extends Component {
             >
               <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
                 {
-                  "TANKS JOINED AT BOTTOM WITH 2\" \nPIPE - TWO SEPARATE FILL ALARMS & SHUT OFFS, \nCOMMON PAD, ETC."
+                  'TANKS JOINED AT BOTTOM WITH 2" \nPIPE - TWO SEPARATE FILL ALARMS & SHUT OFFS, \nCOMMON PAD, ETC.'
                 }
               </Subheading>
               <Switch

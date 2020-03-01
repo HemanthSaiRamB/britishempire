@@ -225,19 +225,29 @@ export const getNozzleNo = async () => {
   }
 };
 
-export const submitTicket = async (id, data) => {
+export const submitTicket = async (type, id, data) => {
   try {
     console.log("RECEIVED DATA: ", data);
-    let body = {
+    let propane = {
       ComprehensivePropaneInspection: {
         ...data,
+        createdBy: await AsyncStorage.getItem('userId') ? await AsyncStorage.getItem('userId') : "",
         date: "1"
       }
     };
+    let oil = {
+      ComprehensiveOilInspection:{
+        ...data,
+        createdBy: await AsyncStorage.getItem('userId') ? await AsyncStorage.getItem('userId') : "",
+        date: "1"
+      }
+    }
+    let body = (type === "propane") ? propane : oil;
+
     if (id != null) {
       body.ComprehensivePropaneInspection._id = id;
     }
-    const res = await API.post("work/propane", body, {
+    const res = await API.post("work/"+ type, body, {
       headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
     console.log(res);
