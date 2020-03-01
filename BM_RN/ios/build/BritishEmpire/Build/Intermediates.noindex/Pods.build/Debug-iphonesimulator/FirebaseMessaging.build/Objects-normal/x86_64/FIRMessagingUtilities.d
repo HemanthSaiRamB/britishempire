@@ -1,0 +1,36 @@
+dependencies: \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingUtilities.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingUtilities.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseMessaging/Firebase/Messaging/Protos/GtalkCore.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBProtocolBuffers.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBBootstrap.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBArray.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBRuntimeTypes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBCodedInputStream.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBCodedOutputStream.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBWireFormat.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBDescriptor.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBDictionary.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBExtensionRegistry.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBMessage.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBRootObject.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBUnknownField.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBUnknownFieldSet.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBUtilities.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/Protobuf/GPBWellKnownTypes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Any.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/GPBDescriptor.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/GPBMessage.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/GPBRootObject.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Duration.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Timestamp.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Api.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Empty.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/FieldMask.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/SourceContext.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Struct.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Type.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/protobuf/Wrappers.pbobjc.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingLogger.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMMessageCode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Private/GoogleUtilities/GULAppEnvironmentUtil.h

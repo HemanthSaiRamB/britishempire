@@ -9,7 +9,7 @@ const getAccess = async () => {
   return JSON.parse(userToken);
 };
 
-export const getWorkOrder = async (type, state) => {
+export const getWorkOrder = async (type, state, id) => {
   try {
     let onlyEmp = {
       empId: await AsyncStorage.getItem("userId")
@@ -38,6 +38,23 @@ export const getWorkOrder = async (type, state) => {
     console.log("error", e);
   }
 };
+
+export const getSingleWorkOrder = async (type, id) => {
+  try {
+    let body = {
+      _id: id
+    };
+    const res = await API.post(EndPoint.getWorkOrder + type,body,
+      {
+        headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      }
+    );
+    console.log("getWorkOrder", res.data);
+    return await res.data;
+  } catch (e) {
+    console.log("error", e);
+  }
+}
 
 export const getAllEmployees = async type => {
   try {
@@ -98,6 +115,7 @@ export const getAccountDtls = async (accountNo, id) => {
 export const getApplianceType = async () => {
   try {
     const res = await API.post("drop/applncDropDown", [], {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
 
     return await res.data;
@@ -105,6 +123,20 @@ export const getApplianceType = async () => {
     console.log("error", e);
   }
 };
+
+export const getEmpDetails = async empId => {
+  try {
+    var body = {
+      _id: empId
+    };
+    const res = await API.post("drop/getEmpDetails", body, {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+    });
+    return await res.data;
+  } catch (e) {
+    console.log("error");
+  }
+}
 
 export const getManufacturer = async applncId => {
   try {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>B6F1EE2C-6329-4D20-8CE9-CCF39DDFA368</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B6F1EE2C-6329-4D20-8CE9-CCF39DDFA368.xcactivitylog</string>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BritishEmpire project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BritishEmpire</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>599978147.52323103</real>
+			<key>timeStoppedRecording</key>
+			<real>599978149.30703998</real>
+			<key>title</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>B6F1EE2C-6329-4D20-8CE9-CCF39DDFA368</string>
+		</dict>
+		<key>E50EAB38-AD17-4A3A-A2A2-C05385FB91DF</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>E50EAB38-AD17-4A3A-A2A2-C05385FB91DF.xcactivitylog</string>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BritishEmpire project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BritishEmpire</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>604780056.530146</real>
+			<key>timeStoppedRecording</key>
+			<real>604780061.24668002</real>
+			<key>title</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>E50EAB38-AD17-4A3A-A2A2-C05385FB91DF</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

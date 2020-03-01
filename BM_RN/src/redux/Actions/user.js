@@ -2,21 +2,21 @@ import * as types from '../actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import {navigate} from '../../helpers/navigation';
 import {API} from '../../helpers/API';
-const LOGIN = (email, pswd) =>
+const LOGIN = (email, pswd, token) =>
   API.post('users/login', {
     email: email,
     password: pswd,
+    cloudToken: token
   });
-export const loginAction = (email = '', pswd = '', error) => {
-  // return dispatch => {
-  // dispatch(LOGIN_PENDING());
-  LOGIN(email, pswd)
+export const loginAction = (email = '', pswd = '', error, token) => {
+  console.log("FCM Token : ", token);
+  LOGIN(email, pswd, token)
     .then(async res => {
       console.log(res);
       res
         ? res.data
           ? res.data.success === true
-            ? loginAct(res.data.token, res.data.usertype, res.data.id)
+            ? loginAct(res.data.token, res.data.usertype, res.data.id, token)
             : []
           : []
         : [];
@@ -32,10 +32,11 @@ export let logoutAction = async () => {
   await AsyncStorage.clear();
   navigate('Auth', {});
 };
-let loginAct = async (text,type,id) => {
+let loginAct = async (text, type, id, token) => {
   await AsyncStorage.setItem('userToken', text);
   await AsyncStorage.setItem('userType', type);
   await AsyncStorage.setItem('userId', id);
+  await AsyncStorage.setItem('fcmToken', token);
   navigate('App', {'type': type});
 };
 export const registerAction = (data, error) => {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'https://britishempire.herokuapp.com/';
+const BASE_URL = 'https://bd41243b.ngrok.io';
 
 export const API = axios.create({
   baseURL: BASE_URL,

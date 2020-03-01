@@ -8,16 +8,78 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {loginAction} from '../redux/Actions/user';
 import {Header} from '../components/Header';
 import {connect} from 'react-redux';
+import firebase from 'react-native-firebase';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
     error: '',
+    token: ''
   };
   static navigationOptions = {
     header: null,
   };
+  getToken = async () => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+      fcmToken = await firebase.messaging().getToken();
+      if (fcmToken) {
+        this.setState({
+          token: fcmToken
+        });
+      }
+    }
+  };
+  
+  checkPermission = async () => {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      this.getToken();
+    } else {
+      this.requestPermission();
+    }
+  };
+
+  requestPermission = async () => {
+    try {
+      await firebase.messaging().requestPermission();
+      this.getToken();
+    } catch (error) {
+      console.log('permission rejected');
+    }
+  };
+
+  createNotificationListeners = () => {
+    this.onUnsubscribeNotificaitonListener = firebase
+      .notifications()
+      .onNotification(notification => {
+        firebase.notifications().displayNotification(notification);
+      });
+  };
+
+  removeNotificationListeners = () => {
+    this.onUnsubscribeNotificaitonListener();
+  };
+
+  componentDidMount() {
+    // Build a channel
+    const channel = new firebase.notifications.Android.Channel(
+      'BEF_DUMPING',
+      'BEF_DUMPING',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('BEF_DUMPING channel for every user');
+
+    // Create the channel
+    firebase.notifications().android.createChannel(channel);
+    this.checkPermission();
+    this.createNotificationListeners();
+  }
+
+  componentWillUnmount() {
+    this.removeNotificationListeners();
+  }
+
   updateField = (type, text) => this.setState({[type]: text, error: ''});
   constructor(props) {
     super(props);
@@ -25,7 +87,7 @@ class Login extends Component {
   error = data => {
     this.setState({
       error: data,
-    });
+    }); 
   };
   render() {
     return (
@@ -71,6 +133,7 @@ class Login extends Component {
                     this.state.email,
                     this.state.password,
                     this.error,
+                    this.state.token
                   );
                   this.setState({loading: true});
                 }}>

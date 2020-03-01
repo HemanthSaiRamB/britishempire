@@ -13,10 +13,11 @@ import {
   Switch,
   IconButton,
   Subheading,
+  RadioButton,
   List
 } from "react-native-paper";
 import { scale, verticalScale, moderateScale } from "../helpers/scaler";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import _ from "lodash";
@@ -29,14 +30,15 @@ import {
   getSerialNo,
   submitTicket,
   getFilterSize,
-  getAllEmployees
+  getAllEmployees,
+  getEmpDetails
 } from "../redux/Actions/tickets";
 import AsyncStorage from "@react-native-community/async-storage";
 
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
-    step: 11,
+    step: 2,
     type: 0,
     user: "err",
     aField: "accNo",
@@ -48,6 +50,7 @@ class PADetailsScreen extends Component {
       accSearch: [],
       empSearch: [],
       applncType: [],
+      isDisabled: false,
       manuf: [],
       airFilterSize: [],
       serialNo: [],
@@ -65,7 +68,14 @@ class PADetailsScreen extends Component {
   async UNSAFE_componentWillReceiveProps(props, state) {
     console.log("R-Props : ", props, state);
     await this.setState({
-      data: { ...props?.propane?.ComprehensivePropaneInspection }
+      data: { ...props?.propane?.ComprehensivePropaneInspection },
+      local: {
+        ...this.state.local,
+        isDisabled:
+          props?.propane?.ComprehensivePropaneInspection.status == "completed"
+            ? true
+            : false
+      }
     });
     this.state.data.accNo &&
       getAccountDtls(null, this.state.data.accNo)
@@ -79,6 +89,18 @@ class PADetailsScreen extends Component {
           console.log("acc update", res);
         })
         .catch(err => console.log("acc update err ", err));
+    this.state.data.empId &&
+      getEmpDetails(this.state.data.empId)
+        .then(res => {
+          console.log("emp update", res);
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              empName: res.name
+            }
+          });
+        })
+        .catch(err => console.log("emp update err ", err));
   }
 
   componentWillMount() {
@@ -100,7 +122,7 @@ class PADetailsScreen extends Component {
     ) {
       getApplianceType()
         .then(res => {
-          console.log("RES : ", res);
+          console.log("RES APPLIANCE : ", res);
           this.setState({
             local: {
               ...this?.state?.local,
@@ -183,7 +205,8 @@ class PADetailsScreen extends Component {
     }
   }
   $accountNumber = () => {
-    let { accNo, allEmp } = this.state.local;
+    let { accNo, empId, empName, isDisabled } = this?.state?.local;
+    let { priority, comment } = this?.state?.data;
     let accountSearch = input => {
       getAccountDtls(input, null)
         .then(async res => {
@@ -221,7 +244,8 @@ class PADetailsScreen extends Component {
       this.setState({
         local: {
           ...this.state.local,
-          allEmp: input
+          empId: input,
+          empName: input
         }
       });
     };
@@ -245,7 +269,7 @@ class PADetailsScreen extends Component {
         },
         local: {
           ...this.state.local,
-          allEmp: input
+          empId: input
         }
       });
     };
@@ -253,7 +277,7 @@ class PADetailsScreen extends Component {
       submitTicket(null, this.state.data)
         .then(res => {
           this.setState({
-            step: 11,
+            step: 12,
             local: {
               ...this.state.local,
               progress: false,
@@ -269,21 +293,16 @@ class PADetailsScreen extends Component {
         });
     };
     let getPriority = () => {
-      var prior = "Low";
-      switch (this?.data?.prior) {
-        case 2:
-          prior = "High";
-          break;
-        case 1:
-          prior = "Moderate";
-          break;
-        case 0:
-          prior = "Low";
-          break;
-        default:
-          break;
-      }
+      var prior = priority;
       return prior + " Priority";
+    };
+    let setComPriority = (type, value) => {
+      this.setState({
+        data: {
+          ...this?.state?.data,
+          [type]: value
+        }
+      });
     };
     return (
       <>
@@ -297,6 +316,7 @@ class PADetailsScreen extends Component {
           <TextInput
             label="Account Number"
             mode="outlined"
+            disabled={isDisabled}
             value={accNo}
             onFocus={() => this.setState({ aField: "accNo" })}
             onChangeText={text => accountSearch(text)}
@@ -325,7 +345,8 @@ class PADetailsScreen extends Component {
               <TextInput
                 label="All Employee"
                 mode="outlined"
-                value={allEmp}
+                disabled={isDisabled}
+                value={empName}
                 onFocus={() => this.setState({ aField: "emp" })}
                 onChangeText={text => employeeSearch(text)}
               />
@@ -352,9 +373,21 @@ class PADetailsScreen extends Component {
                 label="Comment"
                 mode="outlined"
                 multiline
+                disabled={isDisabled}
                 numberOfLines={3}
-                value={this.state.text}
-                onChangeText={text => this.setState({ text })}
+                value={comment}
+                onChangeText={text => setComPriority("comment", text)}
+              />
+              <Dropdown
+                value={priority}
+                title={"Application Priority"}
+                disabled={isDisabled}
+                onChangeText={val => setComPriority("priority", val)}
+                data={[
+                  { id: "Low", value: "Low" },
+                  { id: "Medium", value: "Medium" },
+                  { id: "High", value: "High" }
+                ]}
               />
             </>
           )}
@@ -403,11 +436,12 @@ class PADetailsScreen extends Component {
       BTUH,
       airFilterSize
     } = this.state.data.propaneApplianceDetails;
-
+    let { isDisabled } = this.state.local;
     let { error } = this.state;
     let update = async (type, i, data) => {
-      // console.log(JSON.stringify(data));
-      let _id = data[i].id ? data[i].id : "";
+      console.log(JSON.stringify(data));
+      let _id = data[i] ? data[i] : "";
+      console.log("ID of : ",_id);
       this.setState({
         data: {
           ...this.state.data,
@@ -418,6 +452,7 @@ class PADetailsScreen extends Component {
         }
       });
       let setData = (listType, data) => {
+        console.log("RESSSS : ",listType, data);
         this.setState({
           ...this.state,
           local: {
@@ -476,7 +511,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Appliance Type"
-                value={!_.isUndefined(applncType) ? applncType : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(applncType.value) ? applncType.value : ""}
                 onChangeText={(value, index, data) =>
                   update("applncType", index, data)
                 }
@@ -485,7 +521,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
-                value={!_.isUndefined(manuf) ? manuf : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
                 }
@@ -494,7 +531,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Modal No."
-                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
                 }
@@ -503,7 +541,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No."
-                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
                 }
@@ -512,7 +551,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="BTU/H"
-                value={!_.isUndefined(BTUH) ? BTUH : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(BTUH.value) ? BTUH.value : ""}
                 onChangeText={(value, index, data) =>
                   update("BTUH", index, data)
                 }
@@ -521,7 +561,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
-                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""}
                 onChangeText={(value, index, data) =>
                   update("airFilterSize", index, data)
                 }
@@ -554,8 +595,8 @@ class PADetailsScreen extends Component {
       check5,
       check6,
       check7
-    } = this.state.data.propaneApplianceDetails.applianceNoCheckList;
-
+    } = this?.state?.data?.propaneApplianceDetails?.applianceNoCheckList;
+    let { isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -592,6 +633,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -610,6 +652,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -628,6 +671,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check3}
+                disabled={isDisabled}
                 onValueChange={() => validator("check3", !check3)}
               />
             </View>
@@ -646,6 +690,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check4}
+                disabled={isDisabled}
                 onValueChange={() => validator("check4", !check4)}
               />
             </View>
@@ -664,6 +709,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check5}
+                disabled={isDisabled}
                 onValueChange={() => validator("check5", !check5)}
               />
             </View>
@@ -682,6 +728,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check6}
+                disabled={isDisabled}
                 onValueChange={() => validator("check6", !check6)}
               />
             </View>
@@ -700,6 +747,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check7}
+                disabled={isDisabled}
                 onValueChange={() => validator("check7", !check7)}
               />
             </View>
@@ -719,25 +767,28 @@ class PADetailsScreen extends Component {
     );
   };
   $propaneStorageDetails = () => {
-    let check1 =
-      this.state.data.propaneStorageDetails.checkList.check1 && false;
-    let check2 =
-      this.state.data.propaneStorageDetails.checkList.check2 && false;
-    let check3 =
-      this.state.data.propaneStorageDetails.checkList.check3 && false;
-    let check4 =
-      this.state.data.propaneStorageDetails.checkList.check4 && false;
-    let check5 =
-      this.state.data.propaneStorageDetails.checkList.check5 && false;
+    let {
+      check1,
+      check2,
+      check3,
+      check4,
+      check5
+    } = this?.state?.data?.propaneStorageDetails?.checkList;
+    let { isDisabled } = this.state.local;
 
     let validator = (type, value) => {
+      console.log("values is : ", { [type]: value });
+      console.log(
+        "value: ",
+        this?.state?.data?.propaneStorageDetails?.checkList[type]
+      );
       this.setState({
         data: {
-          ...this.state.data,
+          ...this?.state?.data,
           propaneStorageDetails: {
-            ...this.state.data.propaneStorageDetails,
+            ...this?.state?.data?.propaneStorageDetails,
             checkList: {
-              ...this.state.data.propaneStorageDetails.checkList,
+              ...this?.state?.data?.propaneStorageDetails?.checkList,
               [type]: value
             }
           }
@@ -770,6 +821,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -788,6 +840,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -806,6 +859,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check3}
+                disabled={isDisabled}
                 onValueChange={() => validator("check3", !check3)}
               />
             </View>
@@ -822,6 +876,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check4}
+                disabled={isDisabled}
                 onValueChange={() => validator("check4", !check4)}
               />
             </View>
@@ -840,6 +895,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check5}
+                disabled={isDisabled}
                 onValueChange={() => validator("check5", !check5)}
               />
             </View>
@@ -865,13 +921,15 @@ class PADetailsScreen extends Component {
       tank,
       manufacturer,
       reconDate
-    } = this.state.data.propaneStorageDetails;
+    } = this?.state?.data?.propaneStorageDetails;
+    let { isDisabled } = this.state.local;
+
     let validator = (type, value) => {
       this.setState({
         data: {
-          ...this.state.data,
+          ...this?.state?.data,
           propaneStorageDetails: {
-            ...this.state.data.propaneStorageDetails,
+            ...this?.state?.data?.propaneStorageDetails,
             [type]: value
           }
         }
@@ -891,6 +949,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="SERIAL No"
               mode="outlined"
+              disabled={isDisabled}
               value={serialNo}
               onChangeText={text => validator("serialNo", text)}
             />
@@ -898,6 +957,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="CYLINDER"
               mode="outlined"
+              disabled={isDisabled}
               value={cylinder}
               onChangeText={text => validator("cylinder", text)}
             />
@@ -905,6 +965,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TANK"
               mode="outlined"
+              disabled={isDisabled}
               value={tank}
               onChangeText={text => validator("tank", text)}
             />
@@ -912,6 +973,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MANUFACTURER"
               mode="outlined"
+              disabled={isDisabled}
               value={manufacturer}
               onChangeText={text => validator("manufacturer", text)}
             />
@@ -919,6 +981,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="DATE/RECON DATE"
               mode="outlined"
+              disabled={isDisabled}
               value={reconDate}
               onChangeText={text => validator("reconDate", text)}
             />
@@ -942,6 +1005,8 @@ class PADetailsScreen extends Component {
       check1,
       check2
     } = this.state?.data?.propaneStorageDetails?.pressureRegulatorAndSupplySystemDetails;
+    let { isDisabled } = this.state.local;
+
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -979,6 +1044,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -997,6 +1063,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -1016,34 +1083,35 @@ class PADetailsScreen extends Component {
     );
   };
   $regulatorInformation = () => {
-    let FST = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.FST;
-    let SND = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.SND;
-    let LGTWIN = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.LGTWIN;
-    let SMLTWIN = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.SMLTWIN;
+    let {
+      FST,
+      SND,
+      LGTWIN,
+      SMLTWIN
+    } = this?.state?.data?.propaneStorageDetails?.regulatorInformation?.regulatorType;
 
-    let mainGasLineSize = this.state.data.propaneStorageDetails
-      .regulatorInformation.mainGasLineSize;
-    let manuf = this.state.data.propaneStorageDetails.regulatorInformation
-      .manuf;
+    let {
+      mainGasLineSize,
+      manuf
+    } = this?.state?.data?.propaneStorageDetails?.regulatorInformation;
 
-    let CYL = this.state.data.propaneStorageDetails.clearances.CYL;
-    let Regulators = this.state.data.propaneStorageDetails.clearances
-      .Regulators;
+    let {
+      CYL,
+      Regulators
+    } = this?.state?.data?.propaneStorageDetails?.clearances;
+    let { isDisabled } = this.state.local;
+
     let regulatorTypeValidator = (type, value) => {
       this.setState({
         data: {
-          ...this.state.data,
+          ...this?.state?.data,
           propaneStorageDetails: {
-            ...this.state.data.propaneStorageDetails,
+            ...this?.state?.data?.propaneStorageDetails,
             regulatorInformation: {
-              ...this.state.data.propaneStorageDetails.regulatorInformation,
+              ...this?.state?.data?.propaneStorageDetails?.regulatorInformation,
               regulatorType: {
-                ...this.state.data.propaneStorageDetails.regulatorInformation
-                  .regulatorType,
+                ...this?.state?.data?.propaneStorageDetails
+                  ?.regulatorInformation?.regulatorType,
                 [type]: value
               }
             }
@@ -1133,6 +1201,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={FST}
+                  disabled={isDisabled}
                   onValueChange={() => regulatorTypeValidator("FST", !FST)}
                 />
               </View>
@@ -1150,6 +1219,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={SND}
+                  disabled={isDisabled}
                   onValueChange={() => regulatorTypeValidator("SND", !SND)}
                 />
               </View>
@@ -1167,6 +1237,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={LGTWIN}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     regulatorTypeValidator("LGTWIN", !LGTWIN)
                   }
@@ -1186,6 +1257,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={SMLTWIN}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     regulatorTypeValidator("SMLTWIN", !SMLTWIN)
                   }
@@ -1196,6 +1268,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MANUFACTURER"
               mode="outlined"
+              disabled={isDisabled}
               value={manuf}
               onChangeText={text => regulatorInfoValidator("manuf", text)}
             />
@@ -1203,6 +1276,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MAIN GAS LINE SIZE"
               mode="outlined"
+              disabled={isDisabled}
               value={mainGasLineSize}
               onChangeText={text =>
                 regulatorInfoValidator("mainGasLineSize", text)
@@ -1231,6 +1305,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.ignition.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("ignition", !CYL.ignition.checked)
                   }
@@ -1254,6 +1329,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.BLD.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("BLD", !CYL.BLD.checked)
                   }
@@ -1281,6 +1357,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Comb.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Comb", !CYL.Comb.checked)
                   }
@@ -1304,6 +1381,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Mech.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Mech", !CYL.Mech.checked)
                   }
@@ -1331,6 +1409,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Moist.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Moist", !CYL.Moist.checked)
                   }
@@ -1354,6 +1433,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Hydro.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Hydro", !CYL.Hydro.checked)
                   }
@@ -1382,6 +1462,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.ignition.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator(
                       "ignition",
@@ -1408,6 +1489,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.BLD.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("BLD", !Regulators.BLD.checked)
                   }
@@ -1435,6 +1517,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Comb.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Comb", !Regulators.Comb.checked)
                   }
@@ -1458,6 +1541,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Mech.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Mech", !Regulators.Mech.checked)
                   }
@@ -1485,6 +1569,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Moist.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Moist", !Regulators.Moist.checked)
                   }
@@ -1508,6 +1593,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Hydro.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Hydro", !Regulators.Hydro.checked)
                   }
@@ -1530,9 +1616,13 @@ class PADetailsScreen extends Component {
     );
   };
   $customerReview = () => {
+    let { rating, comment } = this?.state?.data?.customer;
+    let statusData = this?.state?.data?.status;
+    let { isDisabled } = this.state.local;
+
     let status = [
-      { value: "complete" },
-      { value: "pending" },
+      { value: "completed" },
+      { value: "inpro" },
       { value: "todo" }
     ];
     let validator = (title, value) => {
@@ -1550,7 +1640,7 @@ class PADetailsScreen extends Component {
       submitTicket(null, this.state.data)
         .then(res => {
           this.setState({
-            step: 11,
+            step: 12,
             local: {
               ...this.state.local,
               progress: false,
@@ -1570,6 +1660,8 @@ class PADetailsScreen extends Component {
           <Title style={styles.selfCenter}>{"Customer Review"}</Title>
           <Card.Content>
             <AirbnbRating
+              defaultRating={rating}
+              isDisabled={isDisabled}
               onFinishRating={val => validator("rating", val)}
               style={{ paddingVertical: 15 }}
             />
@@ -1577,13 +1669,19 @@ class PADetailsScreen extends Component {
               style={[styles.pressureTagsInput, { height: 100 }]}
               label="Commments"
               multiline
+              disabled={isDisabled}
               mode="outlined"
-              value={""}
+              value={comment}
               onChangeText={text => validator("comment", text)}
             />
             <View style={{ marginVertical: 15 }}>
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
+                value={statusData}
+                disabled={isDisabled}
+                onChangeText={val =>
+                  this.setState({ data: { ...this.state.data, status: val } })
+                }
                 title="Application Status"
                 data={status}
               />
@@ -1593,10 +1691,17 @@ class PADetailsScreen extends Component {
             <Subheading>{"Select all fields to"}</Subheading>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={() => submitTicketNow()}
+              onPress={
+                isDisabled
+                  ? () => {
+                      this.setState({ step: 2 });
+                      this.props.hideModal();
+                    }
+                  : () => submitTicketNow()
+              }
               icon="chevron-right"
             >
-              {"Submit Ticket"}
+              {isDisabled ? "Done": "Submit Ticket"}
             </Button>
           </Card.Actions>
         </Card>
@@ -1678,10 +1783,7 @@ class PADetailsScreen extends Component {
       .Notes
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.Notes
       : "";
-    let techName = this.state.data.propaneApplianceDetails.PressureTestTagInfo
-      .techName
-      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.techName
-      : "";
+    let techName = this?.state?.local?.empName;
     let signature = this.state.data.propaneApplianceDetails.PressureTestTagInfo
       .signature
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.signature
@@ -1690,6 +1792,7 @@ class PADetailsScreen extends Component {
       .certNo
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.certNo
       : "";
+    let { isDisabled } = this.state.local;
 
     let validator = (type, value) => {
       this.setState({
@@ -1716,13 +1819,14 @@ class PADetailsScreen extends Component {
               label="NOTES"
               multiline
               mode="outlined"
+              disabled={isDisabled}
               value={Notes}
               onChangeText={text => validator("Notes", text)}
             />
             <TextInput
               style={styles.pressureTagsInput}
               label="TECHNICIAN NAME"
-              multiline
+              disabled
               mode="outlined"
               value={techName}
               onChangeText={text => validator("techName", text)}
@@ -1731,6 +1835,7 @@ class PADetailsScreen extends Component {
               style={styles.pressureTagsInput}
               label="CERTIFICATION No"
               multiline
+              disabled={isDisabled}
               mode="outlined"
               value={certNo}
               onChangeText={text => validator("certNo", text)}
@@ -1761,6 +1866,7 @@ class PADetailsScreen extends Component {
       licenseNoAndClass
     } = this.state?.data?.propaneApplianceDetails?.PressureTestTagInfo;
     let { pressure, length, size } = testPressure;
+    let { isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -1806,6 +1912,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="ADDRESS OF TEST"
               mode="outlined"
+              disabled={isDisabled}
               value={addressOfTest}
               onChangeText={text => validator("addressOfTest", text)}
             />
@@ -1813,6 +1920,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="CONTRACTOR"
               mode="outlined"
+              disabled={isDisabled}
               value={contractor}
               onChangeText={text => validator("contractor", text)}
             />
@@ -1820,6 +1928,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TELEPHONE No"
               mode="outlined"
+              disabled={isDisabled}
               value={telephoneNo}
               onChangeText={text => validator("telephoneNo", text)}
             />
@@ -1827,6 +1936,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TSSA REG. No"
               mode="outlined"
+              disabled={isDisabled}
               value={tssaRegNo}
               onChangeText={text => validator("tssaRegNo", text)}
             />
@@ -1834,6 +1944,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TEST DATE"
               mode="outlined"
+              disabled={isDisabled}
               value={testDate}
               onChangeText={text => validator("testDate", text)}
             />
@@ -1848,6 +1959,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="TEST PRESSURE"
                 mode="outlined"
+                disabled={isDisabled}
                 value={pressure}
                 onChangeText={text => pressureValidator("pressure", text)}
               />
@@ -1859,6 +1971,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="LENGTH"
                 mode="outlined"
+                disabled={isDisabled}
                 value={length}
                 onChangeText={text => pressureValidator("length", text)}
               />
@@ -1870,6 +1983,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="SIZE"
                 mode="outlined"
+                disabled={isDisabled}
                 value={size}
                 onChangeText={text => pressureValidator("size", text)}
               />
@@ -1878,6 +1992,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="GAS TECHNICIAN"
               mode="outlined"
+              disabled={isDisabled}
               value={gasTech}
               onChangeText={text => validator("gasTech", text)}
             />
@@ -1885,6 +2000,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="LICENCE NUMBER & CLASSIFICATION"
               mode="outlined"
+              disabled={isDisabled}
               value={licenseNoAndClass}
               onChangeText={text => validator("licenseNoAndClass", text)}
             />

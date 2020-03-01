@@ -13,7 +13,8 @@ import {
   getCount,
   getWorkOrder,
   addPropaneAppliance,
-  addOilAppliance
+  addOilAppliance,
+  getSingleWorkOrder
 } from "../redux/Actions/tickets";
 import { PROPANE, OIL } from "../redux/actionTypes";
 class Home extends Component {
@@ -67,6 +68,7 @@ class Home extends Component {
 
   hideMenu = () => {
     console.log("Hide");
+    this.getStatusData();
     this.setState({ raiseTicket: false, Details: 0, propaneReset: true });
   };
   async getUserType() {
@@ -109,24 +111,36 @@ class Home extends Component {
   };
   openActiveItem(index) {
     let { addPropane, addOil } = this.props;
-    console.log(this.props);
     function action(number, data){
+        console.log("ACTIVE DTAA", data);
       if(number === 1){
-        addPropane(data)
+        getSingleWorkOrder("pro", data?._id)
+        .then(res => {
+          console.log("PRO DATA RECIEVED : ", )
+          addPropane(res[0])
+        })
+        .catch(err => console.log(err))
       }else {
-        addOil(data)
+        getSingleWorkOrder("oil", data?._id)
+        .then(res => {
+          console.log("OIL DATA RECIEVED : ", res[0])
+          addOil(res[0])
+        })
+        .catch(err => console.log(err))
       }
       return number;
     }
+    console.log("DATA :::: ",this.state.list[index]);
     let order = this.state.list[index]["workOrderId"];
     let details = new String(order).charAt(0) === "P" ? action(1, this.state.list[index]) : action(2, this.state.list[index]);
     this.setState({ activeItem: index, Details: details });
   }
+
   showMenu = () => this.setState({ raiseTicket: true });
   render() {
     return (
       <>
-        <AppBar action={this.logout} />
+        <AppBar profile={() => alert("opening")} action={this.logout} />
         <View style={{ backgroundColor: "#aabcff", flex: 1 }}>
           <TrackInfo
             total={this.state.total}

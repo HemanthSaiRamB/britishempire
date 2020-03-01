@@ -1,5 +1,6 @@
 dependencies: \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpireTests/BritishEmpireTests.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
