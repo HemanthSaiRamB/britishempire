@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/React-RCTText/React-RCTText-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputDelegateAdapter.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputViewProtocol.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputDelegate.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-RCTText/React-RCTText-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputDelegateAdapter.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputViewProtocol.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBackedTextInputDelegate.h

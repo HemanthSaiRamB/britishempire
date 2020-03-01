@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTModuloAnimatedNode.m \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/React-RCTAnimation/React-RCTAnimation-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTModuloAnimatedNode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTValueAnimatedNode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAnimatedNode.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTModuloAnimatedNode.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-RCTAnimation/React-RCTAnimation-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTModuloAnimatedNode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTValueAnimatedNode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAnimatedNode.h

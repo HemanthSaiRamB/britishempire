@@ -2,7 +2,15 @@ export const propane = {
   ComprehensivePropaneInspection: {
     accNo: '',
     workOrderId: '',
+    empId: '',
+    status: 'todo',
     date: '',
+    customer:{
+      rating:'',
+      comment:''
+    },
+    priority:0,
+    comment:'',
     propaneApplianceDetails: {
       applncType: '',
       manuf: '',

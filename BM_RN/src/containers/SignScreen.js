@@ -1,12 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {Title, Subheading, Button, Switch} from 'react-native-paper';
+import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {Title, Subheading, Button, Switch, Colors} from 'react-native-paper';
 import {scale, verticalScale, moderateScale} from '../helpers/scaler';
 import {Logo} from '../components/Logo';
 import {Input} from '../components/Input';
 import {Header} from '../components/Header';
 import {registerAction} from './../redux/Actions/user';
+
 export default class SignScreen extends Component {
   state = {
     data: {
@@ -18,32 +19,65 @@ export default class SignScreen extends Component {
       password: '',
       cnfpwd: '',
       usertype: '',
+      error: '',
     },
   };
-  UNSAFE_componentWillUpdate(props, state) {
-    console.log(props, state);
-  }
+  VALIDATOR = () => {
+    let {
+      name,
+      age,
+      mobilenumber,
+      gender,
+      email,
+      password,
+      cnfpwd,
+      usertype,
+    } = this.state;
+    return (
+      name !== '' &&
+      age !== '' &&
+      mobilenumber !== '' &&
+      gender !== '' &&
+      email !== '' &&
+      password !== '' &&
+      cnfpwd !== '' &&
+      password === cnfpwd &&
+      usertype !== ''
+    );
+  };
   updateField = (type, text) => {
-    console.log(type, text);
     this.setState({
+      ...this.state,
       data: {
         ...this.state.data,
         [type]: text,
       },
+      error: '',
     });
   };
+  errorHandler = (data) => {
+    console.log("data : ", data);
+    this.setState({
+      error: 'User already registered'
+    });
+  }
   static navigationOptions = {
     header: null,
   };
   render() {
     return (
-      <View style={styles.mainScroll}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        style={styles.mainScroll}>
         <View style={styles.mainPanel}>
           <View style={styles.internalPanel}>
             <Header
               title={'Create Account'}
               subheader={'Create a new account'}
             />
+            <Subheading style={{alignSelf: 'center', color: Colors.red800}}>
+              {this.state.error}
+            </Subheading>
             <View style={{paddingTop: verticalScale(5)}}>
               <View style={{paddingVertical: 5}}>
                 <Input
@@ -132,7 +166,11 @@ export default class SignScreen extends Component {
                   }}
                   icon="lock"
                   mode="contained"
-                  onPress={() => registerAction(this.state.data)}>
+                  onPress={() =>
+                    this.VALIDATOR()
+                      ? registerAction(this.state.data, this.errorHandler)
+                      : this.setState({error: 'Fields not filled properly'})
+                  }>
                   Register
                 </Button>
                 <View
@@ -154,7 +192,7 @@ export default class SignScreen extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

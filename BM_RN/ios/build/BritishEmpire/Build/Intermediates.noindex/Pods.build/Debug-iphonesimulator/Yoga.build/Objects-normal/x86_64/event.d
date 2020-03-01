@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/ReactCommon/yoga/yoga/event/event.cpp \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/Yoga/Yoga-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/ReactCommon/yoga/yoga/event/event.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/ReactCommon/yoga/yoga/YGMacros.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/ReactCommon/yoga/yoga/event/event.cpp \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/Yoga/Yoga-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/ReactCommon/yoga/yoga/event/event.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/ReactCommon/yoga/yoga/YGMacros.h

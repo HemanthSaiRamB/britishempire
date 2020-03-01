@@ -1,29 +1,29 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/Libraries/TypeSafety/RCTConvertHelpers.mm \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/RCTTypeSafety/RCTTypeSafety-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/Libraries/TypeSafety/RCTConvertHelpers.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyVector.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyIterator.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Optional.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Portability.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/portability/Config.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/CPortability.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Traits.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Utility.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/lang/Exception.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/CppAttributes.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/TypeSafety/RCTConvertHelpers.mm \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/RCTTypeSafety/RCTTypeSafety-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/Libraries/TypeSafety/RCTConvertHelpers.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyVector.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyIterator.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Optional.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Portability.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/portability/Config.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/CPortability.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Traits.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Utility.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/lang/Exception.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/CppAttributes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h

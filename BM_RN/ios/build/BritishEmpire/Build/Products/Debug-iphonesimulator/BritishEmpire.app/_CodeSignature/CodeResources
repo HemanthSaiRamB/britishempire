@@ -78,11 +78,11 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		ozIaren979cv4scjRrxo+oquSXg=
+		qTn+qAGhe8tZiGPrpwDKd4bukGY=
 		</data>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		N8D9XhCPCD4gjk9ik8zgDP05H9M=
+		59xh6uqHAwQdPxk7FdiKNH5VyMk=
 		</data>
 		<key>Entypo.ttf</key>
 		<data>
@@ -181,9 +181,13 @@
 		<data>
 		q1wqJjLP7rmsLVcDtfo6VEQA6Vo=
 		</data>
+		<key>GoogleService-Info.plist</key>
+		<data>
+		MmcFPm7rWBUXETPy9VRGU8ZEhfk=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		YMyIeBN0Fet0HjYmeydwZMaW/f0=
+		DoVlGRBVvXxDqxAAs62z1Ldpsos=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -211,19 +215,19 @@
 		</data>
 		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Resources/DWARF/BritishEmpireTests</key>
 		<data>
-		V8v1kz4T305ep9bn2oGYiIXdyT4=
+		m/tDZZan0e45DX8UzxI9BXExzD8=
 		</data>
 		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
 		<data>
-		Z3nJK0h/2bc+TzZm0hiBENF4SDw=
+		7QfbYwSYsUwCwUyf4vSijxL4uoo=
 		</data>
 		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
 		<data>
-		60dNHjSUEv/fYqL/0k42qi0yX0E=
+		QQ2aLkNmVk+KOgXQTMe0Ftc3OQ4=
 		</data>
 		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		bX2/XXAgWlFZNC+Amdwa7WiRHS0=
+		eYguR9fXkatPLABk1w5EhuPpQXU=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -438,22 +442,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ozIaren979cv4scjRrxo+oquSXg=
+			qTn+qAGhe8tZiGPrpwDKd4bukGY=
 			</data>
 			<key>hash2</key>
 			<data>
-			17Y4gpNvE7430tkIuni3DMjkW4YmyOuqZ/6e8QGfPd4=
+			GM1A4BMptnIEac0pnyyaNj9XU7QI1r/RVagS70+4JmA=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N8D9XhCPCD4gjk9ik8zgDP05H9M=
+			59xh6uqHAwQdPxk7FdiKNH5VyMk=
 			</data>
 			<key>hash2</key>
 			<data>
-			qYcqG1SDmysJIRio1dZrVfcFyDggxuMkMa3Fa2loVLU=
+			k0sNCeHfLWbpZ3zAklfIwlVAX/TKkGwSIsCEkoZ4aDE=
 			</data>
 		</dict>
 		<key>Entypo.ttf</key>
@@ -711,6 +715,17 @@
 			QWXElfyn8FN0FgwonHfhQwbr676c3JP7/OiOxCTwJPY=
 			</data>
 		</dict>
+		<key>GoogleService-Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MmcFPm7rWBUXETPy9VRGU8ZEhfk=
+			</data>
+			<key>hash2</key>
+			<data>
+			RpPMdWALvJNTw37WhxIo7aJuQ7Q5ejqM+uz1jC6Gzc0=
+			</data>
+		</dict>
 		<key>Ionicons.ttf</key>
 		<dict>
 			<key>hash</key>
@@ -770,44 +785,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			V8v1kz4T305ep9bn2oGYiIXdyT4=
+			m/tDZZan0e45DX8UzxI9BXExzD8=
 			</data>
 			<key>hash2</key>
 			<data>
-			mvYsXhAnjLpWI6rghGJ/TxeHm/63Jd5M3FGNF7igVXE=
+			eeSQNAfNvD2EEiih6/4x0v54vtYdDfRGG2F1rTWOq/A=
 			</data>
 		</dict>
 		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Z3nJK0h/2bc+TzZm0hiBENF4SDw=
+			7QfbYwSYsUwCwUyf4vSijxL4uoo=
 			</data>
 			<key>hash2</key>
 			<data>
-			yqV+W4TUsGQzb63YKJ1ekjhkEyfGsMTE4/Qsvk7lrNk=
+			ESLpYCeymfJsvIsehyah/NmBpcps+kJrQ2ZZebump1I=
 			</data>
 		</dict>
 		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			60dNHjSUEv/fYqL/0k42qi0yX0E=
+			QQ2aLkNmVk+KOgXQTMe0Ftc3OQ4=
 			</data>
 			<key>hash2</key>
 			<data>
-			rH0qg/PeypYNfT1D6mQVvz6UoLW9BRiugSFI8F4q7ew=
+			K93TSQWe4QnBnMkeK4IXUBgkI403j09Uvcq/yKmnhoc=
 			</data>
 		</dict>
 		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			bX2/XXAgWlFZNC+Amdwa7WiRHS0=
+			eYguR9fXkatPLABk1w5EhuPpQXU=
 			</data>
 			<key>hash2</key>
 			<data>
-			PA71r9yf78gRbBeEfbZknpxBirnvsf7bT61rh5QPWRA=
+			DI9apyTd2d06W8e93x7RLmPgk8OCVr5c+LEFBnHlsIQ=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>

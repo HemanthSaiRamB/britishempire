@@ -1,62 +1,62 @@
 dependencies: \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/React/CoreModules/RCTImageLoader.mm \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Target\ Support\ Files/React-CoreModules/React-CoreModules-prefix.pch \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/RCTRequired/RCTRequired/RCTRequired.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/RCTTypeSafety/RCTTypeSafety/RCTConvertHelpers.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyVector.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyIterator.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Optional.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Portability.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/portability/Config.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/CPortability.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Traits.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/Utility.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/lang/Exception.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Folly/folly/CppAttributes.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/RCTTypeSafety/RCTTypeSafety/RCTTypedModuleConstants.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTCxxConvert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTManagedPointer.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/ReactCommon/ReactCommon/RCTTurboModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTModuleMethod.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBridgeMethod.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTNullability.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/ReactCommon/ReactCommon/JSCallInvoker.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/ReactCommon/ReactCommon/TurboModule.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-jsi/jsi/jsi.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-jsi/jsi/jsi-inl.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-cxxreact/cxxreact/MessageQueueThread.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageCache.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTResizeMode.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTURLRequestHandler.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTURLRequestDelegate.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageDataDecoder.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageURLLoader.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageLoaderProtocol.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTImageUtils.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTNetworking.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTEventEmitter.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/ios/Pods/Headers/Public/React-Core/React/RCTNetworkTask.h \
-  /Volumes/Utility\ Drive/Development/BritishEmpire/node_modules/react-native/React/CoreModules/CoreModulesPlugins.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/CoreModules/RCTImageLoader.mm \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Target\ Support\ Files/React-CoreModules/React-CoreModules-prefix.pch \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/RCTRequired/RCTRequired/RCTRequired.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/RCTTypeSafety/RCTTypeSafety/RCTConvertHelpers.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyVector.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FBLazyVector/FBLazyVector/FBLazyIterator.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Optional.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Portability.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/portability/Config.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/CPortability.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Traits.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/Utility.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/lang/Exception.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Folly/folly/CppAttributes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/RCTTypeSafety/RCTTypeSafety/RCTTypedModuleConstants.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTCxxConvert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTManagedPointer.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/ReactCommon/ReactCommon/RCTTurboModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTModuleMethod.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeMethod.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTNullability.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/ReactCommon/ReactCommon/JSCallInvoker.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/ReactCommon/ReactCommon/TurboModule.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-jsi/jsi/jsi.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-jsi/jsi/jsi-inl.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-cxxreact/cxxreact/MessageQueueThread.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageCache.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTResizeMode.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTURLRequestHandler.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTURLRequestDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageDataDecoder.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageURLLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageLoaderProtocol.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTImageUtils.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTNetworking.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTEventEmitter.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTNetworkTask.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/node_modules/react-native/React/CoreModules/CoreModulesPlugins.h
