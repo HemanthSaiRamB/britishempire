@@ -16,7 +16,7 @@ export const loginAction = (email = '', pswd = '', error) => {
       res
         ? res.data
           ? res.data.success === true
-            ? loginAct(res.data.token)
+            ? loginAct(res.data.token, res.data.usertype, res.data.id)
             : []
           : []
         : [];
@@ -29,12 +29,14 @@ export const loginAction = (email = '', pswd = '', error) => {
   // };
 };
 export let logoutAction = async () => {
-  await AsyncStorage.removeItem('userToken');
+  await AsyncStorage.clear();
   navigate('Auth', {});
 };
-let loginAct = async text => {
+let loginAct = async (text,type,id) => {
   await AsyncStorage.setItem('userToken', text);
-  navigate('App', {});
+  await AsyncStorage.setItem('userType', type);
+  await AsyncStorage.setItem('userId', id);
+  navigate('App', {'type': type});
 };
 export const registerAction = (data, error) => {
   register(data)
