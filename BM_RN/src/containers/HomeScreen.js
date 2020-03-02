@@ -21,8 +21,8 @@ class Home extends Component {
   state = {
     raiseTicket: false,
     visible: false,
-    propaneReset: false,
-    oilReset: false,
+    propaneReset: true,
+    oilReset: true,
     type: "err",
     list: [],
     active: 1,

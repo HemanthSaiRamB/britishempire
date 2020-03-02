@@ -44,17 +44,15 @@ export const getSingleWorkOrder = async (type, id) => {
     let body = {
       _id: id
     };
-    const res = await API.post(EndPoint.getWorkOrder + type,body,
-      {
-        headers: { Authorization: await AsyncStorage.getItem("userToken") }
-      }
-    );
+    const res = await API.post(EndPoint.getWorkOrder + type, body, {
+      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+    });
     console.log("getWorkOrder", res.data);
     return await res.data;
   } catch (e) {
     console.log("error", e);
   }
-}
+};
 
 export const getAllEmployees = async type => {
   try {
@@ -136,7 +134,7 @@ export const getEmpDetails = async empId => {
   } catch (e) {
     console.log("error");
   }
-}
+};
 
 export const getManufacturer = async applncId => {
   try {
@@ -228,26 +226,35 @@ export const getNozzleNo = async () => {
 export const submitTicket = async (type, id, data) => {
   try {
     console.log("RECEIVED DATA: ", data);
+    let userType = (await AsyncStorage.getItem("userType"))
+      ? await AsyncStorage.getItem("userType")
+      : "";
+     if(userType === "admin"){
+      data = {
+        ...data,
+        createdBy: await AsyncStorage.getItem("userId") ? await AsyncStorage.getItem("userId") : "",
+      }
+     }
     let propane = {
       ComprehensivePropaneInspection: {
         ...data,
-        createdBy: await AsyncStorage.getItem('userId') ? await AsyncStorage.getItem('userId') : "",
         date: "1"
       }
     };
     let oil = {
-      ComprehensiveOilInspection:{
+      ComprehensiveOilInspection: {
         ...data,
-        createdBy: await AsyncStorage.getItem('userId') ? await AsyncStorage.getItem('userId') : "",
         date: "1"
       }
-    }
+    };
+
     let body = (type === "propane") ? propane : oil;
 
+    console.log("BODY :::: ", body);
     if (id != null) {
       body.ComprehensivePropaneInspection._id = id;
     }
-    const res = await API.post("work/"+ type, body, {
+    const res = await API.post("work/" + type, body, {
       headers: { Authorization: await AsyncStorage.getItem("userToken") }
     });
     console.log(res);
