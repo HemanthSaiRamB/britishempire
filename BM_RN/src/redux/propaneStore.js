@@ -83,14 +83,14 @@ export const propane = {
         check2: false
       },
       regulatorInformation: {
+        manuf: "",
+        mainGasLineSize: "",
         regulatorType: {
-          FST: false,
+          FST: new Boolean(false),
           SND: false,
           LGTWIN: false,
           SMLTWIN: false
         },
-        manuf: "",
-        mainGasLineSize: ""
       },
       clearances: {
         CYL: {

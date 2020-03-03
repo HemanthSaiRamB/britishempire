@@ -67,16 +67,20 @@ class PADetailsScreen extends Component {
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
     console.log("R-Props : ", props, state);
-    await this.setState({
-      data: { ...props?.propane?.ComprehensivePropaneInspection },
-      local: {
-        ...this.state.local,
-        isDisabled:
-          props?.propane?.ComprehensivePropaneInspection.status == "completed"
-            ? true
-            : false
-      }
-    });
+    if (props?.reset) {
+      console.log("RESETTING STATE");
+      await this.setState({
+        ...this.defaultState,
+        data: { ...props?.propane?.ComprehensivePropaneInspection },
+        local: {
+          ...this.state.local,
+          isDisabled:
+            props?.propane?.ComprehensivePropaneInspection.status == "completed"
+              ? true
+              : false
+        }
+      });
+    }
     this.state.data.accNo &&
       getAccountDtls(null, this.state.data.accNo)
         .then(res => {
@@ -106,7 +110,8 @@ class PADetailsScreen extends Component {
   componentWillMount() {
     if (this?.props?.reset) {
       this.setState({
-        ...this?.defaultState
+        ...this.defaultState,
+        data: { ...this.props.propane.ComprehensivePropaneInspection }
       });
     }
   }
@@ -163,7 +168,6 @@ class PADetailsScreen extends Component {
         return false;
       }
     }
-
     return true;
   }
   shallowCompare(instance, nextProps, nextState) {
@@ -274,7 +278,7 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket("propane",null, this.state.data)
+      submitTicket("propane", null, this.state.data)
         .then(res => {
           this.setState({
             step: 12,
@@ -399,7 +403,8 @@ class PADetailsScreen extends Component {
             </Subheading>
           ) : (
             <>
-              {this.props.type === "emp" ? (
+              {this.props.type === "emp" ||
+              this.state.data.status === "completed" ? (
                 <Button
                   style={{ alignSelf: "flex-end" }}
                   onPress={() => this.setState({ step: 3 })}
@@ -441,7 +446,7 @@ class PADetailsScreen extends Component {
     let update = async (type, i, data) => {
       console.log(JSON.stringify(data));
       let _id = data[i] ? data[i] : "";
-      console.log("ID of : ",_id);
+      console.log("ID of : ", _id);
       this.setState({
         data: {
           ...this.state.data,
@@ -452,7 +457,7 @@ class PADetailsScreen extends Component {
         }
       });
       let setData = (listType, data) => {
-        console.log("RESSSS : ",listType, data);
+        console.log("RESSSS : ", listType, data);
         this.setState({
           ...this.state,
           local: {
@@ -562,7 +567,9 @@ class PADetailsScreen extends Component {
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
                 disabled={isDisabled}
-                value={!_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""}
+                value={
+                  !_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""
+                }
                 onChangeText={(value, index, data) =>
                   update("airFilterSize", index, data)
                 }
@@ -1088,12 +1095,16 @@ class PADetailsScreen extends Component {
       SND,
       LGTWIN,
       SMLTWIN
-    } = this?.state?.data?.propaneStorageDetails?.regulatorInformation?.regulatorType;
-
-    let {
-      mainGasLineSize,
-      manuf
-    } = this?.state?.data?.propaneStorageDetails?.regulatorInformation;
+    } = this.state.data.propaneStorageDetails.regulatorInformation.regulatorType;
+    FST = FST === "true" && true || FST === true && true;
+    SND = SND === "true" && true || SND === true && true;
+    LGTWIN = LGTWIN === "true" && true || LGTWIN === true && true;
+    SMLTWIN = SMLTWIN === "true" && true || SMLTWIN === true && true;
+    console.log(FST, SND, LGTWIN, SMLTWIN);
+    let mainGasLineSize = this.state.data.propaneStorageDetails
+      .regulatorInformation.mainGasLineSize;
+    let manuf = this.state.data.propaneStorageDetails.regulatorInformation
+      .manuf;
 
     let {
       CYL,
@@ -1102,17 +1113,24 @@ class PADetailsScreen extends Component {
     let { isDisabled } = this.state.local;
 
     let regulatorTypeValidator = (type, value) => {
+      console.log(this.state.data);
+      let val = false
+      if(value === "true" || value === true){
+        val = true
+      }else{
+        val = false
+      }
       this.setState({
         data: {
-          ...this?.state?.data,
+          ...this.state.data,
           propaneStorageDetails: {
-            ...this?.state?.data?.propaneStorageDetails,
+            ...this.state.data.propaneStorageDetails,
             regulatorInformation: {
-              ...this?.state?.data?.propaneStorageDetails?.regulatorInformation,
+              ...this.state.data.propaneStorageDetails.regulatorInformation,
               regulatorType: {
-                ...this?.state?.data?.propaneStorageDetails
-                  ?.regulatorInformation?.regulatorType,
-                [type]: value
+                ...this.state.data.propaneStorageDetails.regulatorInformation
+                  .regulatorType,
+                [type]: val
               }
             }
           }
@@ -1637,7 +1655,7 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket("propane",null, this.state.data)
+      submitTicket("propane", null, this.state.data)
         .then(res => {
           this.setState({
             step: 12,
@@ -1701,7 +1719,7 @@ class PADetailsScreen extends Component {
               }
               icon="chevron-right"
             >
-              {isDisabled ? "Done": "Submit Ticket"}
+              {isDisabled ? "Done" : "Submit Ticket"}
             </Button>
           </Card.Actions>
         </Card>

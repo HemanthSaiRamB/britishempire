@@ -16,6 +16,8 @@ import {
   addOilAppliance,
   getSingleWorkOrder
 } from "../redux/Actions/tickets";
+import {propane} from './../redux/propaneStore';
+import {oil} from './../redux/oilStore';
 import { PROPANE, OIL } from "../redux/actionTypes";
 class Home extends Component {
   state = {
@@ -206,15 +208,18 @@ class Home extends Component {
                   {
                     label: "Propane Appliance",
                     icon: "gas-station",
-                    onPress: () =>
-                      this.setState({ Details: 1, raiseTicket: false })
-                  },
+                    onPress: async () =>{
+                      await this.props.addPropane(propane.ComprehensivePropaneInspection);
+                      this.setState({ Details: 1, raiseTicket: false, propaneReset: true })
+                  }},
                   {
                     label: "Oil Appliance",
                     icon: "oil",
-                    onPress: () =>
-                      this.setState({ Details: 2, raiseTicket: false })
-                  }
+                    onPress: async () =>{
+                      await this.props.addOil(oil.ComprehensiveOilInspection);
+                      this.setState({ Details: 2, raiseTicket: false, oilReset: true })
+
+                  }}
                 ]}
                 onStateChange={({ open }) =>
                   this.setState({ raiseTicket: open })
@@ -234,7 +239,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   addPropane: data => dispatch({ type: PROPANE, data }),
-  addOil: data => dispatch({ type: OIL, data })
+  addOil: data => dispatch({ type: OIL, data }),
 });
 
 const HomeScreen = connect(null, mapDispatchToProps)(Home);
