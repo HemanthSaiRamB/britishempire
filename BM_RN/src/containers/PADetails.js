@@ -34,7 +34,6 @@ import {
   getEmpDetails
 } from "../redux/Actions/tickets";
 import AsyncStorage from "@react-native-community/async-storage";
-
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
@@ -317,6 +316,18 @@ class PADetailsScreen extends Component {
         )}
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
         <Card.Content>
+        {
+          this?.props?.type !== "admin" && (
+            <TextInput
+                label="Comment"
+                mode="outlined"
+                multiline
+                disabled={true}
+                numberOfLines={3}
+                value={comment}
+              />
+          )
+        }
           <TextInput
             label="Account Number"
             mode="outlined"
