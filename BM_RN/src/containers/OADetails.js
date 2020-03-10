@@ -92,9 +92,9 @@ class OADetailsScreen extends Component {
         });
     }
   }
-  UNSAFE_componentWillReceiveProps(props, state) {
-    console.log("R-Props : ", props, state);
-    this.setState({
+  async UNSAFE_componentWillReceiveProps(props, state) {
+    console.log("R-Props : ", props, this.state);
+    await this.setState({
       data: { ...props.oil.ComprehensiveOilInspection },
       local: {
         ...this.state.local,
@@ -107,6 +107,7 @@ class OADetailsScreen extends Component {
     this.state.data.accNo &&
       getAccountDtls(null, this.state.data.accNo)
         .then(res => {
+          // console.log("Account details : ", res);
           this.setState({
             local: {
               ...this?.state?.local,
@@ -129,6 +130,16 @@ class OADetailsScreen extends Component {
         })
         .catch(err => console.log("emp update err ", err));
   }
+
+  componentWillMount() {
+    if (this?.props?.reset) {
+      this.setState({
+        ...this.defaultState,
+        data: { ...this.props.oil.ComprehensiveOilInspection }
+      });
+    }
+  }
+
   $loading = () => {
     return <ActivityIndicator animating={true} color={Colors.red800} />;
   };
@@ -155,7 +166,20 @@ class OADetailsScreen extends Component {
         }
       });
     };
-
+    this.state.local.accNo && 
+    getAccountDtls(null, this.state.data.accNo)
+        .then(res => {
+          console.log("Account details now : ", res);
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              accName: res[0]?.name,
+              accAddr: res[0]?.address
+            }
+          });
+          console.log("acc update", res);
+        })
+        .catch(err => console.log("acc update err ", err));
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -233,8 +257,25 @@ class OADetailsScreen extends Component {
     };
     return (
       <>
+      {this?.props?.type !== "admin" && (
+          <View style={{ position: "absolute", right: 15, top: 15 }}>
+            <Subheading>{getPriority()}</Subheading>
+          </View>
+        )}
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
         <Card.Content>
+        {
+          this?.props?.type !== "admin" && (
+            <TextInput
+                label="Comment"
+                mode="outlined"
+                multiline
+                disabled={true}
+                numberOfLines={3}
+                value={comment}
+              />
+          )
+        }
           <TextInput
             label="Account Number"
             mode="outlined"
@@ -262,6 +303,11 @@ class OADetailsScreen extends Component {
           ) : (
             <View />
           )}
+          { this.state.local.accName && (<View style={{flexDirection:'row',justifyContent:'space-around'}}>
+                <Subheading>Name: {this.state.local.accName}</Subheading>
+                <Subheading>Address: {this.state.local.accAddr}</Subheading>
+          </View>)
+          }
           {this?.props?.type === "admin" && (
             <>
               <TextInput
@@ -324,7 +370,7 @@ class OADetailsScreen extends Component {
               {this.props.type === "emp" ? (
                 <Button
                   style={{ alignSelf: "flex-end" }}
-                  onPress={() => this.setState({ step: 3 })}
+                  onPress={() => this.setState({ step: 2 })}
                   mode="outlined"
                   icon="check"
                 >
@@ -355,11 +401,13 @@ class OADetailsScreen extends Component {
       nozzle,
       airFilterSize
     } = this.state.data.oilAppDtls;
-
+    let { isDisabled } = this.state.local;
+console.log("applianceType", applncType)
     let { error } = this.state;
     let update = async (type, i, data) => {
       // console.log(JSON.stringify(data));
-      let _id = data[i].id ? data[i].id : "";
+      let _id = data[i] ? data[i] : "";
+      console.log("ID of : ", _id);
       this.setState({
         data: {
           ...this.state.data,
@@ -434,7 +482,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Appliance Type"
-                value={!_.isUndefined(applncType) ? applncType : ""}
+                value={!_.isUndefined(applncType.value) ? applncType.value : ""}
                 onChangeText={(value, index, data) =>
                   update("applncType", index, data)
                 }
@@ -443,7 +491,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
-                value={!_.isUndefined(manuf) ? manuf : ""}
+                value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
                 }
@@ -452,7 +500,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Modal No."
-                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
                 }
@@ -461,7 +509,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No."
-                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
                 }
@@ -470,7 +518,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Nozzle size"
-                value={!_.isUndefined(nozzle) ? nozzle : ""}
+                value={!_.isUndefined(nozzle.value) ? nozzle.value : ""}
                 onChangeText={(value, index, data) =>
                   update("nozzle", index, data)
                 }
@@ -479,7 +527,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
-                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                value={!_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""}
                 onChangeText={(value, index, data) =>
                   update("airFilterSize", index, data)
                 }
@@ -846,7 +894,9 @@ class OADetailsScreen extends Component {
     );
   };
   $pressureTagsExtra = () => {
-    let { Notes, techName, signature, certNo } = this.state.data;
+    let { Notes, signature, certNo } = this.state.data;
+    let techName = this?.state?.local?.empName;
+
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -872,7 +922,7 @@ class OADetailsScreen extends Component {
             <TextInput
               style={styles.pressureTagsInput}
               label="TECHNICIAN NAME"
-              multiline
+              disabled
               mode="outlined"
               value={techName}
               onChangeText={text => validator("techName", text)}
@@ -912,7 +962,7 @@ class OADetailsScreen extends Component {
     let { error } = this.state;
     let update = async (type, i, data) => {
       // console.log(JSON.stringify(data));
-      let _id = data[i].id ? data[i].id : "";
+      let _id = data[i] ? data[i] : "";
       this.setState({
         data: {
           ...this.state.data,
@@ -987,16 +1037,16 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
-                value={!_.isUndefined(manuf) ? manuf : ""}
+                value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
-                }
+                } 
                 data={this.state.local.manuf}
               />
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Model No"
-                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
                 }
@@ -1005,7 +1055,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No"
-                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
                 }
@@ -1014,7 +1064,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Year"
-                value={!_.isUndefined(year) ? year : ""}
+                value={!_.isUndefined(year.value) ? year.value : ""}
                 onChangeText={(value, index, data) =>
                   update("year", index, data)
                 }
@@ -1023,7 +1073,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Capacity"
-                value={!_.isUndefined(capacity) ? capacity : ""}
+                value={!_.isUndefined(capacity.value) ? capacity.value : ""}
                 onChangeText={(value, index, data) =>
                   update("capacity", index, data)
                 }
@@ -1032,7 +1082,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Current Level"
-                value={!_.isUndefined(currentLevel) ? currentLevel : ""}
+                value={!_.isUndefined(currentLevel.value) ? currentLevel.value : ""}
                 onChangeText={(value, index, data) =>
                   update("currentLevel", index, data)
                 }

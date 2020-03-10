@@ -280,7 +280,7 @@ class PADetailsScreen extends Component {
       submitTicket("propane", null, this.state.data)
         .then(res => {
           this.setState({
-            step: 12,
+            step: 13,
             local: {
               ...this.state.local,
               progress: false,
@@ -355,6 +355,11 @@ class PADetailsScreen extends Component {
           ) : (
             <View />
           )}
+          { this.state.local.accName && (<View style={{flexDirection:'row',justifyContent:'space-around'}}>
+                <Subheading>Name: {this.state.local.accName}</Subheading>
+                <Subheading>Address: {this.state.local.accAddr}</Subheading>
+          </View>)
+          }
           {this?.props?.type === "admin" && (
             <>
               <TextInput
@@ -1665,24 +1670,6 @@ class PADetailsScreen extends Component {
         }
       });
     };
-    let submitTicketNow = () => {
-      submitTicket("propane", null, this.state.data)
-        .then(res => {
-          this.setState({
-            step: 12,
-            local: {
-              ...this.state.local,
-              progress: false,
-              create_id: res._id,
-              create_workId: res.workOrderId
-            }
-          });
-          console.log("Data: ", res);
-        })
-        .catch(err => {
-          console.log("Error: ", err);
-        });
-    };
     return (
       <>
         <Card>
@@ -1726,7 +1713,7 @@ class PADetailsScreen extends Component {
                       this.setState({ step: 2 });
                       this.props.hideModal();
                     }
-                  : () => submitTicketNow()
+                  : () => this.setState({step: 12})
               }
               icon="chevron-right"
             >
@@ -2072,6 +2059,8 @@ class PADetailsScreen extends Component {
       case 11:
         return this.$customerReview();
       case 12:
+        return this.$signature();
+      case 13:
         return this.$submitTicket();
       default:
         this.$loading();

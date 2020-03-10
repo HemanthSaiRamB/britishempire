@@ -6,6 +6,7 @@ export const propane = {
     createdBy: '',
     status: "todo",
     date: "",
+    imageBinary: '',
     customer: {
       rating: 3,
       comment: ""

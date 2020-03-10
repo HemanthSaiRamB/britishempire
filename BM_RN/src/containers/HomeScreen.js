@@ -165,7 +165,8 @@ class Home extends Component {
             type={this.state.type}
             hideModal={this.hideMenu}
           />
-          <List.Section>
+          <View
+            style={{flex:1}} >
             {this.state.list.length ? (
               <FlatList
                 data={this.state.list}
@@ -195,7 +196,7 @@ class Home extends Component {
                 </Subheading>
               </View>
             )}
-          </List.Section>
+          </View>
           <Portal>
             {this.state.type === "admin" && (
               <FAB.Group
