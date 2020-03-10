@@ -225,7 +225,7 @@ export const getNozzleNo = async () => {
 
 export const submitTicket = async (type, id, data) => {
   try {
-    console.log("RECEIVED DATA: ", data);
+    console.log("RECEIVED DATA: ", JSON.stringify(data));
     let userType = (await AsyncStorage.getItem("userType"))
       ? await AsyncStorage.getItem("userType")
       : "";

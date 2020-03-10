@@ -17,11 +17,13 @@ import {
   List
 } from "react-native-paper";
 import { scale, verticalScale, moderateScale } from "../helpers/scaler";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList, Text, Image } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { AirbnbRating } from "react-native-ratings";
+import SignatureCapture from "react-native-signature-capture";
+
 import {
   getAccountDtls,
   getApplianceType,
@@ -230,7 +232,20 @@ class PADetailsScreen extends Component {
         }
       });
     };
-
+    this.state.local.accNo && 
+    getAccountDtls(null, this.state.data.accNo)
+        .then(res => {
+          console.log("Account details now : ", res);
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              accName: res[0]?.name,
+              accAddr: res[0]?.address
+            }
+          });
+          console.log("acc update", res);
+        })
+        .catch(err => console.log("acc update err ", err));
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -1671,6 +1686,24 @@ class PADetailsScreen extends Component {
         }
       });
     };
+    let submitTicketNow = () => {
+      submitTicket("propane", null, this.state.data)
+        .then(res => {
+          this.setState({
+            step: 13,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
     return (
       <>
         <Card>
@@ -1709,16 +1742,14 @@ class PADetailsScreen extends Component {
             <Button
               style={{ alignSelf: "flex-end" }}
               onPress={
-                isDisabled
-                  ? () => {
-                      this.setState({ step: 2 });
-                      this.props.hideModal();
-                    }
-                  : () => this.setState({ step: 12 })
+                () => {
+                    this.state.data.status === "completed" ?
+                    this.setState({ step: 12 }) : submitTicketNow()
+                  }
               }
               icon="chevron-right"
             >
-              {isDisabled ? "Done" : "Submit Ticket"}
+              {isDisabled ? "Done" : "Proceed"}
             </Button>
           </Card.Actions>
         </Card>
@@ -1727,6 +1758,7 @@ class PADetailsScreen extends Component {
   };
 
   $signature = () => {
+    let { isDisabled } = this.state.local;
     let submitTicketNow = () => {
       submitTicket("propane", null, this.state.data)
         .then(res => {
@@ -1745,11 +1777,63 @@ class PADetailsScreen extends Component {
           console.log("Error: ", err);
         });
     };
+    let _onSaveEvent = result => {
+      //result.encoded - for the base64 encoded png
+      //result.pathName - for the file path name
+      this.setState({
+        data:{
+          ...this.state.data,
+          imageBinary: result.encoded
+        }
+      })
+    };
+    let _onDragEvent = () => {
+      // This callback will be called when the user enters signature
+      console.log("dragged");
+    };
+    let resetSign = () => {
+      this.refs["sign"].resetImage();
+    };
     return (
       <>
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
-          <Card.Content></Card.Content>
+          <Card.Content style={{height: 250}}>
+          { this.state.data.imageBinary != "" || this.state.data.imageBinary != null ? 
+            (<Image 
+              style={{flex:1, height: 200}}
+              source={{uri: this.state.data.imageBinary}}
+            />)
+            :
+            (<SignatureCapture
+              style={[{ flex: 1, height: 200 }]}
+              ref="sign"
+              onSaveEvent={_onSaveEvent}
+              onDragEvent={_onDragEvent}
+              saveImageFileInExtStorage={false}
+              showNativeButtons={true}
+              showTitleLabel={false}
+              viewMode={"landscape"}
+            />)
+          }
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>{"Select all fields to"}</Subheading>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={
+                isDisabled
+                  ? () => {
+                      this.setState({ step: 2 });
+                      this.props.hideModal();
+                    }
+                  : () => submitTicketNow()
+              }
+              icon="chevron-right"
+            >
+              {isDisabled ? "Done" : "Submit Ticket"}
+            </Button>
+          </Card.Actions>
         </Card>
       </>
     );

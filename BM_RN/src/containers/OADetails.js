@@ -17,10 +17,13 @@ import {
 } from "react-native-paper";
 import { scale, verticalScale, moderateScale } from "../helpers/scaler";
 import { Dropdown } from "react-native-material-dropdown";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Image } from "react-native";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as oil from "./../assets/strings/oilStrings.json";
+import { AirbnbRating } from "react-native-ratings";
+import SignatureCapture from "react-native-signature-capture";
+
 import {
   getAccountDtls,
   getApplianceType,
@@ -146,6 +149,7 @@ class OADetailsScreen extends Component {
   $accountNumber = () => {
     let { accNo, empId, empName, isDisabled } = this?.state?.local;
     let { priority, comment } = this?.state?.data;
+
     let accountSearch = input => {
       getAccountDtls(input, null)
         .then(async res => {
@@ -166,8 +170,8 @@ class OADetailsScreen extends Component {
         }
       });
     };
-    this.state.local.accNo && 
-    getAccountDtls(null, this.state.data.accNo)
+    this.state.local.accNo &&
+      getAccountDtls(null, this.state.data.accNo)
         .then(res => {
           console.log("Account details now : ", res);
           this.setState({
@@ -257,25 +261,23 @@ class OADetailsScreen extends Component {
     };
     return (
       <>
-      {this?.props?.type !== "admin" && (
+        {this?.props?.type !== "admin" && (
           <View style={{ position: "absolute", right: 15, top: 15 }}>
             <Subheading>{getPriority()}</Subheading>
           </View>
         )}
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
         <Card.Content>
-        {
-          this?.props?.type !== "admin" && (
+          {this?.props?.type !== "admin" && (
             <TextInput
-                label="Comment"
-                mode="outlined"
-                multiline
-                disabled={true}
-                numberOfLines={3}
-                value={comment}
-              />
-          )
-        }
+              label="Comment"
+              mode="outlined"
+              multiline
+              disabled={true}
+              numberOfLines={3}
+              value={comment}
+            />
+          )}
           <TextInput
             label="Account Number"
             mode="outlined"
@@ -303,11 +305,14 @@ class OADetailsScreen extends Component {
           ) : (
             <View />
           )}
-          { this.state.local.accName && (<View style={{flexDirection:'row',justifyContent:'space-around'}}>
-                <Subheading>Name: {this.state.local.accName}</Subheading>
-                <Subheading>Address: {this.state.local.accAddr}</Subheading>
-          </View>)
-          }
+          {this.state.local.accName && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <Subheading>Name: {this.state.local.accName}</Subheading>
+              <Subheading>Address: {this.state.local.accAddr}</Subheading>
+            </View>
+          )}
           {this?.props?.type === "admin" && (
             <>
               <TextInput
@@ -402,7 +407,7 @@ class OADetailsScreen extends Component {
       airFilterSize
     } = this.state.data.oilAppDtls;
     let { isDisabled } = this.state.local;
-console.log("applianceType", applncType)
+    console.log("applianceType", applncType);
     let { error } = this.state;
     let update = async (type, i, data) => {
       // console.log(JSON.stringify(data));
@@ -527,7 +532,9 @@ console.log("applianceType", applncType)
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
-                value={!_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""}
+                value={
+                  !_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""
+                }
                 onChangeText={(value, index, data) =>
                   update("airFilterSize", index, data)
                 }
@@ -893,6 +900,184 @@ console.log("applianceType", applncType)
       </>
     );
   };
+
+  $customerReview = () => {
+    let { rating, comment } = this?.state?.data?.customer;
+    let statusData = this?.state?.data?.status;
+    let { isDisabled } = this.state.local;
+
+    let status = [
+      { value: "completed" },
+      { value: "inpro" },
+      { value: "todo" }
+    ];
+    let validator = (title, value) => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          customer: {
+            ...this.state.data.customer,
+            [title]: value
+          }
+        }
+      });
+    };
+    let submitTicketNow = () => {
+      submitTicket("oil", null, this.state.data)
+        .then(res => {
+          console.log("oil submitted 0 : ", res)
+          this.setState({
+            step: 12,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"Customer Review"}</Title>
+          <Card.Content>
+            <AirbnbRating
+              defaultRating={rating}
+              isDisabled={isDisabled}
+              onFinishRating={val => validator("rating", val)}
+              style={{ paddingVertical: 15 }}
+            />
+            <TextInput
+              style={[styles.pressureTagsInput, { height: 100 }]}
+              label="Commments"
+              multiline
+              disabled={isDisabled}
+              mode="outlined"
+              value={comment}
+              onChangeText={text => validator("comment", text)}
+            />
+            <View style={{ marginVertical: 15 }}>
+              <Dropdown
+                dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
+                value={statusData}
+                disabled={isDisabled}
+                onChangeText={val =>
+                  this.setState({ data: { ...this.state.data, status: val } })
+                }
+                title="Application Status"
+                data={status}
+              />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>{"Select all fields to"}</Subheading>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={
+                () => {
+                      this.state.data.status === "completed"
+                        ? this.setState({ step: 11 })
+                        : submitTicketNow();
+                    }
+              }
+              icon="chevron-right"
+            >
+              {isDisabled ? "Done" : "Proceed"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+
+  $signature = () => {
+    let { isDisabled } = this.state.local;
+    let submitTicketNow = () => {
+      submitTicket("oil", null, this.state.data)
+        .then(res => {
+          console.log("oil submitted", res)
+          this.setState({
+            step: 12,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
+    let _onSaveEvent = result => {
+      //result.encoded - for the base64 encoded png
+      //result.pathName - for the file path name
+      this.setState({
+        data:{
+          ...this.state.data,
+          imageBinary: result.encoded
+        }
+      })
+    };
+    let _onDragEvent = () => {
+      // This callback will be called when the user enters signature
+      console.log("dragged");
+    };
+    let resetSign = () => {
+      this.refs["sign"].resetImage();
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
+          <Card.Content style={{height: 250}}>
+          { this.state.data.imageBinary != "" || this.state.data.imageBinary != null ? 
+            (<Image 
+              style={{flex:1, height: 200}}
+              source={{uri: this.state.data.imageBinary}}
+            />)
+            :
+            (<SignatureCapture
+              style={[{ flex: 1, height: 200 }]}
+              ref="sign"
+              onSaveEvent={_onSaveEvent}
+              onDragEvent={_onDragEvent}
+              saveImageFileInExtStorage={false}
+              showNativeButtons={true}
+              showTitleLabel={false}
+              viewMode={"landscape"}
+            />)
+          }
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>{"Select all fields to"}</Subheading>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={
+                isDisabled
+                  ? () => {
+                      this.setState({ step: 1 });
+                      this.props.hideModal();
+                    }
+                  : () => submitTicketNow()
+              }
+              icon="chevron-right"
+            >
+              {isDisabled ? "Done" : "Submit Ticket"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+
   $pressureTagsExtra = () => {
     let { Notes, signature, certNo } = this.state.data;
     let techName = this?.state?.local?.empName;
@@ -1040,7 +1225,7 @@ console.log("applianceType", applncType)
                 value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
-                } 
+                }
                 data={this.state.local.manuf}
               />
               <Dropdown
@@ -1082,7 +1267,9 @@ console.log("applianceType", applncType)
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Current Level"
-                value={!_.isUndefined(currentLevel.value) ? currentLevel.value : ""}
+                value={
+                  !_.isUndefined(currentLevel.value) ? currentLevel.value : ""
+                }
                 onChangeText={(value, index, data) =>
                   update("currentLevel", index, data)
                 }
@@ -1457,24 +1644,6 @@ console.log("applianceType", applncType)
       });
     };
     let { error } = this.state;
-    let submitTicketNow = () => {
-      submitTicket("oil", null, this.state.data)
-        .then(res => {
-          this.setState({
-            step: 10,
-            local: {
-              ...this.state.local,
-              progress: false,
-              create_id: res._id,
-              create_workId: res.workOrderId
-            }
-          });
-          console.log("Data: ", res);
-        })
-        .catch(err => {
-          console.log("Error: ", err);
-        });
-    };
     return (
       <>
         <Title style={{ alignSelf: "center" }}>{"Two Tank Oil Storage"}</Title>
@@ -1523,7 +1692,7 @@ console.log("applianceType", applncType)
             </Paragraph>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={() => submitTicketNow()}
+              onPress={() => this.setState({step: 10})}
               icon="chevron-right"
             >
               {"Proceed"}
@@ -1657,16 +1826,10 @@ console.log("applianceType", applncType)
       case 9:
         return this.$twoTankOilStore();
       case 10:
-        return this.$submitTicket();
-      //   case 7:
-      //     return this.$propaneStorageDetails();
-      //   case 8:
-      //     return this.$propaneStorageDetailsExtra();
-      //   case 9:
-      //     return this.$pressureRegulatorSupplyDetails();
-      //   case 10:
-      //     return this.$regulatorInformation();
+        return this.$customerReview();
       case 11:
+        return this.$signature();
+      case 12:
         return this.$submitTicket();
       default:
         this.$loading();
