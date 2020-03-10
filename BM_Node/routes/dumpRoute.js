@@ -11,4 +11,5 @@ router.post('/airFilterSizeType',require('../controllers/dumpCtrl').airFilterSiz
 router.post('/accountDtls',require('../controllers/dumpCtrl').accountDtlsDump)
 router.post('/capacity',require('../controllers/dumpCtrl').capacityDump)
 router.post('/currentLevel',require('../controllers/dumpCtrl').currentLevelDump)
+router.post('/uploadCustSignature',require('../controllers/dumpCtrl').uploadCustSignature)
 module.exports = router;

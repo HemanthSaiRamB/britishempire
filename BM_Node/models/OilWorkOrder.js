@@ -78,25 +78,55 @@ const ReasonForInspection= new mongoose.Schema({
     }
 })
 
+const capacityDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const currentLevelDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const manuf1Drop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const modelNo1Drop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const serialNo1Drop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
 const OilStorageDetails = new mongoose.Schema({
-    manuf:{
-        type:String
-    },
-    modelNo:{
-        type:String
-    },
-    serialNo:{
-        type:String
-    },
+    manuf:manuf1Drop,
+    modelNo:modelNo1Drop,
+    serialNo:serialNo1Drop,
     year:{
         type:String
     },
-    capacity:{
-        type:String
-    },
-    currentLevel:{
-        type:String
-    },
+    capacity:capacityDrop,
+    currentLevel:currentLevelDrop,
     ReasonForInspection:ReasonForInspection,
     TankLocation:TankLocation,
     InspectionCheckList:InspectionCheckList,
@@ -254,28 +284,73 @@ const combustionAnalysis = new mongoose.Schema({
         default:false
     }
 })
+const applncTypeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const manufDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const modelNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const serialNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const nozzleDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const airFilterSizeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
 const oilAppDtls = new mongoose.Schema({
-    applncType:{
-        type:String
-    },  
-    manuf:{
-        type:String
-    },
-    modelNo:{
-        type:String
-    },
-    serialNo:{
-        type:String
-    },
-    nozzle:{
-        type:String
-    },
-    airFilterSize:{
-        type:String
-    },
+    applncType:applncTypeDrop,  
+    manuf:manufDrop,
+    modelNo:modelNoDrop,
+    serialNo:serialNoDrop,
+    nozzle:nozzleDrop,
+    airFilterSize:airFilterSizeDrop,
     combustionAnalysis:combustionAnalysis,
     oilFilter:oilFilter,
     maintainanceCheckList:maintainanceCheckList
+})
+const customerReview = new mongoose.Schema({
+    rating:{
+        type:Number,
+        default:3
+    },
+    comment:{
+        type:String
+    }
 })
 
 const OilSchema = new mongoose.Schema({
@@ -298,6 +373,9 @@ const OilSchema = new mongoose.Schema({
     status:{
         type:String
     },
+    createdBy:{
+        type:String
+    },
     oilAppDtls:oilAppDtls,
     Notes:{
         type:String,
@@ -311,7 +389,22 @@ const OilSchema = new mongoose.Schema({
     certNo:{
         type:String
     },
-    OilStorageDetails:OilStorageDetails
+    customer:customerReview,
+    priority:{
+        type:String
+    },
+    comment:{
+        type:String
+    },
+    imageBinary:{
+        type:String,
+        default:""
+    },
+    OilStorageDetails:OilStorageDetails,
+    notifSent:{
+        type:Number,
+        default:0
+    }
 })
 
 

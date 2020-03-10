@@ -235,30 +235,74 @@ const PressureTestTagInfo = new mongoose.Schema({
     }, 
 
 })
+const applncTypeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const manufDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const modelNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const serialNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const BTUHDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const airFilterSizeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
 const propaneApplianceDetails = new mongoose.Schema({
-    applncType:{
-        type:String
-    },  
-    manuf:{
-        type:String
-    },
-    modelNo:{
-        type:String
-    },
-    serialNo:{
-        type:String
-    },
-    BTUH:{
-        type:String
-    },
-    airFilterSize:{
-        type:String
-    },
+    applncType:applncTypeDrop,  
+    manuf:manufDrop,
+    modelNo:modelNoDrop,
+    serialNo:serialNoDrop,
+    BTUH:BTUHDrop,
+    airFilterSize:airFilterSizeDrop,
     applianceNoCheckList:applianceNoCheckList,
     PressureTestTagInfo:PressureTestTagInfo
 })
 
-
+const customerReview = new mongoose.Schema({
+    rating:{
+        type:Number,
+        default:3
+    },
+    comment:{
+        type:String
+    }
+})
 
 
 const PropaneSchema = new mongoose.Schema({
@@ -281,8 +325,26 @@ const PropaneSchema = new mongoose.Schema({
     status:{
         type:String
     },
+    createdBy: {
+        type:String
+    },
+    customer:customerReview,
+    priority:{
+        type:String
+    },
+    comment:{
+        type:String
+    },
+    imageBinary:{
+        type:String,
+        default:''
+    },
     propaneApplianceDetails:propaneApplianceDetails,
-    propaneStorageDetails:propaneStorageDetails
+    propaneStorageDetails:propaneStorageDetails,
+    notifSent:{
+        type:Number,
+        default:0
+    }
 })
 
 global[modelName] = mongoose.model(modelName,PropaneSchema);

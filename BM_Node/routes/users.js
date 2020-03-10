@@ -130,14 +130,21 @@ router.post('/login',(req,res,next)=>{
                                     success:false,
                                     error: "Error signing token",
                                         raw: err }); 
-                                res.json({ 
-                                    usertype:user.usertype,
-                                    id:user._id,
-                                    name:user.name,
-                                    email:user.email,
-                                    age:user.age,
-                                success: true,
-                                token: `Bearer ${token}` });
+                                        UserModel
+                                        .findOneAndUpdate(
+                                            {'email':email},
+                                            {cloudToken:req.body.cloudToken}, 
+                                            {upsert:false}).
+                                            then((cloudTokenUpdated)=>{
+                                                res.json({ 
+                                                    usertype:user.usertype,
+                                                    id:user._id,
+                                                    name:user.name,
+                                                    email:user.email,
+                                                    age:user.age,
+                                                success: true,
+                                                token: `Bearer ${token}` });
+                                        })
                         });      
                 } else {
                     errors.push({success:false,code:400,msg:"Password Incorrect"});

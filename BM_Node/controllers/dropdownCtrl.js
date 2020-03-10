@@ -178,6 +178,11 @@ async function dashboardCount(req,res){
         })
     });
 }
+async function getEmpDetails(req,res){
+    userModel.findOne(req.body).then(empDetails=>{
+        res.send(empDetails)
+    })
+}
 module.exports={
     getApplianceTypeDrop,
     getManufacturerDrop,
@@ -189,5 +194,6 @@ module.exports={
     getCurrentLevelDrop,
     getAccDtlsDrop,
     getAllEmp,
-    dashboardCount
+    dashboardCount,
+    getEmpDetails
 }
