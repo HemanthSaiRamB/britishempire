@@ -44,6 +44,8 @@ target 'BritishEmpire' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
   target 'BritishEmpireTests' do
     inherit! :search_paths
     # Pods for testing
