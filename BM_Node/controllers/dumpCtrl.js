@@ -7,6 +7,9 @@ const airFilterSizeNoDumpModel = require('../models/AirFilterSize')
 const accountDtlsModel = require('../models/AccountNo')
 const capacityModel = require('../models/Capacity')
 const currentLevelModel = require('../models/CurrentLevel')
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath(process.cwd()+'/s3_config.json');
+var s3Bucket = new AWS.S3( { params: {Bucket: 'custsignatures'} } );
 
 async function applianceDump(req, res) {
     const {typeLabel} = req.body
@@ -189,6 +192,27 @@ async function currentLevelDump(req, res) {
    
 }
 
+async function uploadCustSignature(req, res) {
+  var buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),'base64')
+    var dataObj = {
+      Key: Math.random().toString(), 
+      Body: buf,
+      ContentEncoding: 'base64',
+      ContentType: 'image/png'
+    };
+    s3Bucket.putObject(dataObj, function(err, data){
+        if (err) { 
+          console.log(err);
+          console.log('Error uploading data: ', data); 
+        } else {
+          console.log('succesfully uploaded the image!');
+          data.fileUrl='https://custsignatures.s3.ap-south-1.amazonaws.com/'+dataObj.Key
+          res.send(data)
+        }
+    });
+    
+}
+
 module.exports={
     applianceDump,
     manufacturerDump,
@@ -198,5 +222,6 @@ module.exports={
     airFilterSizeDump,
     accountDtlsDump,
     capacityDump,
-    currentLevelDump
+    currentLevelDump,
+    uploadCustSignature
 } 

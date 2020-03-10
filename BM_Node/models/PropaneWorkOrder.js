@@ -68,7 +68,7 @@ const regulatorType = new mongoose.Schema({
     }
 })
 const regulatorInformation= new mongoose.Schema({
-    regulatorType:[regulatorType],
+    regulatorType:regulatorType,
     manuf:{
         type:String
     },
@@ -139,12 +139,12 @@ const clearanceArray = new mongoose.Schema({
     }
 })
 const clearances = new mongoose.Schema({
-    CYL:[clearanceArray],
-    Regulators:[clearanceArray]
+    CYL:clearanceArray,
+    Regulators:clearanceArray
 })
 
 const propaneStorageDetails = new mongoose.Schema({
-    checkList:[checkList],
+    checkList:checkList,
     serialNo:{
         type:String
     },
@@ -161,9 +161,9 @@ const propaneStorageDetails = new mongoose.Schema({
         type:String
     },
     
-    pressureRegulatorAndSupplySystemDetails:[pressureRegulatorAndSupplySystemDetails],
-    regulatorInformation:[regulatorInformation],
-    clearances:[clearances]
+    pressureRegulatorAndSupplySystemDetails:pressureRegulatorAndSupplySystemDetails,
+    regulatorInformation:regulatorInformation,
+    clearances:clearances
 })
 
 
@@ -217,7 +217,7 @@ const PressureTestTagInfo = new mongoose.Schema({
     tssaRegNo:{
         type:String
     },
-    testPressure:[testPressure],
+    testPressure:testPressure,
     licenseNoAndClass:{
         type:String
     }, 
@@ -235,30 +235,74 @@ const PressureTestTagInfo = new mongoose.Schema({
     }, 
 
 })
+const applncTypeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const manufDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const modelNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const serialNoDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const BTUHDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
+const airFilterSizeDrop = new mongoose.Schema({
+    "id":{
+        type:String
+    },
+    "value":{
+        type:String
+    }
+})
 const propaneApplianceDetails = new mongoose.Schema({
-    applncType:{
-        type:String
-    },  
-    manuf:{
-        type:String
-    },
-    modelNo:{
-        type:String
-    },
-    serialNo:{
-        type:String
-    },
-    BTUH:{
-        type:String
-    },
-    airFilterSize:{
-        type:String
-    },
-    applianceNoCheckList:[applianceNoCheckList],
-    PressureTestTagInfo:[PressureTestTagInfo]
+    applncType:applncTypeDrop,  
+    manuf:manufDrop,
+    modelNo:modelNoDrop,
+    serialNo:serialNoDrop,
+    BTUH:BTUHDrop,
+    airFilterSize:airFilterSizeDrop,
+    applianceNoCheckList:applianceNoCheckList,
+    PressureTestTagInfo:PressureTestTagInfo
 })
 
-
+const customerReview = new mongoose.Schema({
+    rating:{
+        type:Number,
+        default:3
+    },
+    comment:{
+        type:String
+    }
+})
 
 
 const PropaneSchema = new mongoose.Schema({
@@ -281,8 +325,26 @@ const PropaneSchema = new mongoose.Schema({
     status:{
         type:String
     },
-    propaneApplianceDetails:[propaneApplianceDetails],
-    propaneStorageDetails:[propaneStorageDetails]
+    createdBy: {
+        type:String
+    },
+    customer:customerReview,
+    priority:{
+        type:String
+    },
+    comment:{
+        type:String
+    },
+    imageBinary:{
+        type:String,
+        default:''
+    },
+    propaneApplianceDetails:propaneApplianceDetails,
+    propaneStorageDetails:propaneStorageDetails,
+    notifSent:{
+        type:Number,
+        default:0
+    }
 })
 
 global[modelName] = mongoose.model(modelName,PropaneSchema);
