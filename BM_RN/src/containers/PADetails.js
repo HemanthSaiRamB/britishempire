@@ -316,18 +316,16 @@ class PADetailsScreen extends Component {
         )}
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
         <Card.Content>
-        {
-          this?.props?.type !== "admin" && (
+          {this?.props?.type !== "admin" && (
             <TextInput
-                label="Comment"
-                mode="outlined"
-                multiline
-                disabled={true}
-                numberOfLines={3}
-                value={comment}
-              />
-          )
-        }
+              label="Comment"
+              mode="outlined"
+              multiline
+              disabled={true}
+              numberOfLines={3}
+              value={comment}
+            />
+          )}
           <TextInput
             label="Account Number"
             mode="outlined"
@@ -355,11 +353,14 @@ class PADetailsScreen extends Component {
           ) : (
             <View />
           )}
-          { this.state.local.accName && (<View style={{flexDirection:'row',justifyContent:'space-around'}}>
-                <Subheading>Name: {this.state.local.accName}</Subheading>
-                <Subheading>Address: {this.state.local.accAddr}</Subheading>
-          </View>)
-          }
+          {this.state.local.accName && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <Subheading>Name: {this.state.local.accName}</Subheading>
+              <Subheading>Address: {this.state.local.accAddr}</Subheading>
+            </View>
+          )}
           {this?.props?.type === "admin" && (
             <>
               <TextInput
@@ -1112,10 +1113,10 @@ class PADetailsScreen extends Component {
       LGTWIN,
       SMLTWIN
     } = this.state.data.propaneStorageDetails.regulatorInformation.regulatorType;
-    FST = FST === "true" && true || FST === true && true;
-    SND = SND === "true" && true || SND === true && true;
-    LGTWIN = LGTWIN === "true" && true || LGTWIN === true && true;
-    SMLTWIN = SMLTWIN === "true" && true || SMLTWIN === true && true;
+    FST = (FST === "true" && true) || (FST === true && true);
+    SND = (SND === "true" && true) || (SND === true && true);
+    LGTWIN = (LGTWIN === "true" && true) || (LGTWIN === true && true);
+    SMLTWIN = (SMLTWIN === "true" && true) || (SMLTWIN === true && true);
     console.log(FST, SND, LGTWIN, SMLTWIN);
     let mainGasLineSize = this.state.data.propaneStorageDetails
       .regulatorInformation.mainGasLineSize;
@@ -1130,11 +1131,11 @@ class PADetailsScreen extends Component {
 
     let regulatorTypeValidator = (type, value) => {
       console.log(this.state.data);
-      let val = false
-      if(value === "true" || value === true){
-        val = true
-      }else{
-        val = false
+      let val = false;
+      if (value === "true" || value === true) {
+        val = true;
+      } else {
+        val = false;
       }
       this.setState({
         data: {
@@ -1713,7 +1714,7 @@ class PADetailsScreen extends Component {
                       this.setState({ step: 2 });
                       this.props.hideModal();
                     }
-                  : () => this.setState({step: 12})
+                  : () => this.setState({ step: 12 })
               }
               icon="chevron-right"
             >
@@ -1724,6 +1725,36 @@ class PADetailsScreen extends Component {
       </>
     );
   };
+
+  $signature = () => {
+    let submitTicketNow = () => {
+      submitTicket("propane", null, this.state.data)
+        .then(res => {
+          this.setState({
+            step: 13,
+            local: {
+              ...this.state.local,
+              progress: false,
+              create_id: res._id,
+              create_workId: res.workOrderId
+            }
+          });
+          console.log("Data: ", res);
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+    };
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
+          <Card.Content></Card.Content>
+        </Card>
+      </>
+    );
+  };
+
   $submitTicket = () => {
     let submitted = _ => {
       this.setState({
