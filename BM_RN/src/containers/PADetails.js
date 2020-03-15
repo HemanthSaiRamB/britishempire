@@ -46,12 +46,15 @@ class PADetailsScreen extends Component {
     error: false,
     // answers
     data: {},
+    submit: false,
     local: {
       progress: true,
       accSearch: [],
       empSearch: [],
       applncType: [],
       isDisabled: false,
+      drawn: false,
+      image: false,
       manuf: [],
       airFilterSize: [],
       serialNo: [],
@@ -232,8 +235,8 @@ class PADetailsScreen extends Component {
         }
       });
     };
-    this.state.local.accNo && 
-    getAccountDtls(null, this.state.data.accNo)
+    this.state.local.accNo &&
+      getAccountDtls(null, this.state.data.accNo)
         .then(res => {
           console.log("Account details now : ", res);
           this.setState({
@@ -292,10 +295,12 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
+      this.setState({ submit: true });
       submitTicket("propane", null, this.state.data)
         .then(res => {
           this.setState({
             step: 13,
+            submit: true,
             local: {
               ...this.state.local,
               progress: false,
@@ -308,6 +313,7 @@ class PADetailsScreen extends Component {
         })
         .catch(err => {
           console.log("Error: ", err);
+          this.setState({ submit: false });
         });
     };
     let getPriority = () => {
@@ -1741,12 +1747,11 @@ class PADetailsScreen extends Component {
             <Subheading>{"Select all fields to"}</Subheading>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={
-                () => {
-                    this.state.data.status === "completed" ?
-                    this.setState({ step: 12 }) : submitTicketNow()
-                  }
-              }
+              onPress={() => {
+                this.state.data.status === "completed"
+                  ? this.setState({ step: 12 })
+                  : submitTicketNow();
+              }}
               icon="chevron-right"
             >
               {isDisabled ? "Done" : "Proceed"}
@@ -1759,63 +1764,92 @@ class PADetailsScreen extends Component {
 
   $signature = () => {
     let { isDisabled } = this.state.local;
-    let submitTicketNow = () => {
-      submitTicket("propane", null, this.state.data)
-        .then(res => {
-          this.setState({
-            step: 13,
-            local: {
-              ...this.state.local,
-              progress: false,
-              create_id: res._id,
-              create_workId: res.workOrderId
-            }
-          });
-          console.log("Data: ", res);
-        })
-        .catch(err => {
-          console.log("Error: ", err);
-        });
-    };
-    let _onSaveEvent = result => {
+    let { imageBinary, status } = this.state.data;
+    let _onSaveEvent = async result => {
       //result.encoded - for the base64 encoded png
       //result.pathName - for the file path name
-      this.setState({
-        data:{
+      console.log("saved image base 64 : ", result);
+      await this.setState({
+        data: {
           ...this.state.data,
           imageBinary: result.encoded
+        },
+        local: {
+          ...this.state.local,
+          image: true
         }
-      })
+      });
+      this.state.local.drawn &&
+        (await submitTicket("propane", null, this.state.data)
+          .then(res => {
+            this.setState({
+              step: 13,
+              local: {
+                ...this.state.local,
+                progress: false,
+                create_id: res._id,
+                create_workId: res.workOrderId
+              }
+            });
+            console.log("Data: ", res);
+          })
+          .catch(err => {
+            console.log("Error: ", err);
+          }));
     };
     let _onDragEvent = () => {
       // This callback will be called when the user enters signature
+      this.setState({
+        local: {
+          ...this.state.local,
+          drawn: true
+        }
+      });
       console.log("dragged");
     };
+
+    saveSign = () => {
+      this.refs["sign"].saveImage();
+    };
+
     let resetSign = () => {
       this.refs["sign"].resetImage();
     };
+    let submitTicketNow = async () => {
+      this.state.local.drawn === true && (await saveSign());
+    };
+
+    console.log("image : ", imageBinary, "status : ", status);
     return (
       <>
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
-          <Card.Content style={{height: 250}}>
-          { this.state.data.imageBinary != "" || this.state.data.imageBinary != null ? 
-            (<Image 
-              style={{flex:1, height: 200}}
-              source={{uri: this.state.data.imageBinary}}
-            />)
-            :
-            (<SignatureCapture
-              style={[{ flex: 1, height: 200 }]}
-              ref="sign"
-              onSaveEvent={_onSaveEvent}
-              onDragEvent={_onDragEvent}
-              saveImageFileInExtStorage={false}
-              showNativeButtons={true}
-              showTitleLabel={false}
-              viewMode={"landscape"}
-            />)
-          }
+          <Card.Content style={{ height: 250 }}>
+            {status === "completed" && (
+              <Subheading>{"draw your signature and click on save"}</Subheading>
+            )}
+            {!_.isEmpty(imageBinary) && this.state.local.drawn === false ? (
+              <Image
+                style={{
+                  flex: 1,
+                  height: 200,
+                  borderColor: "#000",
+                  borderWidth: 1
+                }}
+                source={{ uri: this.state.data.imageBinary }}
+              />
+            ) : (
+              <SignatureCapture
+                style={[{ flex: 1, height: 200 }]}
+                ref="sign"
+                onSaveEvent={_onSaveEvent}
+                onDragEvent={_onDragEvent}
+                saveImageFileInExtStorage={false}
+                showNativeButtons={false}
+                showTitleLabel={false}
+                viewMode={"landscape"}
+              />
+            )}
           </Card.Content>
           <Card.Actions>
             <Subheading>{"Select all fields to"}</Subheading>

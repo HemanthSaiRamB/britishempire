@@ -16,8 +16,8 @@ import {
   addOilAppliance,
   getSingleWorkOrder
 } from "../redux/Actions/tickets";
-import {propane} from './../redux/propaneStore';
-import {oil} from './../redux/oilStore';
+import { propane } from "./../redux/propaneStore";
+import { oil } from "./../redux/oilStore";
 import { PROPANE, OIL } from "../redux/actionTypes";
 class Home extends Component {
   state = {
@@ -113,28 +113,31 @@ class Home extends Component {
   };
   openActiveItem(index) {
     let { addPropane, addOil } = this.props;
-    function action(number, data){
-        console.log("ACTIVE DTAA", data);
-      if(number === 1){
+    function action(number, data) {
+      console.log("ACTIVE DTAA", data);
+      if (number === 1) {
         getSingleWorkOrder("pro", data?._id)
-        .then(res => {
-          console.log("PRO DATA RECIEVED : ", )
-          addPropane(res[0])
-        })
-        .catch(err => console.log(err))
-      }else {
+          .then(res => {
+            console.log("PRO DATA RECIEVED : ");
+            addPropane(res[0]);
+          })
+          .catch(err => console.log(err));
+      } else {
         getSingleWorkOrder("oil", data?._id)
-        .then(res => {
-          console.log("OIL DATA RECIEVED : ", res[0])
-          addOil(res[0])
-        })
-        .catch(err => console.log(err))
+          .then(res => {
+            console.log("OIL DATA RECIEVED : ", res[0]);
+            addOil(res[0]);
+          })
+          .catch(err => console.log(err));
       }
       return number;
     }
-    console.log("DATA :::: ",this.state.list[index]);
+    console.log("DATA :::: ", this.state.list[index]);
     let order = this.state.list[index]["workOrderId"];
-    let details = new String(order).charAt(0) === "P" ? action(1, this.state.list[index]) : action(2, this.state.list[index]);
+    let details =
+      new String(order).charAt(0) === "P"
+        ? action(1, this.state.list[index])
+        : action(2, this.state.list[index]);
     this.setState({ activeItem: index, Details: details });
   }
 
@@ -152,21 +155,25 @@ class Home extends Component {
             pending={this.state.pending}
             todos={this.state.todo}
           />
-          <PADetails
+          {
+            this.state.Details === 1 ?
+            <PADetails
             visible={this.state.Details === 1}
             type={this.state.type}
             onUpdate={this.updateCall}
             reset={this.state.propaneReset}
             hideModal={this.hideMenu}
-          />
-          <OADetails
+          /> :
+            this.state.Details === 2 ?
+            <OADetails
             visible={this.state.Details == 2}
             reset={this.state.oilReset}
             type={this.state.type}
             hideModal={this.hideMenu}
-          />
-          <View
-            style={{flex:1}} >
+          /> : <View />
+          }
+          
+          <View style={{ flex: 1 }}>
             {this.state.list.length ? (
               <FlatList
                 data={this.state.list}
@@ -209,18 +216,27 @@ class Home extends Component {
                   {
                     label: "Propane Appliance",
                     icon: "gas-station",
-                    onPress: async () =>{
-                      await this.props.addPropane(propane.ComprehensivePropaneInspection);
-                      this.setState({ Details: 1, raiseTicket: false, propaneReset: true })
-                  }},
+                    onPress: async () => {
+                      await this.props.addPropane(propane);
+                      this.setState({
+                        Details: 1,
+                        raiseTicket: false,
+                        propaneReset: true
+                      });
+                    }
+                  },
                   {
                     label: "Oil Appliance",
                     icon: "oil",
-                    onPress: async () =>{
-                      await this.props.addOil(oil.ComprehensiveOilInspection);
-                      this.setState({ Details: 2, raiseTicket: false, oilReset: true })
-
-                  }}
+                    onPress: async () => {
+                      await this.props.addOil(oil);
+                      this.setState({
+                        Details: 2,
+                        raiseTicket: false,
+                        oilReset: true
+                      });
+                    }
+                  }
                 ]}
                 onStateChange={({ open }) =>
                   this.setState({ raiseTicket: open })
@@ -240,7 +256,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   addPropane: data => dispatch({ type: PROPANE, data }),
-  addOil: data => dispatch({ type: OIL, data }),
+  addOil: data => dispatch({ type: OIL, data })
 });
 
 const HomeScreen = connect(null, mapDispatchToProps)(Home);

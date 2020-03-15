@@ -136,6 +136,7 @@ class OADetailsScreen extends Component {
 
   componentWillMount() {
     if (this?.props?.reset) {
+      console.log("resetting");
       this.setState({
         ...this.defaultState,
         data: { ...this.props.oil.ComprehensiveOilInspection }
@@ -233,7 +234,7 @@ class OADetailsScreen extends Component {
       submitTicket("oil", null, this.state.data)
         .then(res => {
           this.setState({
-            step: 10,
+            step: 12,
             local: {
               ...this.state.local,
               progress: false,
