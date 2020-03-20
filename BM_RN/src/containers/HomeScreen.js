@@ -217,7 +217,7 @@ class Home extends Component {
                     label: "Propane Appliance",
                     icon: "gas-station",
                     onPress: async () => {
-                      await this.props.addPropane(propane);
+                      await this.props.addPropane(propane.ComprehensivePropaneInspection);
                       this.setState({
                         Details: 1,
                         raiseTicket: false,
@@ -229,7 +229,7 @@ class Home extends Component {
                     label: "Oil Appliance",
                     icon: "oil",
                     onPress: async () => {
-                      await this.props.addOil(oil);
+                      await this.props.addOil(oil.ComprehensiveOilInspection);
                       this.setState({
                         Details: 2,
                         raiseTicket: false,

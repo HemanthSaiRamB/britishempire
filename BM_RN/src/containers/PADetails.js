@@ -70,16 +70,17 @@ class PADetailsScreen extends Component {
   };
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
-    console.log("R-Props : ", props, state);
+    console.log(this.state)
+    console.log("R-State : ", {...this.props?.propane?.ComprehensivePropaneInspection});
     if (props?.reset) {
       console.log("RESETTING STATE");
       await this.setState({
         ...this.defaultState,
-        data: { ...props?.propane?.ComprehensivePropaneInspection },
+        data: { ...this.props?.propane?.ComprehensivePropaneInspection },
         local: {
           ...this.state.local,
           isDisabled:
-            props?.propane?.ComprehensivePropaneInspection.status == "completed"
+          this.props?.propane?.ComprehensivePropaneInspection.status == "completed"
               ? true
               : false
         }
@@ -235,7 +236,7 @@ class PADetailsScreen extends Component {
         }
       });
     };
-    this.state.local.accNo &&
+    (this.state.local.accNo && ! this.state.local.accName)  &&
       getAccountDtls(null, this.state.data.accNo)
         .then(res => {
           console.log("Account details now : ", res);
@@ -271,6 +272,7 @@ class PADetailsScreen extends Component {
       });
     };
     let activeThisValue = (input, id) => {
+      console.log("PROPER PROPANE : ",this.state.data);
       this.setState({
         data: {
           ...this.state.data,
@@ -296,8 +298,10 @@ class PADetailsScreen extends Component {
     };
     let submitTicketNow = () => {
       this.setState({ submit: true });
+      console.log("Data : ",this.state.data);
       submitTicket("propane", null, this.state.data)
         .then(res => {
+          console.log("responses are : ", res);
           this.setState({
             step: 13,
             submit: true,
@@ -1825,10 +1829,10 @@ class PADetailsScreen extends Component {
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
           <Card.Content style={{ height: 250 }}>
-            {status === "completed" && (
-              <Subheading>{"draw your signature and click on save"}</Subheading>
+            {(status === "completed" && imageBinary === "") && (
+              <Subheading style={styles.selfCenter}>{"draw your signature and click on save"}</Subheading>
             )}
-            {!_.isEmpty(imageBinary) && this.state.local.drawn === false ? (
+            {imageBinary !== "" ? (
               <Image
                 style={{
                   flex: 1,
@@ -2278,7 +2282,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  // console.log(state);
+  console.log(state.masterReducer.propane);
   return {
     propane: state.masterReducer.propane
   };
