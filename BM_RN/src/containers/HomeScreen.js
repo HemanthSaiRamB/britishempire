@@ -1,7 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { FAB, List, Colors, Portal, Subheading } from "react-native-paper";
+import {
+  FAB,
+  List,
+  Colors,
+  Portal,
+  Subheading,
+  Title,
+  Card,
+  Modal,
+  Paragraph
+} from "react-native-paper";
 import AppBar from "../components/AppBar";
 import TrackInfo from "../components/TrackInfo";
 import { PADetails } from "./PADetails";
@@ -19,6 +29,17 @@ import {
 import { propane } from "./../redux/propaneStore";
 import { oil } from "./../redux/oilStore";
 import { PROPANE, OIL } from "../redux/actionTypes";
+
+const Detail = props => {
+  let name = props?.name;
+  let value = props?.value;
+  return (
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Subheading>{name}</Subheading>
+        <Subheading>{value}</Subheading>
+      </View>
+  );
+};
 class Home extends Component {
   state = {
     raiseTicket: false,
@@ -29,6 +50,9 @@ class Home extends Component {
     type: "err",
     list: [],
     active: 1,
+    userName: '',
+    userEmail: '',
+    userAge: '',
     total: 0,
     pending: 0,
     completed: 0,
@@ -75,8 +99,7 @@ class Home extends Component {
     this.setState({ raiseTicket: false, Details: 0, propaneReset: true });
   };
   async getUserType() {
-    const userType = await AsyncStorage.getItem("userType");
-    return userType;
+    return await AsyncStorage.getItem("userType");
   }
 
   getStatusData() {
@@ -97,6 +120,12 @@ class Home extends Component {
   async componentDidMount() {
     await this.getStatusData();
     await this.getOrdersProOil(1);
+    this.setState({
+      userName: await AsyncStorage.getItem("userName"),
+      userEmail:  await AsyncStorage.getItem("userEmail"),
+      userAge:  await AsyncStorage.getItem("userAge"),
+      userType: await AsyncStorage.getItem("userType")
+    })
     this.getUserType()
       .then(res =>
         this.setState({
@@ -141,12 +170,18 @@ class Home extends Component {
         : action(2, this.state.list[index]);
     this.setState({ activeItem: index, Details: details });
   }
+  getUserDetailMessage = () => {
+    return `Hello  ${this.state.userType === "emp" ? "Employee" : "Admin" }`;
+  };
 
   showMenu = () => this.setState({ raiseTicket: true });
   render() {
     return (
       <>
-        <AppBar profile={() => this.setState({profile: true})} action={this.logout} />
+        <AppBar
+          profile={() => this.setState({ profile: true })}
+          action={this.logout}
+        />
         <View style={{ backgroundColor: "#aabcff", flex: 1 }}>
           <TrackInfo
             total={this.state.total}
@@ -156,26 +191,47 @@ class Home extends Component {
             pending={this.state.pending}
             todos={this.state.todo}
           />
-          {
-            this.state.Details === 1 ?
+          {this.state.Details === 1 ? (
             <PADetails
-            visible={this.state.Details === 1}
-            type={this.state.type}
-            onUpdate={this.updateCall}
-            reset={this.state.propaneReset}
-            hideModal={this.hideMenu}
-          /> :
-            this.state.Details === 2 ?
+              visible={this.state.Details === 1}
+              type={this.state.type}
+              onUpdate={this.updateCall}
+              reset={this.state.propaneReset}
+              hideModal={this.hideMenu}
+            />
+          ) : this.state.Details === 2 ? (
             <OADetails
-            visible={this.state.Details == 2}
-            reset={this.state.oilReset}
-            type={this.state.type}
-            hideModal={this.hideMenu}
-          /> : <View />
-          }
-          {
-
-          }
+              visible={this.state.Details == 2}
+              reset={this.state.oilReset}
+              type={this.state.type}
+              hideModal={this.hideMenu}
+            />
+          ) : (
+            <View />
+          )}
+          {this.state.profile && (
+            <Portal>
+              <Modal
+                dismissable={true}
+                visible={this.state.profile}
+                onDismiss={() => this.setState({ profile: false })}
+              >
+                <View style={{ width: "70%", alignSelf: "center" }}>
+                  <Card>
+                    <Title style={styles.selfCenter}>{"Profile Details"}</Title>
+                    <Card.Content>
+                      <Title style={styles.selfCenter}>
+                        {this.getUserDetailMessage()}
+                      </Title>
+                      <Detail name={'Name'} value={this.state.userName}/>
+                      <Detail name={'Email'} value={this.state.userEmail}/>
+                      <Detail name={'Age'} value={this.state.userAge}/>
+                    </Card.Content>
+                  </Card>
+                </View>
+              </Modal>
+            </Portal>
+          )}
 
           <View style={{ flex: 1 }}>
             {this.state.list.length ? (
@@ -221,7 +277,9 @@ class Home extends Component {
                     label: "Propane Appliance",
                     icon: "gas-station",
                     onPress: async () => {
-                      await this.props.addPropane(propane.ComprehensivePropaneInspection);
+                      await this.props.addPropane(
+                        propane.ComprehensivePropaneInspection
+                      );
                       this.setState({
                         Details: 1,
                         raiseTicket: false,
@@ -273,5 +331,8 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0
+  },
+  selfCenter: {
+    alignSelf: "center"
   }
 });
