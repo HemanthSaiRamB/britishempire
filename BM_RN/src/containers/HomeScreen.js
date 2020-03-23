@@ -148,7 +148,7 @@ class Home extends Component {
       if (number === 1) {
         getSingleWorkOrder("pro", data?._id)
           .then(res => {
-            console.log("PRO DATA RECIEVED : ");
+            console.log("PRO DATA RECIEVED : ", res[0]);
             addPropane(res[0]);
           })
           .catch(err => console.log(err));

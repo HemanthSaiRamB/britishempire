@@ -71,16 +71,16 @@ class PADetailsScreen extends Component {
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
     console.log(this.state)
-    console.log("R-State : ", {...this.props?.propane?.ComprehensivePropaneInspection});
+    console.log("R-State : ", {...this.props.propane.ComprehensivePropaneInspection});
     if (props?.reset) {
       console.log("RESETTING STATE");
       await this.setState({
         ...this.defaultState,
-        data: { ...this.props?.propane?.ComprehensivePropaneInspection },
+        data: { ...this.props.propane.ComprehensivePropaneInspection },
         local: {
           ...this.state.local,
           isDisabled:
-          this.props?.propane?.ComprehensivePropaneInspection.status == "completed"
+          this.props.propane.ComprehensivePropaneInspection.status == "completed"
               ? true
               : false
         }
@@ -122,7 +122,7 @@ class PADetailsScreen extends Component {
   }
 
   async componentDidMount() {
-    console.log("PADetails Mounted");
+    console.log("PADetails Mounted", this.props);
     this.setState({
       user: await AsyncStorage.getItem("userType")
     });
@@ -2282,7 +2282,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  console.log(state.masterReducer.propane);
+  console.log("DATA REC ",state.masterReducer.propane);
   return {
     propane: state.masterReducer.propane
   };
