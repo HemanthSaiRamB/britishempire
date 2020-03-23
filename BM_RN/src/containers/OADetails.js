@@ -998,63 +998,94 @@ class OADetailsScreen extends Component {
 
   $signature = () => {
     let { isDisabled } = this.state.local;
-    let submitTicketNow = () => {
-      submitTicket("oil", null, this.state.data)
-        .then(res => {
-          console.log("oil submitted", res)
-          this.setState({
-            step: 12,
-            local: {
-              ...this.state.local,
-              progress: false,
-              create_id: res._id,
-              create_workId: res.workOrderId
-            }
-          });
-          console.log("Data: ", res);
-        })
-        .catch(err => {
-          console.log("Error: ", err);
-        });
+    let { imageBinary, status } = this.state.data;
+    let submitTicketNow = async () => {
+      this.state.local.drawn === true && (await saveSign());
     };
-    let _onSaveEvent = result => {
-      //result.encoded - for the base64 encoded png
-      //result.pathName - for the file path name
-      this.setState({
-        data:{
+
+    let _onSaveEvent = async result => {
+      
+      console.log("saved image base 64 : ", result);
+      await this.setState({
+        data: {
           ...this.state.data,
           imageBinary: result.encoded
+        },
+        local: {
+          ...this.state.local,
+          image: true
         }
+      });
+
+      this.state.local.drawn &&
+        (submitTicket("oil", null, this.state.data)
+      .then(res => {
+        console.log("oil submitted", res)
+        this.setState({
+          step: 12,
+          local: {
+            ...this.state.local,
+            progress: false,
+            create_id: res._id,
+            create_workId: res.workOrderId
+          }
+        });
+        console.log("Data: ", res);
       })
+      .catch(err => {
+        console.log("Error: ", err);
+      }));
     };
     let _onDragEvent = () => {
       // This callback will be called when the user enters signature
+      this.setState({
+        local: {
+          ...this.state.local,
+          drawn: true
+        }
+      });
       console.log("dragged");
+    };
+
+    saveSign = () => {
+      this.refs["sign"].saveImage();
     };
     let resetSign = () => {
       this.refs["sign"].resetImage();
     };
+    console.log("image : ", imageBinary, "status : ", status);
+
     return (
       <>
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
           <Card.Content style={{height: 250}}>
-          { this.state.data.imageBinary != "" || this.state.data.imageBinary != null ? 
-            (<Image 
-              style={{flex:1, height: 200}}
-              source={{uri: this.state.data.imageBinary}}
-            />)
-            :
-            (<SignatureCapture
-              style={[{ flex: 1, height: 200 }]}
-              ref="sign"
-              onSaveEvent={_onSaveEvent}
-              onDragEvent={_onDragEvent}
-              saveImageFileInExtStorage={false}
-              showNativeButtons={true}
-              showTitleLabel={false}
-              viewMode={"landscape"}
-            />)
+          {(status === "completed" && imageBinary === "") && (
+              <Subheading style={styles.selfCenter}>{"draw your signature and click on save"}</Subheading>
+            )}
+          { imageBinary !== "" ? (
+              <Image
+                style={{
+                  flex: 1,
+                  height: 200,
+                  borderColor: "#000",
+                  borderWidth: 1
+                }}
+                source={{ uri: this.state.data.imageBinary }}
+              />
+            )
+            :(
+              <SignatureCapture
+                style={[{ flex: 1, height: 200 }]}
+                ref="sign"
+                onSaveEvent={_onSaveEvent}
+                onDragEvent={_onDragEvent}
+                saveImageFileInExtStorage={false}
+                showNativeButtons={false}
+                showTitleLabel={false}
+                viewMode={"landscape"}
+              />
+            )
           }
           </Card.Content>
           <Card.Actions>

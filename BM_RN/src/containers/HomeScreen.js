@@ -24,6 +24,7 @@ class Home extends Component {
     raiseTicket: false,
     visible: false,
     propaneReset: true,
+    profile: false,
     oilReset: true,
     type: "err",
     list: [],
@@ -145,7 +146,7 @@ class Home extends Component {
   render() {
     return (
       <>
-        <AppBar profile={() => alert("opening")} action={this.logout} />
+        <AppBar profile={() => this.setState({profile: true})} action={this.logout} />
         <View style={{ backgroundColor: "#aabcff", flex: 1 }}>
           <TrackInfo
             total={this.state.total}
@@ -172,7 +173,10 @@ class Home extends Component {
             hideModal={this.hideMenu}
           /> : <View />
           }
-          
+          {
+
+          }
+
           <View style={{ flex: 1 }}>
             {this.state.list.length ? (
               <FlatList
