@@ -1126,7 +1126,7 @@ class PADetailsScreen extends Component {
             >
               <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
                 {
-                  "VENTING/LOCATION OF REGULATOR INSTALLED IN COMPLIANCE WITH APPLICABLE CODE (CLEARENCES, PROTECTION, ETC.)"
+                  "VENTING/LOCATION OF REGULATOR INSTALLED IN \nCOMPLIANCE WITH APPLICABLE CODE (CLEARENCES, PROTECTION, ETC.)"
                 }
               </Subheading>
               <Switch
