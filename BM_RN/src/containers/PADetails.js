@@ -16,6 +16,7 @@ import {
   RadioButton,
   List
 } from "react-native-paper";
+import { getSingleWorkOrder } from "../redux/Actions/tickets";
 import { scale, verticalScale, moderateScale } from "../helpers/scaler";
 import { View, StyleSheet, FlatList, Text, Image } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
@@ -36,12 +37,12 @@ import {
   getEmpDetails
 } from "../redux/Actions/tickets";
 import AsyncStorage from "@react-native-community/async-storage";
+import { propane } from "../redux/propaneStore";
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
-    step: 2,
+    step: 25,
     type: 0,
-    user: "err",
     aField: "accNo",
     error: false,
     // answers
@@ -70,62 +71,31 @@ class PADetailsScreen extends Component {
   };
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
-    console.log(this.state)
-    console.log("R-State : ", {...this.props.propane.ComprehensivePropaneInspection});
-    if (props?.reset) {
+    console.log(this.state);
+    console.log("R-State : ", this.props.data);
+    if (props?.reset && !this.state.submit) {
       console.log("RESETTING STATE");
       await this.setState({
         ...this.defaultState,
-        data: { ...this.props.propane.ComprehensivePropaneInspection },
         local: {
-          ...this.state.local,
-          isDisabled:
-          this.props.propane.ComprehensivePropaneInspection.status == "completed"
-              ? true
-              : false
+          ...this.state.local
         }
       });
     }
-    this.state.data.accNo &&
-      getAccountDtls(null, this.state.data.accNo)
-        .then(res => {
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              accNo: res[0]?.value
-            }
-          });
-          console.log("acc update", res);
-        })
-        .catch(err => console.log("acc update err ", err));
-    this.state.data.empId &&
-      getEmpDetails(this.state.data.empId)
-        .then(res => {
-          console.log("emp update", res);
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              empName: res.name
-            }
-          });
-        })
-        .catch(err => console.log("emp update err ", err));
   }
 
   componentWillMount() {
     if (this?.props?.reset) {
       this.setState({
-        ...this.defaultState,
-        data: { ...this.props.propane.ComprehensivePropaneInspection }
+        ...this.defaultState
+        // data: { ...this.props.propane.ComprehensivePropaneInspection }
       });
     }
   }
 
   async componentDidMount() {
     console.log("PADetails Mounted", this.props);
-    this.setState({
-      user: await AsyncStorage.getItem("userType")
-    });
+
     if (
       _.isEmpty(this?.state?.local?.manuf) &&
       !_.isUndefined(this?.state?.local?.applncType)
@@ -236,20 +206,6 @@ class PADetailsScreen extends Component {
         }
       });
     };
-    (this.state.local.accNo && ! this.state.local.accName)  &&
-      getAccountDtls(null, this.state.data.accNo)
-        .then(res => {
-          console.log("Account details now : ", res);
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              accName: res[0]?.name,
-              accAddr: res[0]?.address
-            }
-          });
-          console.log("acc update", res);
-        })
-        .catch(err => console.log("acc update err ", err));
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -271,8 +227,22 @@ class PADetailsScreen extends Component {
         }
       });
     };
-    let activeThisValue = (input, id) => {
-      console.log("PROPER PROPANE : ",this.state.data);
+    let activeThisValue = async (input, id) => {
+      console.log("PROPER PROPANE : ", this.state.data,id);
+        await getAccountDtls(null, id)
+          .then(res => {
+            console.log("Account details now : ", res);
+            this.setState({
+              local: {
+                ...this?.state?.local,
+                accName: res[0]?.name,
+                accNo: res[0]?.value,
+                accAddr: res[0]?.address
+              }
+            });
+            console.log("acc update", res);
+          })
+          .catch(err => console.log("acc update err ", err));
       this.setState({
         data: {
           ...this.state.data,
@@ -297,8 +267,7 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      this.setState({ submit: true });
-      console.log("Data : ",this.state.data);
+      console.log("Data : ", this.state.data);
       submitTicket("propane", null, this.state.data)
         .then(res => {
           console.log("responses are : ", res);
@@ -471,8 +440,78 @@ class PADetailsScreen extends Component {
       </>
     );
   };
+
+  updateInfo = async data => {
+    console.log("Not new ticket");
+    await getEmpDetails(data.empId)
+      .then(res => {
+        console.log("emp update", res);
+        this.setState({
+          local: {
+            ...this?.state?.local,
+            empId: res.name,
+            empName: res.name
+          }
+        });
+      })
+      .catch(err => console.log("emp update err ", err));
+    await getAccountDtls(null, data.accNo)
+      .then(async res => {
+        await this.setState({
+          local: {
+            ...this?.state?.local,
+            accNo: res[0]?.value
+          }
+        });
+        console.log("acc update", res);
+      })
+      .catch(err => console.log("acc update err ", err));
+  };
+  dataOpener = async () => {
+    console.log(this.props.data);
+    this.props.data !== "new"
+      ? this?.props?.data &&
+        !this.state.data.accNo &&
+        !this.state.submit &&
+        (await getSingleWorkOrder("pro", this?.props?.data)
+          .then(async res => {
+            console.log("PRO DATA RECIEVED : ", res[0]);
+            this.setState({
+              ...this.state,
+              step: 2,
+              data: res[0],
+              local: {
+                ...this.state.local,
+                isDisabled: res[0].status === "completed" ? true : false
+              }
+            });
+            this.updateInfo(res[0]);
+          })
+          .catch(err => console.log(err)))
+      : this.setState({
+          ...this.defaultState,
+          data: propane.ComprehensivePropaneInspection,
+          step: 2
+        });
+  };
+
   $loading = () => {
-    return <ActivityIndicator animating={true} color={Colors.red800} />;
+    if (!this.state.submit) {
+      this.dataOpener();
+    }
+    return (
+      <>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <ActivityIndicator animating={true} color={Colors.red800} />
+            </View>
+          </Card.Content>
+        </Card>
+      </>
+    );
   };
   $applianceDetails = () => {
     let {
@@ -1829,8 +1868,10 @@ class PADetailsScreen extends Component {
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
           <Card.Content style={{ height: 250 }}>
-            {(status === "completed" && imageBinary === "") && (
-              <Subheading style={styles.selfCenter}>{"draw your signature and click on save"}</Subheading>
+            {status === "completed" && imageBinary === "" && (
+              <Subheading style={styles.selfCenter}>
+                {"draw your signature and click on save"}
+              </Subheading>
             )}
             {imageBinary !== "" ? (
               <Image
@@ -1881,7 +1922,7 @@ class PADetailsScreen extends Component {
     let submitted = _ => {
       this.setState({
         ...this.defaultState,
-        data: { ...this.props.propane.ComprehensivePropaneInspection }
+        data: { ...propane.ComprehensivePropaneInspection }
       });
       this.props.hideModal();
     };
@@ -2215,8 +2256,8 @@ class PADetailsScreen extends Component {
         return this.$signature();
       case 13:
         return this.$submitTicket();
-      default:
-        this.$loading();
+      case 25:
+        return this.$loading();
     }
   };
   render() {
@@ -2281,20 +2322,4 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  console.log("DATA REC ",state.masterReducer.propane);
-  return {
-    propane: state.masterReducer.propane
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    accounts: text => dispatch(accountDetails(text))
-  };
-}
-
-export const PADetails = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PADetailsScreen);
+export const PADetails = PADetailsScreen;

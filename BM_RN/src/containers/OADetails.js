@@ -20,10 +20,11 @@ import { Dropdown } from "react-native-material-dropdown";
 import { View, StyleSheet, FlatList, Image } from "react-native";
 import { connect } from "react-redux";
 import _ from "lodash";
-import * as oil from "./../assets/strings/oilStrings.json";
+import { getSingleWorkOrder } from "../redux/Actions/tickets";
 import { AirbnbRating } from "react-native-ratings";
 import SignatureCapture from "react-native-signature-capture";
-
+import { oil as oiler } from "../redux/oilStore";
+import * as oil from '../assets/strings/oilStrings.json';
 import {
   getAccountDtls,
   getApplianceType,
@@ -43,18 +44,22 @@ import AsyncStorage from "@react-native-community/async-storage";
 class OADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
-    step: 1,
+    step: 25,
     type: 0,
     error: false,
     aField: "accNo",
     // answers
     data: {},
+    submit: false,
     local: {
+      progress: true,
       accSearch: [],
       empSearch: [],
       applncType: [],
       manuf: [],
       isDisabled: false,
+      drawn: false,
+      image: false,
       airFilterSize: [],
       serialNo: [],
       modelNo: [],
@@ -73,9 +78,7 @@ class OADetailsScreen extends Component {
   }
   async componentDidMount() {
     console.log("OADetails Mounted");
-    this.setState({
-      user: await AsyncStorage.getItem("userType")
-    });
+
     if (
       _.isEmpty(this?.state?.local?.manuf) &&
       !_.isUndefined(this?.state?.local?.applncType)
@@ -96,61 +99,102 @@ class OADetailsScreen extends Component {
     }
   }
   async UNSAFE_componentWillReceiveProps(props, state) {
-    console.log("R-Props : ", props, this.state);
-    await this.setState({
-      data: { ...props.oil.ComprehensiveOilInspection },
-      local: {
-        ...this.state.local,
-        isDisabled:
-          props?.oil?.ComprehensiveOilInspection.status == "completed"
-            ? true
-            : false
-      }
-    });
-    this.state.data.accNo &&
-      getAccountDtls(null, this.state.data.accNo)
-        .then(res => {
-          // console.log("Account details : ", res);
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              accNo: res[0]?.value
-            }
-          });
-          console.log("acc update", res);
-        })
-        .catch(err => console.log("acc update err ", err));
-    this.state.data.empId &&
-      getEmpDetails(this.state.data.empId)
-        .then(res => {
-          console.log("emp update", res);
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              empName: res.name
-            }
-          });
-        })
-        .catch(err => console.log("emp update err ", err));
+    console.log(this.state);
+    console.log("R-State : ", this.props.data);
+    if (props?.reset && !this.state.submit) {
+      console.log("RESETTING STATE");
+      await this.setState({
+        ...this.defaultState,
+        local: {
+          ...this.state.local
+        }
+      });
+    }
   }
 
   componentWillMount() {
     if (this?.props?.reset) {
       console.log("resetting");
       this.setState({
-        ...this.defaultState,
-        data: { ...this.props.oil.ComprehensiveOilInspection }
+        ...this.defaultState
       });
     }
   }
 
+  updateInfo = async data => {
+    console.log("Not new ticket");
+    await getEmpDetails(data.empId)
+      .then(res => {
+        console.log("emp update", res);
+        this.setState({
+          local: {
+            ...this?.state?.local,
+            empId: res.name,
+            empName: res.name
+          }
+        });
+      })
+      .catch(err => console.log("emp update err ", err));
+    await getAccountDtls(null, data.accNo)
+      .then(async res => {
+        await this.setState({
+          local: {
+            ...this?.state?.local,
+            accNo: res[0]?.value
+          }
+        });
+        console.log("acc update", res);
+      })
+      .catch(err => console.log("acc update err ", err));
+  };
+  dataOpener = async () => {
+    console.log(this.props.data);
+    this.props.data !== "new"
+      ? this?.props?.data &&
+        !this.state.data.accNo &&
+        !this.state.submit &&
+        (await getSingleWorkOrder("oil", this?.props?.data)
+          .then(async res => {
+            console.log("OIL DATA RECIEVED : ", res[0]);
+            this.setState({
+              ...this.state,
+              step: 1,
+              data: res[0],
+              local: {
+                ...this.state.local,
+                isDisabled: res[0].status === "completed" ? true : false
+              }
+            });
+            this.updateInfo(res[0]);
+          })
+          .catch(err => console.log(err)))
+      : this.setState({
+          ...this.defaultState,
+          data: oiler.ComprehensiveOilInspection,
+          step: 1
+        });
+  };
   $loading = () => {
-    return <ActivityIndicator animating={true} color={Colors.red800} />;
+    if (!this.state.submit) {
+      this.dataOpener();
+    }
+    return (
+      <>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <ActivityIndicator animating={true} color={Colors.red800} />
+            </View>
+          </Card.Content>
+        </Card>
+      </>
+    );
   };
   $accountNumber = () => {
     let { accNo, empId, empName, isDisabled } = this?.state?.local;
     let { priority, comment } = this?.state?.data;
-
     let accountSearch = input => {
       getAccountDtls(input, null)
         .then(async res => {
@@ -171,20 +215,6 @@ class OADetailsScreen extends Component {
         }
       });
     };
-    this.state.local.accNo &&
-      getAccountDtls(null, this.state.data.accNo)
-        .then(res => {
-          console.log("Account details now : ", res);
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              accName: res[0]?.name,
-              accAddr: res[0]?.address
-            }
-          });
-          console.log("acc update", res);
-        })
-        .catch(err => console.log("acc update err ", err));
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -206,7 +236,22 @@ class OADetailsScreen extends Component {
         }
       });
     };
-    let activeThisValue = (input, id) => {
+    let activeThisValue = async (input, id) => {
+      console.log("OIL DETAILS : ", this.state.data, id);
+      await getAccountDtls(null, id)
+        .then(res => {
+          console.log("Account details now : ", res);
+          this.setState({
+            local: {
+              ...this?.state?.local,
+              accName: res[0]?.name,
+              accNo: res[0]?.value,
+              accAddr: res[0]?.address
+            }
+          });
+          console.log("acc update", res);
+        })
+        .catch(err => console.log("acc update err ", err));
       this.setState({
         data: {
           ...this.state.data,
@@ -231,10 +276,12 @@ class OADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
+      console.log("Data : ", this.state.data);
       submitTicket("oil", null, this.state.data)
         .then(res => {
           this.setState({
             step: 12,
+            submit: true,
             local: {
               ...this.state.local,
               progress: false,
@@ -243,9 +290,11 @@ class OADetailsScreen extends Component {
             }
           });
           console.log("Data: ", res);
+          this.props.onUpdate();
         })
         .catch(err => {
           console.log("Error: ", err);
+          this.setState({ submit: false });
         });
     };
     let getPriority = () => {
@@ -373,7 +422,8 @@ class OADetailsScreen extends Component {
             </Subheading>
           ) : (
             <>
-              {this.props.type === "emp" ? (
+              {this.props.type === "emp" ||
+              this.state.data.status === "completed" ? (
                 <Button
                   style={{ alignSelf: "flex-end" }}
                   onPress={() => this.setState({ step: 2 })}
@@ -488,6 +538,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Appliance Type"
+                disabled={isDisabled}
                 value={!_.isUndefined(applncType.value) ? applncType.value : ""}
                 onChangeText={(value, index, data) =>
                   update("applncType", index, data)
@@ -497,6 +548,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
+                disabled={isDisabled}
                 value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
@@ -506,6 +558,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Modal No."
+                disabled={isDisabled}
                 value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
@@ -515,6 +568,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No."
+                disabled={isDisabled}
                 value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
@@ -524,6 +578,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Nozzle size"
+                disabled={isDisabled}
                 value={!_.isUndefined(nozzle.value) ? nozzle.value : ""}
                 onChangeText={(value, index, data) =>
                   update("nozzle", index, data)
@@ -533,6 +588,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
+                disabled={isDisabled}
                 value={
                   !_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""
                 }
@@ -573,6 +629,7 @@ class OADetailsScreen extends Component {
       check7,
       check8
     } = this.state.data.oilAppDtls.oilFilter;
+    let { isDisabled } = this.state.local;
     let typeValidator = (type, value) => {
       this.setState({
         data: {
@@ -596,6 +653,7 @@ class OADetailsScreen extends Component {
           </Subheading>
           <Switch
             value={value}
+            disabled={isDisabled}
             onValueChange={() => typeValidator(type, !value)}
           />
         </View>
@@ -611,6 +669,7 @@ class OADetailsScreen extends Component {
           <Switch
             style={{ position: "absolute", right: 0 }}
             value={value}
+            disabled={isDisabled}
             onValueChange={() => typeValidator(type, !value)}
           />
         </View>
@@ -690,6 +749,7 @@ class OADetailsScreen extends Component {
       check16,
       check17
     } = this.state.data.oilAppDtls.maintainanceCheckList;
+    let { isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -727,6 +787,7 @@ class OADetailsScreen extends Component {
           </Subheading>
           <Switch
             value={value}
+            disabled={isDisabled}
             onValueChange={() =>
               list ? listValidator(type, !value) : validator(type, !value)
             }
@@ -741,7 +802,11 @@ class OADetailsScreen extends Component {
           <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
             {title}
           </Subheading>
-          <Switch value={value} onValueChange={() => validator(type, !value)} />
+          <Switch
+            value={value}
+            disabled={isDisabled}
+            onValueChange={() => validator(type, !value)}
+          />
         </View>
       );
     };
@@ -926,7 +991,7 @@ class OADetailsScreen extends Component {
     let submitTicketNow = () => {
       submitTicket("oil", null, this.state.data)
         .then(res => {
-          console.log("oil submitted 0 : ", res)
+          console.log("oil submitted 0 : ", res);
           this.setState({
             step: 12,
             local: {
@@ -979,13 +1044,11 @@ class OADetailsScreen extends Component {
             <Subheading>{"Select all fields to"}</Subheading>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={
-                () => {
-                      this.state.data.status === "completed"
-                        ? this.setState({ step: 11 })
-                        : submitTicketNow();
-                    }
-              }
+              onPress={() => {
+                this.state.data.status === "completed"
+                  ? this.setState({ step: 11 })
+                  : submitTicketNow();
+              }}
               icon="chevron-right"
             >
               {isDisabled ? "Done" : "Proceed"}
@@ -1004,7 +1067,6 @@ class OADetailsScreen extends Component {
     };
 
     let _onSaveEvent = async result => {
-      
       console.log("saved image base 64 : ", result);
       await this.setState({
         data: {
@@ -1018,23 +1080,23 @@ class OADetailsScreen extends Component {
       });
 
       this.state.local.drawn &&
-        (submitTicket("oil", null, this.state.data)
-      .then(res => {
-        console.log("oil submitted", res)
-        this.setState({
-          step: 12,
-          local: {
-            ...this.state.local,
-            progress: false,
-            create_id: res._id,
-            create_workId: res.workOrderId
-          }
-        });
-        console.log("Data: ", res);
-      })
-      .catch(err => {
-        console.log("Error: ", err);
-      }));
+        submitTicket("oil", null, this.state.data)
+          .then(res => {
+            console.log("oil submitted", res);
+            this.setState({
+              step: 12,
+              local: {
+                ...this.state.local,
+                progress: false,
+                create_id: res._id,
+                create_workId: res.workOrderId
+              }
+            });
+            console.log("Data: ", res);
+          })
+          .catch(err => {
+            console.log("Error: ", err);
+          });
     };
     let _onDragEvent = () => {
       // This callback will be called when the user enters signature
@@ -1059,11 +1121,13 @@ class OADetailsScreen extends Component {
       <>
         <Card>
           <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
-          <Card.Content style={{height: 250}}>
-          {(status === "completed" && imageBinary === "") && (
-              <Subheading style={styles.selfCenter}>{"draw your signature and click on save"}</Subheading>
+          <Card.Content style={{ height: 250 }}>
+            {status === "completed" && imageBinary === "" && (
+              <Subheading style={styles.selfCenter}>
+                {"draw your signature and click on save"}
+              </Subheading>
             )}
-          { imageBinary !== "" ? (
+            {imageBinary !== "" ? (
               <Image
                 style={{
                   flex: 1,
@@ -1073,8 +1137,7 @@ class OADetailsScreen extends Component {
                 }}
                 source={{ uri: this.state.data.imageBinary }}
               />
-            )
-            :(
+            ) : (
               <SignatureCapture
                 style={[{ flex: 1, height: 200 }]}
                 ref="sign"
@@ -1085,8 +1148,7 @@ class OADetailsScreen extends Component {
                 showTitleLabel={false}
                 viewMode={"landscape"}
               />
-            )
-          }
+            )}
           </Card.Content>
           <Card.Actions>
             <Subheading>{"Select all fields to"}</Subheading>
@@ -1113,6 +1175,7 @@ class OADetailsScreen extends Component {
   $pressureTagsExtra = () => {
     let { Notes, signature, certNo } = this.state.data;
     let techName = this?.state?.local?.empName;
+    let { isDisabled } = this.state.local;
 
     let validator = (type, value) => {
       this.setState({
@@ -1132,6 +1195,7 @@ class OADetailsScreen extends Component {
               style={styles.pressureTagsInput}
               label="NOTES"
               multiline
+              disabled={isDisabled}
               mode="outlined"
               value={Notes}
               onChangeText={text => validator("Notes", text)}
@@ -1148,6 +1212,7 @@ class OADetailsScreen extends Component {
               style={styles.pressureTagsInput}
               label="CERTIFICATION No"
               multiline
+              disabled={isDisabled}
               mode="outlined"
               value={certNo}
               onChangeText={text => validator("certNo", text)}
@@ -1167,6 +1232,7 @@ class OADetailsScreen extends Component {
     );
   };
   $oilStorageDetails = () => {
+    let { isDisabled } = this.state.local;
     let {
       manuf,
       modelNo,
@@ -1254,6 +1320,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
+                disabled={isDisabled}
                 value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
@@ -1263,6 +1330,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Model No"
+                disabled={isDisabled}
                 value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
@@ -1272,6 +1340,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No"
+                disabled={isDisabled}
                 value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
@@ -1281,6 +1350,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Year"
+                disabled={isDisabled}
                 value={!_.isUndefined(year.value) ? year.value : ""}
                 onChangeText={(value, index, data) =>
                   update("year", index, data)
@@ -1290,6 +1360,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Capacity"
+                disabled={isDisabled}
                 value={!_.isUndefined(capacity.value) ? capacity.value : ""}
                 onChangeText={(value, index, data) =>
                   update("capacity", index, data)
@@ -1299,6 +1370,7 @@ class OADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Current Level"
+                disabled={isDisabled}
                 value={
                   !_.isUndefined(currentLevel.value) ? currentLevel.value : ""
                 }
@@ -1333,6 +1405,7 @@ class OADetailsScreen extends Component {
       insuranceRequirement
     } = this.state.data.OilStorageDetails.ReasonForInspection;
     let { error } = this.state;
+    let {isDisabled} = this.state.local;
     let { indoor, outdoor } = this.state.data.OilStorageDetails.TankLocation;
     let pageNavigate = () => {
       if (!_.isEmpty(manuf) && !_.isEmpty(modelNo) && !_.isEmpty(serialNo)) {
@@ -1378,6 +1451,7 @@ class OADetailsScreen extends Component {
           </Subheading>
           <Switch
             value={value}
+            disabled={isDisabled}
             onValueChange={() => {
               tank ? tankValidator(type, !value) : validator(type, !value);
             }}
@@ -1458,6 +1532,7 @@ class OADetailsScreen extends Component {
       check9
     } = this.state.data.OilStorageDetails.InspectionCheckList;
     let { error } = this.state;
+    let {isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -1492,6 +1567,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -1510,6 +1586,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -1528,6 +1605,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check3}
+                disabled={isDisabled}
                 onValueChange={() => validator("check3", !check3)}
               />
             </View>
@@ -1546,6 +1624,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check4}
+                disabled={isDisabled}
                 onValueChange={() => validator("check4", !check4)}
               />
             </View>
@@ -1564,6 +1643,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check5}
+                disabled={isDisabled}
                 onValueChange={() => validator("check5", !check5)}
               />
             </View>
@@ -1582,6 +1662,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check6}
+                disabled={isDisabled}
                 onValueChange={() => validator("check6", !check6)}
               />
             </View>
@@ -1600,6 +1681,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check7}
+                disabled={isDisabled}
                 onValueChange={() => validator("check7", !check7)}
               />
             </View>
@@ -1618,6 +1700,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check8}
+                disabled={isDisabled}
                 onValueChange={() => validator("check8", !check8)}
               />
             </View>
@@ -1636,6 +1719,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check9}
+                disabled={isDisabled}
                 onValueChange={() => validator("check9", !check9)}
               />
             </View>
@@ -1661,6 +1745,7 @@ class OADetailsScreen extends Component {
       check1,
       check2
     } = this.state.data.OilStorageDetails.TwoTankOilStorage;
+    let {isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -1696,6 +1781,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -1714,6 +1800,7 @@ class OADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -1724,7 +1811,7 @@ class OADetailsScreen extends Component {
             </Paragraph>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={() => this.setState({step: 10})}
+              onPress={() => this.setState({ step: 10 })}
               icon="chevron-right"
             >
               {"Proceed"}
@@ -1738,7 +1825,7 @@ class OADetailsScreen extends Component {
     let submitted = _ => {
       this.setState({
         ...this.defaultState,
-        data: { ...this.props.oil.ComprehensiveOilInspection }
+        data: { ...oiler.ComprehensiveOilInspection }
       });
       this.props.hideModal();
     };
@@ -1863,8 +1950,8 @@ class OADetailsScreen extends Component {
         return this.$signature();
       case 12:
         return this.$submitTicket();
-      default:
-        this.$loading();
+      case 25:
+        return this.$loading();
     }
   };
   render() {
@@ -1910,20 +1997,4 @@ const styles = StyleSheet.create({
   accNumActionCenter: { width: "100%", textAlign: "center" }
 });
 
-function mapStateToProps(state) {
-  // console.log(state);
-  return {
-    oil: state.masterReducer.oil
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    accounts: text => dispatch(accountDetails(text))
-  };
-}
-
-export const OADetails = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OADetailsScreen);
+export const OADetails = OADetailsScreen;

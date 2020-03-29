@@ -34,13 +34,13 @@ const Detail = props => {
   let name = props?.name;
   let value = props?.value;
   return (
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Subheading>{name}</Subheading>
-        <Subheading>{value}</Subheading>
-      </View>
+    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <Subheading>{name}</Subheading>
+      <Subheading>{value}</Subheading>
+    </View>
   );
 };
-class Home extends Component {
+export default class Home extends Component {
   state = {
     raiseTicket: false,
     visible: false,
@@ -49,10 +49,12 @@ class Home extends Component {
     oilReset: true,
     type: "err",
     list: [],
+    propane: null,
+    oil: null,
     active: 1,
-    userName: '',
-    userEmail: '',
-    userAge: '',
+    userName: "",
+    userEmail: "",
+    userAge: "",
     total: 0,
     pending: 0,
     completed: 0,
@@ -96,7 +98,13 @@ class Home extends Component {
   hideMenu = () => {
     console.log("Hide");
     this.getStatusData();
-    this.setState({ raiseTicket: false, Details: 0, propaneReset: true });
+    this.setState({
+      raiseTicket: false,
+      Details: 0,
+      propaneReset: true,
+      propane: null,
+      oil: null
+    });
   };
   async getUserType() {
     return await AsyncStorage.getItem("userType");
@@ -122,10 +130,10 @@ class Home extends Component {
     await this.getOrdersProOil(1);
     this.setState({
       userName: await AsyncStorage.getItem("userName"),
-      userEmail:  await AsyncStorage.getItem("userEmail"),
-      userAge:  await AsyncStorage.getItem("userAge"),
+      userEmail: await AsyncStorage.getItem("userEmail"),
+      userAge: await AsyncStorage.getItem("userAge"),
       userType: await AsyncStorage.getItem("userType")
-    })
+    });
     this.getUserType()
       .then(res =>
         this.setState({
@@ -142,23 +150,17 @@ class Home extends Component {
     await this.getStatusData();
   };
   openActiveItem(index) {
-    let { addPropane, addOil } = this.props;
+    var updateId = (type, value) => {
+      this.setState({
+        [type]: value
+      });
+    };
     function action(number, data) {
       console.log("ACTIVE DTAA", data);
       if (number === 1) {
-        getSingleWorkOrder("pro", data?._id)
-          .then(res => {
-            console.log("PRO DATA RECIEVED : ", res[0]);
-            addPropane(res[0]);
-          })
-          .catch(err => console.log(err));
+        updateId("propane", data._id);
       } else {
-        getSingleWorkOrder("oil", data?._id)
-          .then(res => {
-            console.log("OIL DATA RECIEVED : ", res[0]);
-            addOil(res[0]);
-          })
-          .catch(err => console.log(err));
+        updateId("oil", data._id);
       }
       return number;
     }
@@ -171,7 +173,7 @@ class Home extends Component {
     this.setState({ activeItem: index, Details: details });
   }
   getUserDetailMessage = () => {
-    return `Hello  ${this.state.userType === "emp" ? "Employee" : "Admin" }`;
+    return `Hello  ${this.state.userType === "emp" ? "Employee" : "Admin"}`;
   };
 
   showMenu = () => this.setState({ raiseTicket: true });
@@ -191,19 +193,22 @@ class Home extends Component {
             pending={this.state.pending}
             todos={this.state.todo}
           />
-          {this.state.Details === 1 ? (
+          {this.state.Details === 1 && this.state.propane != null ? (
             <PADetails
               visible={this.state.Details === 1}
               type={this.state.type}
               onUpdate={this.updateCall}
+              data={this.state.propane}
               reset={this.state.propaneReset}
               hideModal={this.hideMenu}
             />
-          ) : this.state.Details === 2 ? (
+          ) : this.state.Details === 2 && this.state.oil != null ? (
             <OADetails
               visible={this.state.Details == 2}
               reset={this.state.oilReset}
               type={this.state.type}
+              onUpdate={this.updateCall}
+              data={this.state.oil}
               hideModal={this.hideMenu}
             />
           ) : (
@@ -223,9 +228,9 @@ class Home extends Component {
                       <Title style={styles.selfCenter}>
                         {this.getUserDetailMessage()}
                       </Title>
-                      <Detail name={'Name'} value={this.state.userName}/>
-                      <Detail name={'Email'} value={this.state.userEmail}/>
-                      <Detail name={'Age'} value={this.state.userAge}/>
+                      <Detail name={"Name"} value={this.state.userName} />
+                      <Detail name={"Email"} value={this.state.userEmail} />
+                      <Detail name={"Age"} value={this.state.userAge} />
                     </Card.Content>
                   </Card>
                 </View>
@@ -277,10 +282,8 @@ class Home extends Component {
                     label: "Propane Appliance",
                     icon: "gas-station",
                     onPress: async () => {
-                      await this.props.addPropane(
-                        propane.ComprehensivePropaneInspection
-                      );
                       this.setState({
+                        propane: "new",
                         Details: 1,
                         raiseTicket: false,
                         propaneReset: true
@@ -290,9 +293,9 @@ class Home extends Component {
                   {
                     label: "Oil Appliance",
                     icon: "oil",
-                    onPress: async () => {
-                      await this.props.addOil(oil.ComprehensiveOilInspection);
+                    onPress: () => {
                       this.setState({
+                        oil: "new",
                         Details: 2,
                         raiseTicket: false,
                         oilReset: true
@@ -311,19 +314,6 @@ class Home extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => ({
-  addPropane: data => dispatch({ type: PROPANE, data }),
-  addOil: data => dispatch({ type: OIL, data })
-});
-
-const HomeScreen = connect(null, mapDispatchToProps)(Home);
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   fab: {
