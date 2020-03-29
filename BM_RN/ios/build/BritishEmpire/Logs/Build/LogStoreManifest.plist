@@ -38,6 +38,40 @@
 			<key>uniqueIdentifier</key>
 			<string>B6F1EE2C-6329-4D20-8CE9-CCF39DDFA368</string>
 		</dict>
+		<key>D1157837-6979-44B4-9400-20E91ECB8D75</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>D1157837-6979-44B4-9400-20E91ECB8D75.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BritishEmpire project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BritishEmpire</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>607201766.059497</real>
+			<key>timeStoppedRecording</key>
+			<real>607201786.61642802</real>
+			<key>title</key>
+			<string>Building workspace BritishEmpire with scheme BritishEmpire and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>D1157837-6979-44B4-9400-20E91ECB8D75</string>
+		</dict>
 	</dict>
 </dict>
 </plist>

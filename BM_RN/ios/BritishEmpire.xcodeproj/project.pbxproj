@@ -773,6 +773,7 @@
 				DEVELOPMENT_TEAM = 6WCA3KRBRK;
 				INFOPLIST_FILE = BritishEmpire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -781,7 +782,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.britishempirefuels;
 				PRODUCT_NAME = BritishEmpire;
 				PROVISIONING_PROFILE_SPECIFIER = BEF_Dev;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -798,6 +799,7 @@
 				DEVELOPMENT_TEAM = 6WCA3KRBRK;
 				INFOPLIST_FILE = BritishEmpire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -806,7 +808,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.britishempirefuels;
 				PRODUCT_NAME = BritishEmpire;
 				PROVISIONING_PROFILE_SPECIFIER = BEF_Dev;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
