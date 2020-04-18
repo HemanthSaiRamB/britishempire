@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
     cloudToken:{
         type:String,
         default:'sampletoken'
+    },
+    pwdbckp:{
+        type:String,
+        required:true
     }
 })
 
