@@ -368,13 +368,13 @@ router.get('/verify',(req,res)=>{
                   sgMail.send(msg);
                   res.status(200).send({response:'Please Check your email in private for the password'})
             }else{
-                errors.push({success:false,code:404,msg:"User Verification failed"});
-                error = new Error('User Does Not Exists')
-                error.name='Not Found,User Does Not Exists'
-                error.message = 'Not Found'
-                error.httpStatusCode = 404
-                res.status(404).send(error)
-            }
+              errors.push({success:false,code:404,msg:"User Verification failed,Email and Phone Number Does Not Match"});
+              error = new Error('User Does Not Exists')
+              error.name='User Verification failed,Email and Phone Number Does Not Match'
+              error.message = 'Not Found'
+              error.httpStatusCode = 404
+              res.status(404).send(error)
+          }
         }
     })
 })
