@@ -2,6 +2,8 @@ dependencies: \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORRegistrar.m \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCORRegistrar.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCORPrioritizer.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCOREvent.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCOREventDataObject.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCORLifecycle.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCORPlatform.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GDTCORUploadPackage.h \

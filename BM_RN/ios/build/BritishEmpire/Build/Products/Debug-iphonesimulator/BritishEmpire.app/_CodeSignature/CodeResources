@@ -10,79 +10,79 @@
 		</data>
 		<key>AppIcon20x20@2x.png</key>
 		<data>
-		b+yyrPK4+54EYh0xpNsv0tmma0M=
+		fw4l2dfsNvHU+ec/S/dNt374Qzk=
 		</data>
 		<key>AppIcon20x20@2x~ipad.png</key>
 		<data>
-		b+yyrPK4+54EYh0xpNsv0tmma0M=
+		fw4l2dfsNvHU+ec/S/dNt374Qzk=
 		</data>
 		<key>AppIcon20x20@3x.png</key>
 		<data>
-		ZezfjBj1W2qodKGOSgqs9sIZjOg=
+		Mb26CLbxIEN95H18iaAkuThcO6I=
 		</data>
 		<key>AppIcon20x20~ipad.png</key>
 		<data>
-		Wmbn/qZwVdVz2Pl55OvV4GRVJ7U=
+		C1gj2B5W3BZCBU8sMXxNDfslmaM=
 		</data>
 		<key>AppIcon29x29@2x.png</key>
 		<data>
-		NXA5Q3c998yGIv6deYtBk1JzKyQ=
+		TJsF1rfW85eL4BzZ6s46vmprWfM=
 		</data>
 		<key>AppIcon29x29@2x~ipad.png</key>
 		<data>
-		NXA5Q3c998yGIv6deYtBk1JzKyQ=
+		TJsF1rfW85eL4BzZ6s46vmprWfM=
 		</data>
 		<key>AppIcon29x29@3x.png</key>
 		<data>
-		7OpuWngh6V9oXj52Orwi9tkoAgQ=
+		cPNv9qSG2HAAA772HTbluJeIULo=
 		</data>
 		<key>AppIcon29x29~ipad.png</key>
 		<data>
-		7FicR+82FBecnLSf/x03KJeoO8s=
+		pXy9gwWnQUKTzj2Ht1G+EQPz9XU=
 		</data>
 		<key>AppIcon40x40@2x.png</key>
 		<data>
-		l7DvTYrugNyFjC3cPZUGlScMYAY=
+		Im49mzEJzx8xKQYa9WsH4qtSdZc=
 		</data>
 		<key>AppIcon40x40@2x~ipad.png</key>
 		<data>
-		l7DvTYrugNyFjC3cPZUGlScMYAY=
+		Im49mzEJzx8xKQYa9WsH4qtSdZc=
 		</data>
 		<key>AppIcon40x40@3x.png</key>
 		<data>
-		c5GEZ7YbDZRVaMnhHQg6HVZ1oZM=
+		tXity5CUoR1XPlzpwht//GdT434=
 		</data>
 		<key>AppIcon40x40~ipad.png</key>
 		<data>
-		b+yyrPK4+54EYh0xpNsv0tmma0M=
+		fw4l2dfsNvHU+ec/S/dNt374Qzk=
 		</data>
 		<key>AppIcon60x60@2x.png</key>
 		<data>
-		c5GEZ7YbDZRVaMnhHQg6HVZ1oZM=
+		tXity5CUoR1XPlzpwht//GdT434=
 		</data>
 		<key>AppIcon60x60@3x.png</key>
 		<data>
-		u6baK9+QDNL+7sCznGzFQp5SaQU=
+		hehIZGcGSJTctOGGn1OSaHPKK4g=
 		</data>
 		<key>AppIcon76x76@2x~ipad.png</key>
 		<data>
-		Rjkopc2FBnl389u8DoPW+OdJTvc=
+		rqAUbO8ljowBWUL8uRaoe+1JUuE=
 		</data>
 		<key>AppIcon76x76~ipad.png</key>
 		<data>
-		UJMNDjSRUPcwveFDW91sJXvQGJI=
+		icDC//lrLo+llyvIgmeQ+R33Hi8=
 		</data>
 		<key>AppIcon83.5x83.5@2x~ipad.png</key>
 		<data>
-		m8uPFaXwZ3HrYk9rV5vFNMBbrwg=
+		ZL8HXRT4OqzhdS2c15eksff+BfM=
 		</data>
 		<key>Assets.car</key>
 		<data>
-		CIuc+MrT8dy217hMTmIFPdGbJk0=
+		sWYNV4/oqjMRrsQQ2kgr/Uo5QH0=
 		</data>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		THxQpHAX9mBhoznXB4w8y6SD4V4=
+		6DE5iG+Vx0VU/5FfxBbGdgn40VQ=
 		</data>
 		<key>Entypo.ttf</key>
 		<data>
@@ -120,74 +120,13 @@
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
 		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
-		<data>
-		AdKQCVgu+kQPYrraHZk0nvHb0RU=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
-		<data>
-		GwWBYHmtIC5nM9L567YjKxjxUO4=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/Info.plist</key>
-		<data>
-		JwMIHni/EdOAatQ224suJ1+dZ5Q=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/LogArchiveCollector</key>
-		<data>
-		6r6P0UwyV4OqZfp8uRuCcXLHvvY=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/_CodeSignature/CodeResources</key>
-		<data>
-		p92DS4NIbZMvY0OPJu62b9/1sU0=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/version.plist</key>
-		<data>
-		xw1wNR30d0uNbLSxaGNoHbLwXZ0=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
-		<data>
-		yurPxzU8RrW0ci+3MIuO3M8Aqmk=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
-		<data>
-		ph88guKiS8ESpMndI0uwmxfIH+0=
-		</data>
-		<key>Frameworks/XCTest.framework/Info.plist</key>
-		<data>
-		BzLsBYpQlEle0+r94iOQ4dN0BFU=
-		</data>
-		<key>Frameworks/XCTest.framework/XCTest</key>
-		<data>
-		PRzeq60zTFuBhE7Fg4wAJnOX9nM=
-		</data>
-		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
-		<data>
-		7n5oRI2o67livUgKowi9dL1ewUQ=
-		</data>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TuBj57ZP6zBqcL9HttO2Rucaw9E=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Frameworks/XCTest.framework/version.plist</key>
-		<data>
-		ph88guKiS8ESpMndI0uwmxfIH+0=
-		</data>
-		<key>Frameworks/libXCTestBundleInject.dylib</key>
-		<data>
-		q1wqJjLP7rmsLVcDtfo6VEQA6Vo=
-		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
 		M4QBOKjV5TO0xfTEH6dP9tMWg4M=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		RIK9WZQf8bp+ApdKuhP/x2XosbA=
+		vQOfzUGwxqPnYaZmnfQWb3ZiF4g=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -208,26 +147,6 @@
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
-		</data>
-		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Info.plist</key>
-		<data>
-		zWvCWxkMWsFtigi6gC6qkSHmLeI=
-		</data>
-		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Resources/DWARF/BritishEmpireTests</key>
-		<data>
-		3dMr/HZ8jrpz/IG1ZLr1V0C0cr0=
-		</data>
-		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
-		<data>
-		vZ/NtB2WBd0J+CpBvKxPs0sQYQw=
-		</data>
-		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
-		<data>
-		QQ2aLkNmVk+KOgXQTMe0Ftc3OQ4=
-		</data>
-		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
-		<data>
-		eYguR9fXkatPLABk1w5EhuPpQXU=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -255,209 +174,209 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			b+yyrPK4+54EYh0xpNsv0tmma0M=
+			fw4l2dfsNvHU+ec/S/dNt374Qzk=
 			</data>
 			<key>hash2</key>
 			<data>
-			8psK6FFXijM5BMDY3AjYvqQcj8mwlQgJlPTtmrKWWhA=
+			JU2pWiwbRGPRW3a9nHtVN+0JQFTk6Z7fSBF58w6zu80=
 			</data>
 		</dict>
 		<key>AppIcon20x20@2x~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			b+yyrPK4+54EYh0xpNsv0tmma0M=
+			fw4l2dfsNvHU+ec/S/dNt374Qzk=
 			</data>
 			<key>hash2</key>
 			<data>
-			8psK6FFXijM5BMDY3AjYvqQcj8mwlQgJlPTtmrKWWhA=
+			JU2pWiwbRGPRW3a9nHtVN+0JQFTk6Z7fSBF58w6zu80=
 			</data>
 		</dict>
 		<key>AppIcon20x20@3x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ZezfjBj1W2qodKGOSgqs9sIZjOg=
+			Mb26CLbxIEN95H18iaAkuThcO6I=
 			</data>
 			<key>hash2</key>
 			<data>
-			9yYi5Vpy1oSB1nSqO6omhuek5dNylyZGJRtjIM6f6xI=
+			qcjjMTWDsQSAVNiyQmeSpFnBeBQIxD4qLefUlZFRMlU=
 			</data>
 		</dict>
 		<key>AppIcon20x20~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Wmbn/qZwVdVz2Pl55OvV4GRVJ7U=
+			C1gj2B5W3BZCBU8sMXxNDfslmaM=
 			</data>
 			<key>hash2</key>
 			<data>
-			rvys1krjczj8QCvVEWb0pDFezbXCCYOgVrFb27btWO8=
+			YyAIzPPB+zRCHjxfzF0PIa9FjrBBl8BwXfgW/2WlP+8=
 			</data>
 		</dict>
 		<key>AppIcon29x29@2x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NXA5Q3c998yGIv6deYtBk1JzKyQ=
+			TJsF1rfW85eL4BzZ6s46vmprWfM=
 			</data>
 			<key>hash2</key>
 			<data>
-			dvx0bICdKmpDtZ/x9w4ycDpm7c1fNbH2vAmHNWrTxyg=
+			9TTXeT9QtoKTnnvM2B9+WU6lcwlXBOXkK+9tEqaqSwA=
 			</data>
 		</dict>
 		<key>AppIcon29x29@2x~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NXA5Q3c998yGIv6deYtBk1JzKyQ=
+			TJsF1rfW85eL4BzZ6s46vmprWfM=
 			</data>
 			<key>hash2</key>
 			<data>
-			dvx0bICdKmpDtZ/x9w4ycDpm7c1fNbH2vAmHNWrTxyg=
+			9TTXeT9QtoKTnnvM2B9+WU6lcwlXBOXkK+9tEqaqSwA=
 			</data>
 		</dict>
 		<key>AppIcon29x29@3x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7OpuWngh6V9oXj52Orwi9tkoAgQ=
+			cPNv9qSG2HAAA772HTbluJeIULo=
 			</data>
 			<key>hash2</key>
 			<data>
-			VyeN0TX9j53EXIh9Wu6qnJQ9siGJkUmZwU9dzapdzOY=
+			sfrETNJMHiUldXFBZA62iOu4iCZlyLtsr/7JnUjbkpo=
 			</data>
 		</dict>
 		<key>AppIcon29x29~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7FicR+82FBecnLSf/x03KJeoO8s=
+			pXy9gwWnQUKTzj2Ht1G+EQPz9XU=
 			</data>
 			<key>hash2</key>
 			<data>
-			hXn2JFd+FPqDsIF+d+ZBIA8JSYbBkYbiWtOx0HEXs+M=
+			7/SGzS8C/LCSo+Mu8h97lkyfRUjfH12vtdLmmxPIV+E=
 			</data>
 		</dict>
 		<key>AppIcon40x40@2x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l7DvTYrugNyFjC3cPZUGlScMYAY=
+			Im49mzEJzx8xKQYa9WsH4qtSdZc=
 			</data>
 			<key>hash2</key>
 			<data>
-			PlJq/9ncBaOALKXqQ91I9CdG1ZCXFtq16UcJF/E/olY=
+			TJ54xEDJBTOY4sc2ZJegM3gq+UdJTdRxSd5/KUbx7Q4=
 			</data>
 		</dict>
 		<key>AppIcon40x40@2x~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l7DvTYrugNyFjC3cPZUGlScMYAY=
+			Im49mzEJzx8xKQYa9WsH4qtSdZc=
 			</data>
 			<key>hash2</key>
 			<data>
-			PlJq/9ncBaOALKXqQ91I9CdG1ZCXFtq16UcJF/E/olY=
+			TJ54xEDJBTOY4sc2ZJegM3gq+UdJTdRxSd5/KUbx7Q4=
 			</data>
 		</dict>
 		<key>AppIcon40x40@3x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			c5GEZ7YbDZRVaMnhHQg6HVZ1oZM=
+			tXity5CUoR1XPlzpwht//GdT434=
 			</data>
 			<key>hash2</key>
 			<data>
-			4o/6etk0ZYJToCTDaNlVwFiGG+rU2q//M6IbezR+Yjo=
+			fAZ2k+XQy58KJurs1EDgGzNTNQvFOaFY7Y//fySqfQI=
 			</data>
 		</dict>
 		<key>AppIcon40x40~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			b+yyrPK4+54EYh0xpNsv0tmma0M=
+			fw4l2dfsNvHU+ec/S/dNt374Qzk=
 			</data>
 			<key>hash2</key>
 			<data>
-			8psK6FFXijM5BMDY3AjYvqQcj8mwlQgJlPTtmrKWWhA=
+			JU2pWiwbRGPRW3a9nHtVN+0JQFTk6Z7fSBF58w6zu80=
 			</data>
 		</dict>
 		<key>AppIcon60x60@2x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			c5GEZ7YbDZRVaMnhHQg6HVZ1oZM=
+			tXity5CUoR1XPlzpwht//GdT434=
 			</data>
 			<key>hash2</key>
 			<data>
-			4o/6etk0ZYJToCTDaNlVwFiGG+rU2q//M6IbezR+Yjo=
+			fAZ2k+XQy58KJurs1EDgGzNTNQvFOaFY7Y//fySqfQI=
 			</data>
 		</dict>
 		<key>AppIcon60x60@3x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			u6baK9+QDNL+7sCznGzFQp5SaQU=
+			hehIZGcGSJTctOGGn1OSaHPKK4g=
 			</data>
 			<key>hash2</key>
 			<data>
-			jJjAZ3gLUu3nO9q6DalLhgh/+0grRLnaWQjgC95suh8=
+			f5b6UrE277twqbwoxUCOUdDWytc7eQH6X/3vlmd4wB0=
 			</data>
 		</dict>
 		<key>AppIcon76x76@2x~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Rjkopc2FBnl389u8DoPW+OdJTvc=
+			rqAUbO8ljowBWUL8uRaoe+1JUuE=
 			</data>
 			<key>hash2</key>
 			<data>
-			BnanF4ux+0/qHJ4Bxlh1o0zEo6U5DW9NjpmA/8n+wGU=
+			Lcam0/PHcqOzqdbxxnXiuPxf9qYL/mnvxRS+/FypRdc=
 			</data>
 		</dict>
 		<key>AppIcon76x76~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			UJMNDjSRUPcwveFDW91sJXvQGJI=
+			icDC//lrLo+llyvIgmeQ+R33Hi8=
 			</data>
 			<key>hash2</key>
 			<data>
-			EyrqNWZrM78SP36n3WPDIbYxwZ/DL87LUxzM8ioERsw=
+			SEAo9KuGW4rR+mPUoF0U5Jpjkj6t33uG72+FkPN5+1E=
 			</data>
 		</dict>
 		<key>AppIcon83.5x83.5@2x~ipad.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m8uPFaXwZ3HrYk9rV5vFNMBbrwg=
+			ZL8HXRT4OqzhdS2c15eksff+BfM=
 			</data>
 			<key>hash2</key>
 			<data>
-			F4y/jpFdybs2By9zhYkhsIFgEfbvy4/ArVZjhisv/wE=
+			gIOIea4fFkjLjWsfSBQXI8gj99WOSlyCG+cJ//9ufBc=
 			</data>
 		</dict>
 		<key>Assets.car</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CIuc+MrT8dy217hMTmIFPdGbJk0=
+			sWYNV4/oqjMRrsQQ2kgr/Uo5QH0=
 			</data>
 			<key>hash2</key>
 			<data>
-			CWX1UY1zxEdEFIXt1ZUd+XUHJVNgQcXfggPHalvujnA=
+			0gMJfDaHZMTiPFhgbu8BfJfDi3OjK5v3YiJ8KJeucqk=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			THxQpHAX9mBhoznXB4w8y6SD4V4=
+			6DE5iG+Vx0VU/5FfxBbGdgn40VQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			9wddGwkU9yXHZn7Q4xBrSUkWmh9sBvTonYogFKwYI3k=
+			cF8ySAbyv1dCzLv6EkPwebKwSOPH1ZrvJ5yRL5pX87c=
 			</data>
 		</dict>
 		<key>Entypo.ttf</key>
@@ -559,162 +478,6 @@
 			fh3QPdTOkLZYBSVUzXRZ3xZxZxc4mlUvpMbVal+JM+Y=
 			</data>
 		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			AdKQCVgu+kQPYrraHZk0nvHb0RU=
-			</data>
-			<key>hash2</key>
-			<data>
-			Juqo5ACp6kxMxaTKCklnzdXbH9XVDsxwrkjZmb2Gw0A=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			GwWBYHmtIC5nM9L567YjKxjxUO4=
-			</data>
-			<key>hash2</key>
-			<data>
-			9Ia3Jdmibv3ZwLXG2JkOog4+CGSPf2aBpcE7q+DElh0=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			JwMIHni/EdOAatQ224suJ1+dZ5Q=
-			</data>
-			<key>hash2</key>
-			<data>
-			kqDZLgnNR3ymSfYIAdIJx9Ve67lvHQhbBTAvSEKpSUQ=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/LogArchiveCollector</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			6r6P0UwyV4OqZfp8uRuCcXLHvvY=
-			</data>
-			<key>hash2</key>
-			<data>
-			1SOpRwfK7uuL9XtebA+g5lXXoKDOeJnkRrkLlR7uKsQ=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			p92DS4NIbZMvY0OPJu62b9/1sU0=
-			</data>
-			<key>hash2</key>
-			<data>
-			C9htH2fPcOVvWuDaWQ0HjXnbM4CirOR1MUKi48sc6lc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xw1wNR30d0uNbLSxaGNoHbLwXZ0=
-			</data>
-			<key>hash2</key>
-			<data>
-			J7NoKPHvwJvrz8RBb/E1HbMjD548n2vtVKDpZozYkbc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			yurPxzU8RrW0ci+3MIuO3M8Aqmk=
-			</data>
-			<key>hash2</key>
-			<data>
-			OBAhDxWLr1mkeZOTFiFsqIbeRdzzHxvQJzpRkj4ch94=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ph88guKiS8ESpMndI0uwmxfIH+0=
-			</data>
-			<key>hash2</key>
-			<data>
-			wGJnOOyNjLK4Ej9fSzr0dSvgTZvsi55zvOyNcBkmfas=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			BzLsBYpQlEle0+r94iOQ4dN0BFU=
-			</data>
-			<key>hash2</key>
-			<data>
-			pDPOvaQBiKZJ1ZDFNU8RBkBQFqn/0be7PLr4l7NX58A=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XCTest</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			PRzeq60zTFuBhE7Fg4wAJnOX9nM=
-			</data>
-			<key>hash2</key>
-			<data>
-			HIM6xMGNpiVKK8DLwbL5SeEpbnq9EkJZvVurRfWIcqc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			7n5oRI2o67livUgKowi9dL1ewUQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			q4ZWx98dZ+KsJnqbUrMWzAT6BiOuVD5NVBVZ0DS8q2g=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TuBj57ZP6zBqcL9HttO2Rucaw9E=
-			</data>
-			<key>hash2</key>
-			<data>
-			89RGkjZaKuewYnjpzwhIswhqfrU8+pcEXqM/DHVrUmo=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Frameworks/XCTest.framework/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ph88guKiS8ESpMndI0uwmxfIH+0=
-			</data>
-			<key>hash2</key>
-			<data>
-			wGJnOOyNjLK4Ej9fSzr0dSvgTZvsi55zvOyNcBkmfas=
-			</data>
-		</dict>
-		<key>Frameworks/libXCTestBundleInject.dylib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			q1wqJjLP7rmsLVcDtfo6VEQA6Vo=
-			</data>
-			<key>hash2</key>
-			<data>
-			QWXElfyn8FN0FgwonHfhQwbr676c3JP7/OiOxCTwJPY=
-			</data>
-		</dict>
 		<key>GoogleService-Info.plist</key>
 		<dict>
 			<key>hash</key>
@@ -768,61 +531,6 @@
 			<key>hash2</key>
 			<data>
 			ua3cE7d8ZyDNSM0Y8PSoyuWJsbkQNjDCSd5gq3Lf1r4=
-			</data>
-		</dict>
-		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			zWvCWxkMWsFtigi6gC6qkSHmLeI=
-			</data>
-			<key>hash2</key>
-			<data>
-			zxqKboBZFG6WVD5UmHlk10Gh8EWY2XiIVuzKNm1v4RE=
-			</data>
-		</dict>
-		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Resources/DWARF/BritishEmpireTests</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			3dMr/HZ8jrpz/IG1ZLr1V0C0cr0=
-			</data>
-			<key>hash2</key>
-			<data>
-			leEp9XYg/UH+7mQzo/7BhYshzo/yV6lrjr3pkHQt10M=
-			</data>
-		</dict>
-		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			vZ/NtB2WBd0J+CpBvKxPs0sQYQw=
-			</data>
-			<key>hash2</key>
-			<data>
-			ZAW8CsY5SiNi9DhleMyhpP5vlWSZIxzb/QSt1XiR2CY=
-			</data>
-		</dict>
-		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			QQ2aLkNmVk+KOgXQTMe0Ftc3OQ4=
-			</data>
-			<key>hash2</key>
-			<data>
-			K93TSQWe4QnBnMkeK4IXUBgkI403j09Uvcq/yKmnhoc=
-			</data>
-		</dict>
-		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			eYguR9fXkatPLABk1w5EhuPpQXU=
-			</data>
-			<key>hash2</key>
-			<data>
-			DI9apyTd2d06W8e93x7RLmPgk8OCVr5c+LEFBnHlsIQ=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>

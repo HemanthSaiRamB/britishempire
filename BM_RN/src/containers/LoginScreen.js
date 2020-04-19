@@ -9,13 +9,14 @@ import {loginAction} from '../redux/Actions/user';
 import {Header} from '../components/Header';
 import {connect} from 'react-redux';
 import firebase from 'react-native-firebase';
-
+import {ForgetScreen} from './ForgetScreen';
 class Login extends Component {
   state = {
     email: '',
     password: '',
     error: '',
-    token: ''
+    token: '',
+    reset: false
   };
   static navigationOptions = {
     header: null,
@@ -56,6 +57,16 @@ class Login extends Component {
       .onNotification(notification => {
         firebase.notifications().displayNotification(notification);
       });
+  };
+  hideMenu = () => {
+    console.log("Hide");
+    this.setState({
+      reset: false,
+      email: '',
+      password: '',
+      error: '',
+      token: ''
+    });
   };
 
   removeNotificationListeners = () => {
@@ -116,7 +127,7 @@ class Login extends Component {
                   change={this.updateField}
                 />
               </View>
-              <Button style={{justifyContent: 'flex-start'}} mode="text">
+              <Button onPress={() => this.setState({reset: true})} style={{justifyContent: 'flex-start'}} mode="text">
                 Forgot Password ?
               </Button>
             </View>
@@ -153,6 +164,10 @@ class Login extends Component {
                   onPress={() => this.props.navigation.navigate('Register')}>
                   Sign Up
                 </Button>
+                {
+                  this.state.reset === true && 
+                  <ForgetScreen visible={this.state.reset} hideModal={this.hideMenu} />
+                }
               </View>
             </View>
           </View>

@@ -12,10 +12,10 @@ const getAccess = async () => {
 export const getWorkOrder = async (type, state, id) => {
   try {
     let onlyEmp = {
-      empId: await AsyncStorage.getItem("userId")
+      empId: await AsyncStorage.getItem("userId"),
     };
     let withStatus = {
-      status: state === 2 ? "completed" : state === 4 ? "todo" : "inpro"
+      status: state === 2 ? "completed" : state === 4 ? "todo" : "inpro",
     };
 
     let empStatus =
@@ -29,7 +29,7 @@ export const getWorkOrder = async (type, state, id) => {
       EndPoint.getWorkOrder + type,
       state === 1 ? body : withStatus,
       {
-        headers: { Authorization: await AsyncStorage.getItem("userToken") }
+        headers: { Authorization: await AsyncStorage.getItem("userToken") },
       }
     );
     console.log("getWorkOrder", res.data);
@@ -42,10 +42,10 @@ export const getWorkOrder = async (type, state, id) => {
 export const getSingleWorkOrder = async (type, id) => {
   try {
     let body = {
-      _id: id
+      _id: id,
     };
     const res = await API.post(EndPoint.getWorkOrder + type, body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     console.log("getWorkOrder", res.data);
     return await res.data;
@@ -54,14 +54,14 @@ export const getSingleWorkOrder = async (type, id) => {
   }
 };
 
-export const getAllEmployees = async type => {
+export const getAllEmployees = async (type) => {
   try {
     var body = {
       usertype: "emp",
-      name: type
+      name: type,
     };
     const res = await API.post(EndPoint.getAllEmployees, body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     console.log("getAllEmployees", res.data);
     return await res.data;
@@ -70,16 +70,16 @@ export const getAllEmployees = async type => {
   }
 };
 
-export const getCount = async _ => {
+export const getCount = async (_) => {
   try {
     const body = {
-      empId: await AsyncStorage.getItem("userId")
+      empId: await AsyncStorage.getItem("userId"),
     };
     const res = await API.post(
       EndPoint.dashboardCount,
       (await AsyncStorage.getItem("userType")) === "emp" ? body : {},
       {
-        headers: { Authorization: await AsyncStorage.getItem("userToken") }
+        headers: { Authorization: await AsyncStorage.getItem("userToken") },
       }
     );
     console.log("getCountl", res.data);
@@ -92,16 +92,16 @@ export const getCount = async _ => {
 export const getAccountDtls = async (accountNo, id) => {
   try {
     var body = {
-      accountNo: accountNo
+      accountNo: accountNo,
     };
     var bodyId = {
-      cust_id: id
+      cust_id: id,
     };
     const res = await API.post(
       "drop/accountDtlsDropDown",
       accountNo !== null ? body : bodyId,
       {
-        headers: { Authorization: await AsyncStorage.getItem("userToken") }
+        headers: { Authorization: await AsyncStorage.getItem("userToken") },
       }
     );
     return await res.data;
@@ -113,7 +113,7 @@ export const getAccountDtls = async (accountNo, id) => {
 export const getApplianceType = async () => {
   try {
     const res = await API.post("drop/applncDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
 
     return await res.data;
@@ -122,13 +122,13 @@ export const getApplianceType = async () => {
   }
 };
 
-export const getEmpDetails = async empId => {
+export const getEmpDetails = async (empId) => {
   try {
     var body = {
-      _id: empId
+      _id: empId,
     };
     const res = await API.post("drop/getEmpDetails", body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -136,13 +136,13 @@ export const getEmpDetails = async empId => {
   }
 };
 
-export const getManufacturer = async applncId => {
+export const getManufacturer = async (applncId) => {
   try {
     var body = {
-      applncId: applncId
+      applncId: applncId,
     };
     const res = await API.post("drop/manufDropDown", body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -150,13 +150,13 @@ export const getManufacturer = async applncId => {
   }
 };
 
-export const getModelNo = async manufId => {
+export const getModelNo = async (manufId) => {
   try {
     var body = {
-      manufId: manufId
+      manufId: manufId,
     };
     const res = await API.post("drop/modelNoDropDown", body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     console.log("data : ", res);
     return await res.data;
@@ -165,13 +165,13 @@ export const getModelNo = async manufId => {
   }
 };
 
-export const getSerialNo = async modelNoId => {
+export const getSerialNo = async (modelNoId) => {
   try {
     var body = {
-      modelNoId: modelNoId
+      modelNoId: modelNoId,
     };
     const res = await API.post("drop/serialNoDropDown", body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -182,7 +182,7 @@ export const getSerialNo = async modelNoId => {
 export const getFilterSize = async () => {
   try {
     const res = await API.post("drop/airFilterSizeDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -193,7 +193,7 @@ export const getFilterSize = async () => {
 export const getCapacity = async () => {
   try {
     const res = await API.post("drop/capacityDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -204,7 +204,7 @@ export const getCapacity = async () => {
 export const getcurrentLevel = async () => {
   try {
     const res = await API.post("drop/currentLevelDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -212,10 +212,25 @@ export const getcurrentLevel = async () => {
   }
 };
 
+export const resetPassword = async (email, phn) => {
+  let body = {
+    mobilenumber: phn,
+    email: email,
+  };
+  try {
+    console.log(body)
+    const res = await API.post("users/verify", body);
+    console.log(res);
+    return await res.data;
+  } catch (e) {
+    console.log("error", e);
+  }
+};
+
 export const getNozzleNo = async () => {
   try {
     const res = await API.post("drop/nozzleNoDropDown", [], {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     return await res.data;
   } catch (e) {
@@ -229,33 +244,35 @@ export const submitTicket = async (type, id, data) => {
     let userType = (await AsyncStorage.getItem("userType"))
       ? await AsyncStorage.getItem("userType")
       : "";
-     if(userType === "admin"){
+    if (userType === "admin") {
       data = {
         ...data,
-        createdBy: await AsyncStorage.getItem("userId") ? await AsyncStorage.getItem("userId") : "",
-      }
-     }
+        createdBy: (await AsyncStorage.getItem("userId"))
+          ? await AsyncStorage.getItem("userId")
+          : "",
+      };
+    }
     let propane = {
       ComprehensivePropaneInspection: {
         ...data,
-        date: "1"
-      }
+        date: "1",
+      },
     };
     let oil = {
       ComprehensiveOilInspection: {
         ...data,
-        date: "1"
-      }
+        date: "1",
+      },
     };
 
-    let body = (type === "propane") ? propane : oil;
+    let body = type === "propane" ? propane : oil;
 
     console.log("BODY :::: ", body);
     if (id != null) {
       body.ComprehensivePropaneInspection._id = id;
     }
     const res = await API.post("work/" + type, body, {
-      headers: { Authorization: await AsyncStorage.getItem("userToken") }
+      headers: { Authorization: await AsyncStorage.getItem("userToken") },
     });
     console.log(res);
     return await res.data;
