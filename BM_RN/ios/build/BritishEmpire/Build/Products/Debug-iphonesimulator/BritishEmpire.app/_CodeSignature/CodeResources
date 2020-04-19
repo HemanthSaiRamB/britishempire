@@ -120,13 +120,62 @@
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
 		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
+		<data>
+		k+lEYi0UL8UUAYl48l+6VSwCGH0=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
+		<data>
+		C+ad0Tu1L78atR8fRKpov0h3uuE=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
+		<data>
+		3epELaykb9XS+F9/U8yfBcGOZKg=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
+		<data>
+		M+H0bVKS3arRL0Wsr1Qvw1VTVDk=
+		</data>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<data>
+		qLQEaO19kyE//tv8RbwgjMxh7Hc=
+		</data>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<data>
+		x4PS+tmcyybxkMgi1TCQi6bmmdI=
+		</data>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<data>
+		c5tofPpC6QNX2EhcC7HBQctdy2s=
+		</data>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TuBj57ZP6zBqcL9HttO2Rucaw9E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<data>
+		M+H0bVKS3arRL0Wsr1Qvw1VTVDk=
+		</data>
+		<key>Frameworks/libXCTestBundleInject.dylib</key>
+		<data>
+		PUvIVvodMbnzJ/2b823EWBJ2S3M=
+		</data>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<data>
+		JkrThg9rkZuYPP3Bhoubb8lBg6I=
+		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
 		M4QBOKjV5TO0xfTEH6dP9tMWg4M=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		vQOfzUGwxqPnYaZmnfQWb3ZiF4g=
+		eTtmsw46b3/qRPDBE7i1a3oWgPc=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -147,6 +196,26 @@
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
+		</data>
+		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Info.plist</key>
+		<data>
+		zWvCWxkMWsFtigi6gC6qkSHmLeI=
+		</data>
+		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Resources/DWARF/BritishEmpireTests</key>
+		<data>
+		7OKqRLh3XLrrJMeczw5845WOu2A=
+		</data>
+		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
+		<data>
+		zWijNdVmtLeMwO9HbDnUijCLPIc=
+		</data>
+		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
+		<data>
+		5OfsSAuTKulelUZf3T0BDy84hEc=
+		</data>
+		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
+		<data>
+		urfrGeBFdyWdsNeC8Gatep9y/yw=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -478,6 +547,129 @@
 			fh3QPdTOkLZYBSVUzXRZ3xZxZxc4mlUvpMbVal+JM+Y=
 			</data>
 		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			k+lEYi0UL8UUAYl48l+6VSwCGH0=
+			</data>
+			<key>hash2</key>
+			<data>
+			auUbx1UDizxUR9o8FF++MuMqsmOqiWkpL3n86+evpDI=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			C+ad0Tu1L78atR8fRKpov0h3uuE=
+			</data>
+			<key>hash2</key>
+			<data>
+			FPbE0kIjlMjhiYzsNALmT8VH1c1Fb5SnF7TwwyQlDs8=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3epELaykb9XS+F9/U8yfBcGOZKg=
+			</data>
+			<key>hash2</key>
+			<data>
+			bjnWxIZMXKCYbxmBrUtLvmsa1FJogjBuM1aSQg5txFg=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M+H0bVKS3arRL0Wsr1Qvw1VTVDk=
+			</data>
+			<key>hash2</key>
+			<data>
+			1EX0r+2xermC4GmHhED6QjZ4UeKQ0qeLqJSEiz/aIb8=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qLQEaO19kyE//tv8RbwgjMxh7Hc=
+			</data>
+			<key>hash2</key>
+			<data>
+			pqgistgESCVJvtX88JxB9mIeITi84v7MOoeaDxB+PzQ=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			x4PS+tmcyybxkMgi1TCQi6bmmdI=
+			</data>
+			<key>hash2</key>
+			<data>
+			ywwz3b7JK3N9jKdlWhcxv5tcdejbNcYDqepk05RaxY0=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			c5tofPpC6QNX2EhcC7HBQctdy2s=
+			</data>
+			<key>hash2</key>
+			<data>
+			F/sa93ZsZim5fbpkWd84CE6pn4pwig/TAPpRZ1BnmyA=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TuBj57ZP6zBqcL9HttO2Rucaw9E=
+			</data>
+			<key>hash2</key>
+			<data>
+			89RGkjZaKuewYnjpzwhIswhqfrU8+pcEXqM/DHVrUmo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M+H0bVKS3arRL0Wsr1Qvw1VTVDk=
+			</data>
+			<key>hash2</key>
+			<data>
+			1EX0r+2xermC4GmHhED6QjZ4UeKQ0qeLqJSEiz/aIb8=
+			</data>
+		</dict>
+		<key>Frameworks/libXCTestBundleInject.dylib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			PUvIVvodMbnzJ/2b823EWBJ2S3M=
+			</data>
+			<key>hash2</key>
+			<data>
+			03/QHFEhkjLVkuYwiRsJcH3VOZ2fKFtxCkIhfqxL/0U=
+			</data>
+		</dict>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JkrThg9rkZuYPP3Bhoubb8lBg6I=
+			</data>
+			<key>hash2</key>
+			<data>
+			46uv6RI9+EUJCEOzGXir20mqi9THPo3PTbBKTnSQXCA=
+			</data>
+		</dict>
 		<key>GoogleService-Info.plist</key>
 		<dict>
 			<key>hash</key>
@@ -531,6 +723,61 @@
 			<key>hash2</key>
 			<data>
 			ua3cE7d8ZyDNSM0Y8PSoyuWJsbkQNjDCSd5gq3Lf1r4=
+			</data>
+		</dict>
+		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			zWvCWxkMWsFtigi6gC6qkSHmLeI=
+			</data>
+			<key>hash2</key>
+			<data>
+			zxqKboBZFG6WVD5UmHlk10Gh8EWY2XiIVuzKNm1v4RE=
+			</data>
+		</dict>
+		<key>PlugIns/BritishEmpireTests.xctest.dSYM/Contents/Resources/DWARF/BritishEmpireTests</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7OKqRLh3XLrrJMeczw5845WOu2A=
+			</data>
+			<key>hash2</key>
+			<data>
+			5+ZREWX8s1w6WLDkckbBK/1sWiS54UH2J8OgNB6CZRE=
+			</data>
+		</dict>
+		<key>PlugIns/BritishEmpireTests.xctest/BritishEmpireTests</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			zWijNdVmtLeMwO9HbDnUijCLPIc=
+			</data>
+			<key>hash2</key>
+			<data>
+			0luzCuSoakPNj1+ty7+iZ060DQ0VN4IXCLCJRZDF2gM=
+			</data>
+		</dict>
+		<key>PlugIns/BritishEmpireTests.xctest/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5OfsSAuTKulelUZf3T0BDy84hEc=
+			</data>
+			<key>hash2</key>
+			<data>
+			sOHPkT19R9CCPHOHn3Hyt8h0uQ8lMxWocGWnlfd3Vn4=
+			</data>
+		</dict>
+		<key>PlugIns/BritishEmpireTests.xctest/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			urfrGeBFdyWdsNeC8Gatep9y/yw=
+			</data>
+			<key>hash2</key>
+			<data>
+			nFfgZNMIaqt1bFxwg19F2lG8/kfET1gnC53qKEqzA/c=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>
