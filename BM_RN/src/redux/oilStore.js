@@ -3,15 +3,41 @@ export const oil = {
     accNo: '',
     workOrderId: '',
     empId: '',
+    createdBy: '',
     status: 'todo',
     date: '',
+    imageBinary: '',
+    customer: {
+      rating: 3,
+      comment: ""
+    },
+    priority: "Low",
+    comment: "",
     oilAppDtls: {
-      applncType: '',
-      manuf: '',
-      modelNo: '',
-      serialNo: '',
-      nozzle: '',
-      airFilterSize: '',
+      applncType: {
+        id: "",
+        value: ""
+      },
+      manuf: {
+        id: "",
+        value: ""
+      },
+      modelNo: {
+        id: "",
+        value: ""
+      },
+      serialNo: {
+        id: "",
+        value: ""
+      },
+      nozzle: {
+        id: "",
+        value: ""
+      },
+      airFilterSize: {
+        id: "",
+        value: ""
+      },
       combustionAnalysis: {
         Temp: false,
         CO2: false,
@@ -60,12 +86,27 @@ export const oil = {
     signature: '',
     certNo: '',
     OilStorageDetails: {
-      manuf: '',
-      modelNo: '',
-      serialNo: '',
+      manuf: {
+        id: "",
+        value: ""
+      },
+      modelNo: {
+        id: "",
+        value: ""
+      },
+      serialNo: {
+        id: "",
+        value: ""
+      },
       year: '',
-      capacity: '',
-      currentLevel: '',
+      capacity: {
+        id: "",
+        value: ""
+      },
+      currentLevel: {
+        id: "",
+        value: ""
+      },
       ReasonForInspection: {
         newInstallation: false,
         service_maintenance: false,

@@ -1,23 +1,43 @@
 export const propane = {
   ComprehensivePropaneInspection: {
-    accNo: '',
-    workOrderId: '',
-    empId: '',
-    status: 'todo',
-    date: '',
-    customer:{
-      rating:'',
-      comment:''
+    accNo: "",
+    workOrderId: "",
+    empId: "",
+    createdBy: '',
+    status: "todo",
+    date: "",
+    imageBinary: '',
+    customer: {
+      rating: 3,
+      comment: ""
     },
-    priority:0,
-    comment:'',
+    priority: "Low",
+    comment: "",
     propaneApplianceDetails: {
-      applncType: '',
-      manuf: '',
-      modelNo: '',
-      serialNo: '',
-      BTUH: '',
-      airFilterSize: '',
+      applncType: {
+        id: "",
+        value: ""
+      },
+      manuf: {
+        id: "",
+        value: ""
+      },
+      modelNo: {
+        id: "",
+        value: ""
+      },
+      serialNo: {
+        id: "",
+        value: ""
+      },
+      BTUH: {
+        id: "",
+        value: ""
+      },
+      airFilterSize: {
+        id: "",
+        value: ""
+      },
       applianceNoCheckList: {
         check1: false,
         check2: false,
@@ -25,26 +45,26 @@ export const propane = {
         check4: false,
         check5: false,
         check6: false,
-        check7: false,
+        check7: false
       },
       PressureTestTagInfo: {
-        addressOfTest: '',
-        telephoneNo: '',
-        testDate: '',
-        gasTech: '',
-        contractor: '',
-        tssaRegNo: '',
+        addressOfTest: "",
+        telephoneNo: "",
+        testDate: "",
+        gasTech: "",
+        contractor: "",
+        tssaRegNo: "",
         testPressure: {
-          pressure: '',
-          length: '',
-          size: '',
+          pressure: "",
+          length: "",
+          size: ""
         },
-        licenseNoAndClass: '',
-        Notes: '',
-        techName: '',
-        signature: '',
-        certNo: '',
-      },
+        licenseNoAndClass: "",
+        Notes: "",
+        techName: "",
+        signature: "",
+        certNo: ""
+      }
     },
     propaneStorageDetails: {
       checkList: {
@@ -52,81 +72,81 @@ export const propane = {
         check2: false,
         check3: false,
         check4: false,
-        check5: false,
+        check5: false
       },
-      serialNo: '',
-      cylinder: '',
-      tank: '',
-      manufacturer: '',
-      reconDate: '',
+      serialNo: "",
+      cylinder: "",
+      tank: "",
+      manufacturer: "",
+      reconDate: "",
       pressureRegulatorAndSupplySystemDetails: {
         check1: false,
-        check2: false,
+        check2: false
       },
       regulatorInformation: {
+        manuf: "",
+        mainGasLineSize: "",
         regulatorType: {
-          FST: false,
+          FST: new Boolean(false),
           SND: false,
           LGTWIN: false,
-          SMLTWIN: false,
+          SMLTWIN: false
         },
-        manuf: '',
-        mainGasLineSize: '',
       },
       clearances: {
         CYL: {
           ignition: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           BLD: {
             label: "3'",
-            checked: false,
+            checked: false
           },
           Mech: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           Comb: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           Moist: {
             label: "3'",
-            checked: false,
+            checked: false
           },
           Hydro: {
             label: "10'",
-            checked: false,
-          },
+            checked: false
+          }
         },
         Regulators: {
           ignition: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           BLD: {
             label: "3'",
-            checked: false,
+            checked: false
           },
           Mech: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           Comb: {
             label: "10'",
-            checked: false,
+            checked: false
           },
           Moist: {
             label: "3'",
-            checked: false,
+            checked: false
           },
           Hydro: {
             label: "10'",
-            checked: false,
-          },
-        },
-      },
-    },
-  },
+            checked: false
+          }
+        }
+      }
+    }
+  }
 };

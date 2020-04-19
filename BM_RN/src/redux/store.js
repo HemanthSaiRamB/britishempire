@@ -3,5 +3,4 @@ import {oil} from './oilStore';
 export const store = {
   propane: propane,
   oil: oil,
-  message: 'Harish',
 };

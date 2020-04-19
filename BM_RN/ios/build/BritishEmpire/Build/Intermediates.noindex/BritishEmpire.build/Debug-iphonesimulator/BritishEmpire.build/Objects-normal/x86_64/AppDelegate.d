@@ -3,6 +3,7 @@ dependencies: \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpire/AppDelegate.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
@@ -11,4 +12,36 @@ dependencies: \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBundleURLProvider.h \
-  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTRootView.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Modules/module.modulemap \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRUserPropertyNames.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRParameterNames.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIREventNames.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics+AppDelegate.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FirebaseAnalytics.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Fabric/iOS/Fabric.framework/Modules/module.modulemap \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Fabric/iOS/Fabric.framework/Headers/FABAttributes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Fabric/iOS/Fabric.framework/Headers/Fabric.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Modules/module.modulemap \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/ANSCompatibility.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/Answers.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSStackFrame.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSReport.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSLogging.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSAttributes.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/Crashlytics.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseMessaging/FIRMessagingExtensionHelper.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseMessaging/FIRMessaging.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseMessaging/FirebaseMessaging.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseInstanceID/FIRInstanceID.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseInstanceID/FirebaseInstanceID.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseCore/FIROptions.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseCore/FIRLoggerLevel.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseCore/FIRConfiguration.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseCore/FIRApp.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/FirebaseCore/FirebaseCore.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/Firebase/Firebase.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/RNFirebase/RNFirebaseNotifications.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTEventEmitter.h \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/RNFirebase/RNFirebaseMessaging.h

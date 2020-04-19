@@ -1,5 +1,6 @@
 dependencies: \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpire/main.m \
+  /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/BritishEmpire/AppDelegate.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
   /Users/harishsvenkat/development/britishempire/BM_RN/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \

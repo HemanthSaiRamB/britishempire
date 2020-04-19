@@ -13,14 +13,18 @@ import {
   Switch,
   IconButton,
   Subheading,
+  RadioButton,
   List
 } from "react-native-paper";
+import { getSingleWorkOrder } from "../redux/Actions/tickets";
 import { scale, verticalScale, moderateScale } from "../helpers/scaler";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text, Image } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { AirbnbRating } from "react-native-ratings";
+import SignatureCapture from "react-native-signature-capture";
+
 import {
   getAccountDtls,
   getApplianceType,
@@ -29,25 +33,29 @@ import {
   getSerialNo,
   submitTicket,
   getFilterSize,
-  getAllEmployees
+  getAllEmployees,
+  getEmpDetails
 } from "../redux/Actions/tickets";
 import AsyncStorage from "@react-native-community/async-storage";
-
+import { propane } from "../redux/propaneStore";
 class PADetailsScreen extends Component {
   defaultState = {
     progress: 0.01,
-    step: 11,
+    step: 25,
     type: 0,
-    user: "err",
     aField: "accNo",
     error: false,
     // answers
     data: {},
+    submit: false,
     local: {
       progress: true,
       accSearch: [],
       empSearch: [],
       applncType: [],
+      isDisabled: false,
+      drawn: false,
+      image: false,
       manuf: [],
       airFilterSize: [],
       serialNo: [],
@@ -63,44 +71,38 @@ class PADetailsScreen extends Component {
   };
   state = this.defaultState;
   async UNSAFE_componentWillReceiveProps(props, state) {
-    console.log("R-Props : ", props, state);
-    await this.setState({
-      data: { ...props?.propane?.ComprehensivePropaneInspection }
-    });
-    this.state.data.accNo &&
-      getAccountDtls(null, this.state.data.accNo)
-        .then(res => {
-          this.setState({
-            local: {
-              ...this?.state?.local,
-              accNo: res[0]?.value
-            }
-          });
-          console.log("acc update", res);
-        })
-        .catch(err => console.log("acc update err ", err));
+    console.log(this.state);
+    console.log("R-State : ", this.props.data);
+    if (props?.reset && !this.state.submit) {
+      console.log("RESETTING STATE");
+      await this.setState({
+        ...this.defaultState,
+        local: {
+          ...this.state.local
+        }
+      });
+    }
   }
 
   componentWillMount() {
     if (this?.props?.reset) {
       this.setState({
-        ...this?.defaultState
+        ...this.defaultState
+        // data: { ...this.props.propane.ComprehensivePropaneInspection }
       });
     }
   }
 
   async componentDidMount() {
-    console.log("PADetails Mounted");
-    this.setState({
-      user: await AsyncStorage.getItem("userType")
-    });
+    console.log("PADetails Mounted", this.props);
+
     if (
       _.isEmpty(this?.state?.local?.manuf) &&
       !_.isUndefined(this?.state?.local?.applncType)
     ) {
       getApplianceType()
         .then(res => {
-          console.log("RES : ", res);
+          console.log("RES APPLIANCE : ", res);
           this.setState({
             local: {
               ...this?.state?.local,
@@ -141,7 +143,6 @@ class PADetailsScreen extends Component {
         return false;
       }
     }
-
     return true;
   }
   shallowCompare(instance, nextProps, nextState) {
@@ -183,7 +184,8 @@ class PADetailsScreen extends Component {
     }
   }
   $accountNumber = () => {
-    let { accNo, allEmp } = this.state.local;
+    let { accNo, empId, empName, isDisabled } = this?.state?.local;
+    let { priority, comment } = this?.state?.data;
     let accountSearch = input => {
       getAccountDtls(input, null)
         .then(async res => {
@@ -204,7 +206,6 @@ class PADetailsScreen extends Component {
         }
       });
     };
-
     let employeeSearch = input => {
       getAllEmployees(input)
         .then(async res => {
@@ -221,11 +222,27 @@ class PADetailsScreen extends Component {
       this.setState({
         local: {
           ...this.state.local,
-          allEmp: input
+          empId: input,
+          empName: input
         }
       });
     };
-    let activeThisValue = (input, id) => {
+    let activeThisValue = async (input, id) => {
+      console.log("PROPER PROPANE : ", this.state.data,id);
+        await getAccountDtls(null, id)
+          .then(res => {
+            console.log("Account details now : ", res);
+            this.setState({
+              local: {
+                ...this?.state?.local,
+                accName: res[0]?.name,
+                accNo: res[0]?.value,
+                accAddr: res[0]?.address
+              }
+            });
+            console.log("acc update", res);
+          })
+          .catch(err => console.log("acc update err ", err));
       this.setState({
         data: {
           ...this.state.data,
@@ -245,15 +262,18 @@ class PADetailsScreen extends Component {
         },
         local: {
           ...this.state.local,
-          allEmp: input
+          empId: input
         }
       });
     };
     let submitTicketNow = () => {
-      submitTicket(null, this.state.data)
+      console.log("Data : ", this.state.data);
+      submitTicket("propane", null, this.state.data)
         .then(res => {
+          console.log("responses are : ", res);
           this.setState({
-            step: 11,
+            step: 13,
+            submit: true,
             local: {
               ...this.state.local,
               progress: false,
@@ -266,24 +286,20 @@ class PADetailsScreen extends Component {
         })
         .catch(err => {
           console.log("Error: ", err);
+          this.setState({ submit: false });
         });
     };
     let getPriority = () => {
-      var prior = "Low";
-      switch (this?.data?.prior) {
-        case 2:
-          prior = "High";
-          break;
-        case 1:
-          prior = "Moderate";
-          break;
-        case 0:
-          prior = "Low";
-          break;
-        default:
-          break;
-      }
+      var prior = priority;
       return prior + " Priority";
+    };
+    let setComPriority = (type, value) => {
+      this.setState({
+        data: {
+          ...this?.state?.data,
+          [type]: value
+        }
+      });
     };
     return (
       <>
@@ -294,9 +310,20 @@ class PADetailsScreen extends Component {
         )}
         <Card.Title title="Enter Account number" subtitle="Create Ticket" />
         <Card.Content>
+          {this?.props?.type !== "admin" && (
+            <TextInput
+              label="Comment"
+              mode="outlined"
+              multiline
+              disabled={true}
+              numberOfLines={3}
+              value={comment}
+            />
+          )}
           <TextInput
             label="Account Number"
             mode="outlined"
+            disabled={isDisabled}
             value={accNo}
             onFocus={() => this.setState({ aField: "accNo" })}
             onChangeText={text => accountSearch(text)}
@@ -320,12 +347,21 @@ class PADetailsScreen extends Component {
           ) : (
             <View />
           )}
+          {this.state.local.accName && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <Subheading>Name: {this.state.local.accName}</Subheading>
+              <Subheading>Address: {this.state.local.accAddr}</Subheading>
+            </View>
+          )}
           {this?.props?.type === "admin" && (
             <>
               <TextInput
                 label="All Employee"
                 mode="outlined"
-                value={allEmp}
+                disabled={isDisabled}
+                value={empId}
                 onFocus={() => this.setState({ aField: "emp" })}
                 onChangeText={text => employeeSearch(text)}
               />
@@ -352,9 +388,21 @@ class PADetailsScreen extends Component {
                 label="Comment"
                 mode="outlined"
                 multiline
+                disabled={isDisabled}
                 numberOfLines={3}
-                value={this.state.text}
-                onChangeText={text => this.setState({ text })}
+                value={comment}
+                onChangeText={text => setComPriority("comment", text)}
+              />
+              <Dropdown
+                value={priority}
+                title={"Application Priority"}
+                disabled={isDisabled}
+                onChangeText={val => setComPriority("priority", val)}
+                data={[
+                  { id: "Low", value: "Low" },
+                  { id: "Medium", value: "Medium" },
+                  { id: "High", value: "High" }
+                ]}
               />
             </>
           )}
@@ -366,7 +414,8 @@ class PADetailsScreen extends Component {
             </Subheading>
           ) : (
             <>
-              {this.props.type === "emp" ? (
+              {this.props.type === "emp" ||
+              this.state.data.status === "completed" ? (
                 <Button
                   style={{ alignSelf: "flex-end" }}
                   onPress={() => this.setState({ step: 3 })}
@@ -391,8 +440,78 @@ class PADetailsScreen extends Component {
       </>
     );
   };
+
+  updateInfo = async data => {
+    console.log("Not new ticket");
+    await getEmpDetails(data.empId)
+      .then(res => {
+        console.log("emp update", res);
+        this.setState({
+          local: {
+            ...this?.state?.local,
+            empId: res.name,
+            empName: res.name
+          }
+        });
+      })
+      .catch(err => console.log("emp update err ", err));
+    await getAccountDtls(null, data.accNo)
+      .then(async res => {
+        await this.setState({
+          local: {
+            ...this?.state?.local,
+            accNo: res[0]?.value
+          }
+        });
+        console.log("acc update", res);
+      })
+      .catch(err => console.log("acc update err ", err));
+  };
+  dataOpener = async () => {
+    console.log(this.props.data);
+    this.props.data !== "new"
+      ? this?.props?.data &&
+        !this.state.data.accNo &&
+        !this.state.submit &&
+        (await getSingleWorkOrder("pro", this?.props?.data)
+          .then(async res => {
+            console.log("PRO DATA RECIEVED : ", res[0]);
+            this.setState({
+              ...this.state,
+              step: 2,
+              data: res[0],
+              local: {
+                ...this.state.local,
+                isDisabled: res[0].status === "completed" ? true : false
+              }
+            });
+            this.updateInfo(res[0]);
+          })
+          .catch(err => console.log(err)))
+      : this.setState({
+          ...this.defaultState,
+          data: propane.ComprehensivePropaneInspection,
+          step: 2
+        });
+  };
+
   $loading = () => {
-    return <ActivityIndicator animating={true} color={Colors.red800} />;
+    if (!this.state.submit) {
+      this.dataOpener();
+    }
+    return (
+      <>
+        <Card>
+          <Card.Content
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={{ flex: 1 }}>
+              <ActivityIndicator animating={true} color={Colors.red800} />
+            </View>
+          </Card.Content>
+        </Card>
+      </>
+    );
   };
   $applianceDetails = () => {
     let {
@@ -403,11 +522,12 @@ class PADetailsScreen extends Component {
       BTUH,
       airFilterSize
     } = this.state.data.propaneApplianceDetails;
-
+    let { isDisabled } = this.state.local;
     let { error } = this.state;
     let update = async (type, i, data) => {
-      // console.log(JSON.stringify(data));
-      let _id = data[i].id ? data[i].id : "";
+      console.log(JSON.stringify(data));
+      let _id = data[i] ? data[i] : "";
+      console.log("ID of : ", _id);
       this.setState({
         data: {
           ...this.state.data,
@@ -418,6 +538,7 @@ class PADetailsScreen extends Component {
         }
       });
       let setData = (listType, data) => {
+        console.log("RESSSS : ", listType, data);
         this.setState({
           ...this.state,
           local: {
@@ -476,7 +597,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Appliance Type"
-                value={!_.isUndefined(applncType) ? applncType : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(applncType.value) ? applncType.value : ""}
                 onChangeText={(value, index, data) =>
                   update("applncType", index, data)
                 }
@@ -485,7 +607,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Manufacturer"
-                value={!_.isUndefined(manuf) ? manuf : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(manuf.value) ? manuf.value : ""}
                 onChangeText={(value, index, data) =>
                   update("manuf", index, data)
                 }
@@ -494,7 +617,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Modal No."
-                value={!_.isUndefined(modelNo) ? modelNo : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(modelNo.value) ? modelNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("modelNo", index, data)
                 }
@@ -503,7 +627,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="Serial No."
-                value={!_.isUndefined(serialNo) ? serialNo : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(serialNo.value) ? serialNo.value : ""}
                 onChangeText={(value, index, data) =>
                   update("serialNo", index, data)
                 }
@@ -512,7 +637,8 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0 }}
                 title="BTU/H"
-                value={!_.isUndefined(BTUH) ? BTUH : ""}
+                disabled={isDisabled}
+                value={!_.isUndefined(BTUH.value) ? BTUH.value : ""}
                 onChangeText={(value, index, data) =>
                   update("BTUH", index, data)
                 }
@@ -521,7 +647,10 @@ class PADetailsScreen extends Component {
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
                 title="Air Filter Size"
-                value={!_.isUndefined(airFilterSize) ? airFilterSize : ""}
+                disabled={isDisabled}
+                value={
+                  !_.isUndefined(airFilterSize.value) ? airFilterSize.value : ""
+                }
                 onChangeText={(value, index, data) =>
                   update("airFilterSize", index, data)
                 }
@@ -554,8 +683,8 @@ class PADetailsScreen extends Component {
       check5,
       check6,
       check7
-    } = this.state.data.propaneApplianceDetails.applianceNoCheckList;
-
+    } = this?.state?.data?.propaneApplianceDetails?.applianceNoCheckList;
+    let { isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -592,6 +721,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -610,6 +740,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -628,6 +759,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check3}
+                disabled={isDisabled}
                 onValueChange={() => validator("check3", !check3)}
               />
             </View>
@@ -646,6 +778,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check4}
+                disabled={isDisabled}
                 onValueChange={() => validator("check4", !check4)}
               />
             </View>
@@ -664,6 +797,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check5}
+                disabled={isDisabled}
                 onValueChange={() => validator("check5", !check5)}
               />
             </View>
@@ -682,6 +816,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check6}
+                disabled={isDisabled}
                 onValueChange={() => validator("check6", !check6)}
               />
             </View>
@@ -700,6 +835,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check7}
+                disabled={isDisabled}
                 onValueChange={() => validator("check7", !check7)}
               />
             </View>
@@ -719,25 +855,28 @@ class PADetailsScreen extends Component {
     );
   };
   $propaneStorageDetails = () => {
-    let check1 =
-      this.state.data.propaneStorageDetails.checkList.check1 && false;
-    let check2 =
-      this.state.data.propaneStorageDetails.checkList.check2 && false;
-    let check3 =
-      this.state.data.propaneStorageDetails.checkList.check3 && false;
-    let check4 =
-      this.state.data.propaneStorageDetails.checkList.check4 && false;
-    let check5 =
-      this.state.data.propaneStorageDetails.checkList.check5 && false;
+    let {
+      check1,
+      check2,
+      check3,
+      check4,
+      check5
+    } = this?.state?.data?.propaneStorageDetails?.checkList;
+    let { isDisabled } = this.state.local;
 
     let validator = (type, value) => {
+      console.log("values is : ", { [type]: value });
+      console.log(
+        "value: ",
+        this?.state?.data?.propaneStorageDetails?.checkList[type]
+      );
       this.setState({
         data: {
-          ...this.state.data,
+          ...this?.state?.data,
           propaneStorageDetails: {
-            ...this.state.data.propaneStorageDetails,
+            ...this?.state?.data?.propaneStorageDetails,
             checkList: {
-              ...this.state.data.propaneStorageDetails.checkList,
+              ...this?.state?.data?.propaneStorageDetails?.checkList,
               [type]: value
             }
           }
@@ -770,6 +909,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -788,6 +928,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -806,6 +947,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check3}
+                disabled={isDisabled}
                 onValueChange={() => validator("check3", !check3)}
               />
             </View>
@@ -822,6 +964,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check4}
+                disabled={isDisabled}
                 onValueChange={() => validator("check4", !check4)}
               />
             </View>
@@ -840,6 +983,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check5}
+                disabled={isDisabled}
                 onValueChange={() => validator("check5", !check5)}
               />
             </View>
@@ -865,13 +1009,15 @@ class PADetailsScreen extends Component {
       tank,
       manufacturer,
       reconDate
-    } = this.state.data.propaneStorageDetails;
+    } = this?.state?.data?.propaneStorageDetails;
+    let { isDisabled } = this.state.local;
+
     let validator = (type, value) => {
       this.setState({
         data: {
-          ...this.state.data,
+          ...this?.state?.data,
           propaneStorageDetails: {
-            ...this.state.data.propaneStorageDetails,
+            ...this?.state?.data?.propaneStorageDetails,
             [type]: value
           }
         }
@@ -891,6 +1037,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="SERIAL No"
               mode="outlined"
+              disabled={isDisabled}
               value={serialNo}
               onChangeText={text => validator("serialNo", text)}
             />
@@ -898,6 +1045,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="CYLINDER"
               mode="outlined"
+              disabled={isDisabled}
               value={cylinder}
               onChangeText={text => validator("cylinder", text)}
             />
@@ -905,6 +1053,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TANK"
               mode="outlined"
+              disabled={isDisabled}
               value={tank}
               onChangeText={text => validator("tank", text)}
             />
@@ -912,6 +1061,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MANUFACTURER"
               mode="outlined"
+              disabled={isDisabled}
               value={manufacturer}
               onChangeText={text => validator("manufacturer", text)}
             />
@@ -919,6 +1069,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="DATE/RECON DATE"
               mode="outlined"
+              disabled={isDisabled}
               value={reconDate}
               onChangeText={text => validator("reconDate", text)}
             />
@@ -942,6 +1093,8 @@ class PADetailsScreen extends Component {
       check1,
       check2
     } = this.state?.data?.propaneStorageDetails?.pressureRegulatorAndSupplySystemDetails;
+    let { isDisabled } = this.state.local;
+
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -973,12 +1126,13 @@ class PADetailsScreen extends Component {
             >
               <Subheading style={{ paddingHorizontal: scale(1), fontSize: 17 }}>
                 {
-                  "VENTING/LOCATION OF REGULATOR INSTALLED IN COMPLIANCE WITH APPLICABLE CODE (CLEARENCES, PROTECTION, ETC.)"
+                  "VENTING/LOCATION OF REGULATOR INSTALLED IN \nCOMPLIANCE WITH APPLICABLE CODE (CLEARENCES, PROTECTION, ETC.)"
                 }
               </Subheading>
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check1}
+                disabled={isDisabled}
                 onValueChange={() => validator("check1", !check1)}
               />
             </View>
@@ -997,6 +1151,7 @@ class PADetailsScreen extends Component {
               <Switch
                 style={{ position: "absolute", right: 0 }}
                 value={check2}
+                disabled={isDisabled}
                 onValueChange={() => validator("check2", !check2)}
               />
             </View>
@@ -1016,24 +1171,36 @@ class PADetailsScreen extends Component {
     );
   };
   $regulatorInformation = () => {
-    let FST = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.FST;
-    let SND = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.SND;
-    let LGTWIN = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.LGTWIN;
-    let SMLTWIN = this.state.data.propaneStorageDetails.regulatorInformation
-      .regulatorType.SMLTWIN;
-
+    let {
+      FST,
+      SND,
+      LGTWIN,
+      SMLTWIN
+    } = this.state.data.propaneStorageDetails.regulatorInformation.regulatorType;
+    FST = (FST === "true" && true) || (FST === true && true);
+    SND = (SND === "true" && true) || (SND === true && true);
+    LGTWIN = (LGTWIN === "true" && true) || (LGTWIN === true && true);
+    SMLTWIN = (SMLTWIN === "true" && true) || (SMLTWIN === true && true);
+    console.log(FST, SND, LGTWIN, SMLTWIN);
     let mainGasLineSize = this.state.data.propaneStorageDetails
       .regulatorInformation.mainGasLineSize;
     let manuf = this.state.data.propaneStorageDetails.regulatorInformation
       .manuf;
 
-    let CYL = this.state.data.propaneStorageDetails.clearances.CYL;
-    let Regulators = this.state.data.propaneStorageDetails.clearances
-      .Regulators;
+    let {
+      CYL,
+      Regulators
+    } = this?.state?.data?.propaneStorageDetails?.clearances;
+    let { isDisabled } = this.state.local;
+
     let regulatorTypeValidator = (type, value) => {
+      console.log(this.state.data);
+      let val = false;
+      if (value === "true" || value === true) {
+        val = true;
+      } else {
+        val = false;
+      }
       this.setState({
         data: {
           ...this.state.data,
@@ -1044,7 +1211,7 @@ class PADetailsScreen extends Component {
               regulatorType: {
                 ...this.state.data.propaneStorageDetails.regulatorInformation
                   .regulatorType,
-                [type]: value
+                [type]: val
               }
             }
           }
@@ -1133,6 +1300,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={FST}
+                  disabled={isDisabled}
                   onValueChange={() => regulatorTypeValidator("FST", !FST)}
                 />
               </View>
@@ -1150,6 +1318,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={SND}
+                  disabled={isDisabled}
                   onValueChange={() => regulatorTypeValidator("SND", !SND)}
                 />
               </View>
@@ -1167,6 +1336,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={LGTWIN}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     regulatorTypeValidator("LGTWIN", !LGTWIN)
                   }
@@ -1186,6 +1356,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={SMLTWIN}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     regulatorTypeValidator("SMLTWIN", !SMLTWIN)
                   }
@@ -1196,6 +1367,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MANUFACTURER"
               mode="outlined"
+              disabled={isDisabled}
               value={manuf}
               onChangeText={text => regulatorInfoValidator("manuf", text)}
             />
@@ -1203,6 +1375,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="MAIN GAS LINE SIZE"
               mode="outlined"
+              disabled={isDisabled}
               value={mainGasLineSize}
               onChangeText={text =>
                 regulatorInfoValidator("mainGasLineSize", text)
@@ -1231,6 +1404,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.ignition.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("ignition", !CYL.ignition.checked)
                   }
@@ -1254,6 +1428,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.BLD.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("BLD", !CYL.BLD.checked)
                   }
@@ -1281,6 +1456,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Comb.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Comb", !CYL.Comb.checked)
                   }
@@ -1304,6 +1480,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Mech.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Mech", !CYL.Mech.checked)
                   }
@@ -1331,6 +1508,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Moist.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Moist", !CYL.Moist.checked)
                   }
@@ -1354,6 +1532,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={CYL.Hydro.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesCYLValidator("Hydro", !CYL.Hydro.checked)
                   }
@@ -1382,6 +1561,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.ignition.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator(
                       "ignition",
@@ -1408,6 +1588,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.BLD.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("BLD", !Regulators.BLD.checked)
                   }
@@ -1435,6 +1616,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Comb.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Comb", !Regulators.Comb.checked)
                   }
@@ -1458,6 +1640,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Mech.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Mech", !Regulators.Mech.checked)
                   }
@@ -1485,6 +1668,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Moist.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Moist", !Regulators.Moist.checked)
                   }
@@ -1508,6 +1692,7 @@ class PADetailsScreen extends Component {
                 </Subheading>
                 <Switch
                   value={Regulators.Hydro.checked}
+                  disabled={isDisabled}
                   onValueChange={() =>
                     clearancesRegValidator("Hydro", !Regulators.Hydro.checked)
                   }
@@ -1530,9 +1715,13 @@ class PADetailsScreen extends Component {
     );
   };
   $customerReview = () => {
+    let { rating, comment } = this?.state?.data?.customer;
+    let statusData = this?.state?.data?.status;
+    let { isDisabled } = this.state.local;
+
     let status = [
-      { value: "complete" },
-      { value: "pending" },
+      { value: "completed" },
+      { value: "inpro" },
       { value: "todo" }
     ];
     let validator = (title, value) => {
@@ -1547,10 +1736,10 @@ class PADetailsScreen extends Component {
       });
     };
     let submitTicketNow = () => {
-      submitTicket(null, this.state.data)
+      submitTicket("propane", null, this.state.data)
         .then(res => {
           this.setState({
-            step: 11,
+            step: 13,
             local: {
               ...this.state.local,
               progress: false,
@@ -1570,6 +1759,8 @@ class PADetailsScreen extends Component {
           <Title style={styles.selfCenter}>{"Customer Review"}</Title>
           <Card.Content>
             <AirbnbRating
+              defaultRating={rating}
+              isDisabled={isDisabled}
               onFinishRating={val => validator("rating", val)}
               style={{ paddingVertical: 15 }}
             />
@@ -1577,13 +1768,19 @@ class PADetailsScreen extends Component {
               style={[styles.pressureTagsInput, { height: 100 }]}
               label="Commments"
               multiline
+              disabled={isDisabled}
               mode="outlined"
-              value={""}
+              value={comment}
               onChangeText={text => validator("comment", text)}
             />
             <View style={{ marginVertical: 15 }}>
               <Dropdown
                 dropdownOffset={{ top: 0, left: 0, bottom: 32 }}
+                value={statusData}
+                disabled={isDisabled}
+                onChangeText={val =>
+                  this.setState({ data: { ...this.state.data, status: val } })
+                }
                 title="Application Status"
                 data={status}
               />
@@ -1593,21 +1790,139 @@ class PADetailsScreen extends Component {
             <Subheading>{"Select all fields to"}</Subheading>
             <Button
               style={{ alignSelf: "flex-end" }}
-              onPress={() => submitTicketNow()}
+              onPress={() => {
+                this.state.data.status === "completed"
+                  ? this.setState({ step: 12 })
+                  : submitTicketNow();
+              }}
               icon="chevron-right"
             >
-              {"Submit Ticket"}
+              {isDisabled ? "Done" : "Proceed"}
             </Button>
           </Card.Actions>
         </Card>
       </>
     );
   };
+
+  $signature = () => {
+    let { isDisabled } = this.state.local;
+    let { imageBinary, status } = this.state.data;
+    let _onSaveEvent = async result => {
+      //result.encoded - for the base64 encoded png
+      //result.pathName - for the file path name
+      console.log("saved image base 64 : ", result);
+      await this.setState({
+        data: {
+          ...this.state.data,
+          imageBinary: result.encoded
+        },
+        local: {
+          ...this.state.local,
+          image: true
+        }
+      });
+      this.state.local.drawn &&
+        (await submitTicket("propane", null, this.state.data)
+          .then(res => {
+            this.setState({
+              step: 13,
+              local: {
+                ...this.state.local,
+                progress: false,
+                create_id: res._id,
+                create_workId: res.workOrderId
+              }
+            });
+            console.log("Data: ", res);
+          })
+          .catch(err => {
+            console.log("Error: ", err);
+          }));
+    };
+    let _onDragEvent = () => {
+      // This callback will be called when the user enters signature
+      this.setState({
+        local: {
+          ...this.state.local,
+          drawn: true
+        }
+      });
+      console.log("dragged");
+    };
+
+    saveSign = () => {
+      this.refs["sign"].saveImage();
+    };
+
+    let resetSign = () => {
+      this.refs["sign"].resetImage();
+    };
+    let submitTicketNow = async () => {
+      this.state.local.drawn === true && (await saveSign());
+    };
+
+    console.log("image : ", imageBinary, "status : ", status);
+    return (
+      <>
+        <Card>
+          <Title style={styles.selfCenter}>{"Customer Signature"}</Title>
+          <Card.Content style={{ height: 250 }}>
+            {status === "completed" && imageBinary === "" && (
+              <Subheading style={styles.selfCenter}>
+                {"draw your signature and click on save"}
+              </Subheading>
+            )}
+            {imageBinary !== "" ? (
+              <Image
+                style={{
+                  flex: 1,
+                  height: 200,
+                  borderColor: "#000",
+                  borderWidth: 1
+                }}
+                source={{ uri: this.state.data.imageBinary }}
+              />
+            ) : (
+              <SignatureCapture
+                style={[{ flex: 1, height: 200 }]}
+                ref="sign"
+                onSaveEvent={_onSaveEvent}
+                onDragEvent={_onDragEvent}
+                saveImageFileInExtStorage={false}
+                showNativeButtons={false}
+                showTitleLabel={false}
+                viewMode={"landscape"}
+              />
+            )}
+          </Card.Content>
+          <Card.Actions>
+            <Subheading>{"Select all fields to"}</Subheading>
+            <Button
+              style={{ alignSelf: "flex-end" }}
+              onPress={
+                isDisabled
+                  ? () => {
+                      this.setState({ step: 2 });
+                      this.props.hideModal();
+                    }
+                  : () => submitTicketNow()
+              }
+              icon="chevron-right"
+            >
+              {isDisabled ? "Done" : "Submit Ticket"}
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    );
+  };
+
   $submitTicket = () => {
     let submitted = _ => {
       this.setState({
         ...this.defaultState,
-        data: { ...this.props.propane.ComprehensivePropaneInspection }
+        data: { ...propane.ComprehensivePropaneInspection }
       });
       this.props.hideModal();
     };
@@ -1678,10 +1993,7 @@ class PADetailsScreen extends Component {
       .Notes
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.Notes
       : "";
-    let techName = this.state.data.propaneApplianceDetails.PressureTestTagInfo
-      .techName
-      ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.techName
-      : "";
+    let techName = this?.state?.local?.empName;
     let signature = this.state.data.propaneApplianceDetails.PressureTestTagInfo
       .signature
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.signature
@@ -1690,6 +2002,7 @@ class PADetailsScreen extends Component {
       .certNo
       ? this.state.data.propaneApplianceDetails.PressureTestTagInfo.certNo
       : "";
+    let { isDisabled } = this.state.local;
 
     let validator = (type, value) => {
       this.setState({
@@ -1716,13 +2029,14 @@ class PADetailsScreen extends Component {
               label="NOTES"
               multiline
               mode="outlined"
+              disabled={isDisabled}
               value={Notes}
               onChangeText={text => validator("Notes", text)}
             />
             <TextInput
               style={styles.pressureTagsInput}
               label="TECHNICIAN NAME"
-              multiline
+              disabled
               mode="outlined"
               value={techName}
               onChangeText={text => validator("techName", text)}
@@ -1731,6 +2045,7 @@ class PADetailsScreen extends Component {
               style={styles.pressureTagsInput}
               label="CERTIFICATION No"
               multiline
+              disabled={isDisabled}
               mode="outlined"
               value={certNo}
               onChangeText={text => validator("certNo", text)}
@@ -1761,6 +2076,7 @@ class PADetailsScreen extends Component {
       licenseNoAndClass
     } = this.state?.data?.propaneApplianceDetails?.PressureTestTagInfo;
     let { pressure, length, size } = testPressure;
+    let { isDisabled } = this.state.local;
     let validator = (type, value) => {
       this.setState({
         data: {
@@ -1806,6 +2122,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="ADDRESS OF TEST"
               mode="outlined"
+              disabled={isDisabled}
               value={addressOfTest}
               onChangeText={text => validator("addressOfTest", text)}
             />
@@ -1813,6 +2130,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="CONTRACTOR"
               mode="outlined"
+              disabled={isDisabled}
               value={contractor}
               onChangeText={text => validator("contractor", text)}
             />
@@ -1820,6 +2138,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TELEPHONE No"
               mode="outlined"
+              disabled={isDisabled}
               value={telephoneNo}
               onChangeText={text => validator("telephoneNo", text)}
             />
@@ -1827,6 +2146,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TSSA REG. No"
               mode="outlined"
+              disabled={isDisabled}
               value={tssaRegNo}
               onChangeText={text => validator("tssaRegNo", text)}
             />
@@ -1834,6 +2154,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="TEST DATE"
               mode="outlined"
+              disabled={isDisabled}
               value={testDate}
               onChangeText={text => validator("testDate", text)}
             />
@@ -1848,6 +2169,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="TEST PRESSURE"
                 mode="outlined"
+                disabled={isDisabled}
                 value={pressure}
                 onChangeText={text => pressureValidator("pressure", text)}
               />
@@ -1859,6 +2181,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="LENGTH"
                 mode="outlined"
+                disabled={isDisabled}
                 value={length}
                 onChangeText={text => pressureValidator("length", text)}
               />
@@ -1870,6 +2193,7 @@ class PADetailsScreen extends Component {
                 }}
                 label="SIZE"
                 mode="outlined"
+                disabled={isDisabled}
                 value={size}
                 onChangeText={text => pressureValidator("size", text)}
               />
@@ -1878,6 +2202,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="GAS TECHNICIAN"
               mode="outlined"
+              disabled={isDisabled}
               value={gasTech}
               onChangeText={text => validator("gasTech", text)}
             />
@@ -1885,6 +2210,7 @@ class PADetailsScreen extends Component {
               style={{ height: 45, paddingVertical: verticalScale(3) }}
               label="LICENCE NUMBER & CLASSIFICATION"
               mode="outlined"
+              disabled={isDisabled}
               value={licenseNoAndClass}
               onChangeText={text => validator("licenseNoAndClass", text)}
             />
@@ -1927,9 +2253,11 @@ class PADetailsScreen extends Component {
       case 11:
         return this.$customerReview();
       case 12:
+        return this.$signature();
+      case 13:
         return this.$submitTicket();
-      default:
-        this.$loading();
+      case 25:
+        return this.$loading();
     }
   };
   render() {
@@ -1994,20 +2322,4 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  // console.log(state);
-  return {
-    propane: state.masterReducer.propane
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    accounts: text => dispatch(accountDetails(text))
-  };
-}
-
-export const PADetails = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PADetailsScreen);
+export const PADetails = PADetailsScreen;

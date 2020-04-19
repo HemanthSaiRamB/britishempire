@@ -1,7 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { FAB, List, Colors, Portal, Subheading } from "react-native-paper";
+import {
+  FAB,
+  List,
+  Colors,
+  Portal,
+  Subheading,
+  Title,
+  Card,
+  Modal,
+  Paragraph
+} from "react-native-paper";
 import AppBar from "../components/AppBar";
 import TrackInfo from "../components/TrackInfo";
 import { PADetails } from "./PADetails";
@@ -13,18 +23,38 @@ import {
   getCount,
   getWorkOrder,
   addPropaneAppliance,
-  addOilAppliance
+  addOilAppliance,
+  getSingleWorkOrder
 } from "../redux/Actions/tickets";
+import { propane } from "./../redux/propaneStore";
+import { oil } from "./../redux/oilStore";
 import { PROPANE, OIL } from "../redux/actionTypes";
-class Home extends Component {
+
+const Detail = props => {
+  let name = props?.name;
+  let value = props?.value;
+  return (
+    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <Subheading>{name}</Subheading>
+      <Subheading>{value}</Subheading>
+    </View>
+  );
+};
+export default class Home extends Component {
   state = {
     raiseTicket: false,
     visible: false,
-    propaneReset: false,
-    oilReset: false,
+    propaneReset: true,
+    profile: false,
+    oilReset: true,
     type: "err",
     list: [],
+    propane: null,
+    oil: null,
     active: 1,
+    userName: "",
+    userEmail: "",
+    userAge: "",
     total: 0,
     pending: 0,
     completed: 0,
@@ -67,11 +97,17 @@ class Home extends Component {
 
   hideMenu = () => {
     console.log("Hide");
-    this.setState({ raiseTicket: false, Details: 0, propaneReset: true });
+    this.getStatusData();
+    this.setState({
+      raiseTicket: false,
+      Details: 0,
+      propaneReset: true,
+      propane: null,
+      oil: null
+    });
   };
   async getUserType() {
-    const userType = await AsyncStorage.getItem("userType");
-    return userType;
+    return await AsyncStorage.getItem("userType");
   }
 
   getStatusData() {
@@ -92,6 +128,12 @@ class Home extends Component {
   async componentDidMount() {
     await this.getStatusData();
     await this.getOrdersProOil(1);
+    this.setState({
+      userName: await AsyncStorage.getItem("userName"),
+      userEmail: await AsyncStorage.getItem("userEmail"),
+      userAge: await AsyncStorage.getItem("userAge"),
+      userType: await AsyncStorage.getItem("userType")
+    });
     this.getUserType()
       .then(res =>
         this.setState({
@@ -108,25 +150,40 @@ class Home extends Component {
     await this.getStatusData();
   };
   openActiveItem(index) {
-    let { addPropane, addOil } = this.props;
-    console.log(this.props);
-    function action(number, data){
-      if(number === 1){
-        addPropane(data)
-      }else {
-        addOil(data)
+    var updateId = (type, value) => {
+      this.setState({
+        [type]: value
+      });
+    };
+    function action(number, data) {
+      console.log("ACTIVE DTAA", data);
+      if (number === 1) {
+        updateId("propane", data._id);
+      } else {
+        updateId("oil", data._id);
       }
       return number;
     }
+    console.log("DATA :::: ", this.state.list[index]);
     let order = this.state.list[index]["workOrderId"];
-    let details = new String(order).charAt(0) === "P" ? action(1, this.state.list[index]) : action(2, this.state.list[index]);
+    let details =
+      new String(order).charAt(0) === "P"
+        ? action(1, this.state.list[index])
+        : action(2, this.state.list[index]);
     this.setState({ activeItem: index, Details: details });
   }
+  getUserDetailMessage = () => {
+    return `Hello  ${this.state.userType === "emp" ? "Employee" : "Admin"}`;
+  };
+
   showMenu = () => this.setState({ raiseTicket: true });
   render() {
     return (
       <>
-        <AppBar action={this.logout} />
+        <AppBar
+          profile={() => this.setState({ profile: true })}
+          action={this.logout}
+        />
         <View style={{ backgroundColor: "#aabcff", flex: 1 }}>
           <TrackInfo
             total={this.state.total}
@@ -136,20 +193,52 @@ class Home extends Component {
             pending={this.state.pending}
             todos={this.state.todo}
           />
-          <PADetails
-            visible={this.state.Details === 1}
-            type={this.state.type}
-            onUpdate={this.updateCall}
-            reset={this.state.propaneReset}
-            hideModal={this.hideMenu}
-          />
-          <OADetails
-            visible={this.state.Details == 2}
-            reset={this.state.oilReset}
-            type={this.state.type}
-            hideModal={this.hideMenu}
-          />
-          <List.Section>
+          {this.state.Details === 1 && this.state.propane != null ? (
+            <PADetails
+              visible={this.state.Details === 1}
+              type={this.state.type}
+              onUpdate={this.updateCall}
+              data={this.state.propane}
+              reset={this.state.propaneReset}
+              hideModal={this.hideMenu}
+            />
+          ) : this.state.Details === 2 && this.state.oil != null ? (
+            <OADetails
+              visible={this.state.Details == 2}
+              reset={this.state.oilReset}
+              type={this.state.type}
+              onUpdate={this.updateCall}
+              data={this.state.oil}
+              hideModal={this.hideMenu}
+            />
+          ) : (
+            <View />
+          )}
+          {this.state.profile && (
+            <Portal>
+              <Modal
+                dismissable={true}
+                visible={this.state.profile}
+                onDismiss={() => this.setState({ profile: false })}
+              >
+                <View style={{ width: "70%", alignSelf: "center" }}>
+                  <Card>
+                    <Title style={styles.selfCenter}>{"Profile Details"}</Title>
+                    <Card.Content>
+                      <Title style={styles.selfCenter}>
+                        {this.getUserDetailMessage()}
+                      </Title>
+                      <Detail name={"Name"} value={this.state.userName} />
+                      <Detail name={"Email"} value={this.state.userEmail} />
+                      <Detail name={"Age"} value={this.state.userAge} />
+                    </Card.Content>
+                  </Card>
+                </View>
+              </Modal>
+            </Portal>
+          )}
+
+          <View style={{ flex: 1 }}>
             {this.state.list.length ? (
               <FlatList
                 data={this.state.list}
@@ -179,7 +268,7 @@ class Home extends Component {
                 </Subheading>
               </View>
             )}
-          </List.Section>
+          </View>
           <Portal>
             {this.state.type === "admin" && (
               <FAB.Group
@@ -192,14 +281,26 @@ class Home extends Component {
                   {
                     label: "Propane Appliance",
                     icon: "gas-station",
-                    onPress: () =>
-                      this.setState({ Details: 1, raiseTicket: false })
+                    onPress: async () => {
+                      this.setState({
+                        propane: "new",
+                        Details: 1,
+                        raiseTicket: false,
+                        propaneReset: true
+                      });
+                    }
                   },
                   {
                     label: "Oil Appliance",
                     icon: "oil",
-                    onPress: () =>
-                      this.setState({ Details: 2, raiseTicket: false })
+                    onPress: () => {
+                      this.setState({
+                        oil: "new",
+                        Details: 2,
+                        raiseTicket: false,
+                        oilReset: true
+                      });
+                    }
                   }
                 ]}
                 onStateChange={({ open }) =>
@@ -214,24 +315,14 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => ({
-  addPropane: data => dispatch({ type: PROPANE, data }),
-  addOil: data => dispatch({ type: OIL, data })
-});
-
-const HomeScreen = connect(null, mapDispatchToProps)(Home);
-
-export default HomeScreen;
-
 const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0
+  },
+  selfCenter: {
+    alignSelf: "center"
   }
 });
