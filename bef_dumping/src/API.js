@@ -1,11 +1,12 @@
 import axios from "axios";
 // const BASE_URL = "https://d5ac3e21.ngrok.io/";
 // const BASE_URL = "https://britishempire.herokuapp.com/";
-const BASE_URL = "http://ec2-3-21-150-112.us-east-2.compute.amazonaws.com:5000/";
+const BASE_URL = "http://ec2-3-21-150-112.us-east-2.compute.amazonaws.com:5000";
 
 export const API = axios.create({
   baseURL: BASE_URL,
   method: "GET",
+
   headers: {
     'Access-Control-Allow-Origin': '*',
   }
