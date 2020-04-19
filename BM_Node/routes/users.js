@@ -176,7 +176,7 @@ router.get('/logout', (req,res)=>{
     res.send({code:200,msg:'your are logged out'})
 })
 // User Verification for forgot pwd
-router.get('/verify',(req,res)=>{
+router.post('/verify',(req,res)=>{
   const {email,mobilenumber} = req.body;
   let errors = [];
   var error;
