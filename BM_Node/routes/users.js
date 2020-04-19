@@ -193,7 +193,7 @@ router.post('/verify',(req,res)=>{
           if(user.mobilenumber===mobilenumber){
               const msg = {
                   to: user.email,
-                  from: 'blowredapps@gmail.com',
+                  from: 'britishempirefuels7@gmail.com',
                   subject: 'British Empire Fuels(confidential)',
                   text: `Hi ${user.name} please find your password here..thank you`,
                   // html: `<p>hi <b>${user.name}</b> please find your password here..thank you</p><p><strong>${user.pwdbckp}</strong></p>`,
